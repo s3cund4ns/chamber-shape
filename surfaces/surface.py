@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
-from typing import Sequence
+from typing import Sequence, List, Any, Type
+
+import numpy as np
 
 
 @dataclass
@@ -11,49 +13,58 @@ class SurfacesTypes:
     Cylinder = 'Cylinder'
     Sphere = 'Sphere'
     Cone = 'Cone'
+    XHexagonalPrism = 'XHexagonalPrism'
+    YHexagonalPrism = 'YHexagonalPrism'
 
     Default = Plane
 
     def get(self) -> Sequence[str]:
-        return [self.Infinity, self.Plane, self.Cylinder, self.Sphere, self.Cone]
-
+        return [self.Infinity, self.Plane, self.Cylinder, self.Sphere, self.Cone, self.XHexagonalPrism,
+                self.YHexagonalPrism]
 
 
 @dataclass
 class SurfacesProperties:
     Position = 'Position'
-    Rotation = 'Rotation'
+    Color = 'Color'
     Parameters = 'Parameters'
 
     def get(self):
-        return [self.Position, self.Rotation, self.Parameters]
+        return [self.Position, self.Color, self.Parameters]
 
 
 class Surface(ABC):
-    def __init__(self, pos_x, pos_y, pos_z, rot_x, rot_y, rot_z):
-        self.position: dict = {'x': pos_x, 'y': pos_y, 'z': pos_z}
-        self.rotation: dict = {'x': rot_x, 'y': rot_y, 'z': rot_z}
+    def __init__(self, position: list[float, float, float], color: list[float, float, float, float]):
         self.type: SurfacesTypes = SurfacesTypes.NoneType
-        self.parameters: dict = {}
+        self.position = np.array(position, dtype=np.float32)
+        self.color = np.array(color, dtype=np.float16)
+        self.parameters_names: list = []
+        self.parameters_values: list = []
+
+    def set_position(self, position: list[float, float, float]):
+        self.position[0:3] = position
+
+    def set_color(self, color: list[int, int, int, int]):
+        self.color = color
 
     @abstractmethod
-    def set_properties(self, position: list, rotation: list, parameters: list):
+    def set_parameters(self, parameters: list):
         pass
 
     def get_type(self):
         return self.type
 
     def get_names(self):
-        position_names = list(self.position.keys())
-        rotation_names = list(self.rotation.keys())
-        parameters_names = list(self.parameters.keys())
-        return position_names, rotation_names, parameters_names
+        position_names = ['x', 'y', 'z']
+        color_names = ['Red', 'Green', 'Blue', 'Alpha']
+        parameters_names = self.parameters_names
+        return position_names, color_names, parameters_names
 
     def get_values(self):
-        position, rotation, parameters = (list(self.position.values()), list(self.rotation.values()),
-                                          list(self.parameters.values()))
-        return position, rotation, parameters
+        position, color, parameters_values = (self.position, self.color, self.parameters_values)
+        return position, color, parameters_values
 
     def get_properties(self):
-        return self.type, self.position, self.rotation, self.parameters
+        return self.type, self.position, self.color, self.parameters_values
+
 

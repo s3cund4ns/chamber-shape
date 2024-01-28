@@ -37,8 +37,8 @@ class UiForm(object):
         self.dsb_property_item_value = QDoubleSpinBox(Form)
         self.dsb_property_item_value.setObjectName(u"dsb_property_item_value")
         self.dsb_property_item_value.setDecimals(4)
-        self.dsb_property_item_value.setMinimum(-100.000000000000000)
-        self.dsb_property_item_value.setMaximum(100.000000000000000)
+        self.dsb_property_item_value.setMinimum(-1000000.000000000000000)
+        self.dsb_property_item_value.setMaximum(1000000.000000000000000)
 
         self.horizontalLayout.addWidget(self.dsb_property_item_value)
 

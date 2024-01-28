@@ -6,100 +6,188 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1138</width>
-    <height>833</height>
+    <width>1059</width>
+    <height>815</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_cells">
-      <property name="text">
-       <string>Cells</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QPushButton" name="button_add_cell">
-      <property name="text">
-       <string>+</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QPushButton" name="button_delete_cell">
-      <property name="text">
-       <string>-</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="QLabel" name="label_properties">
-      <property name="text">
-       <string>Properties</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0" colspan="3">
-     <widget class="QTreeView" name="tree_cells"/>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_surfaces">
-      <property name="text">
-       <string>Surfaces</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QPushButton" name="button_add_surface">
-      <property name="text">
-       <string>+</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="2">
-     <widget class="QPushButton" name="button_delete_surface">
-      <property name="text">
-       <string>-</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0" colspan="3">
-     <widget class="QListWidget" name="list_surfaces"/>
-    </item>
-    <item row="1" column="3" rowspan="3">
-     <widget class="QScrollArea" name="scrollarea_properties">
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>851</width>
-         <height>748</height>
-        </rect>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <layout class="QVBoxLayout" name="properties_layout"/>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-    </item>
-   </layout>
+   <widget class="QLabel" name="label_cells">
+    <property name="geometry">
+     <rect>
+      <x>11</x>
+      <y>11</y>
+      <width>27</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cells</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="button_add_cell">
+    <property name="geometry">
+     <rect>
+      <x>74</x>
+      <y>16</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="button_delete_cell">
+    <property name="geometry">
+     <rect>
+      <x>174</x>
+      <y>16</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_properties">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>4</y>
+      <width>58</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Properties</string>
+    </property>
+   </widget>
+   <widget class="QTreeView" name="tree_cells">
+    <property name="geometry">
+     <rect>
+      <x>11</x>
+      <y>57</y>
+      <width>256</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_surfaces">
+    <property name="geometry">
+     <rect>
+      <x>11</x>
+      <y>404</y>
+      <width>50</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Surfaces</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="button_add_surface">
+    <property name="geometry">
+     <rect>
+      <x>74</x>
+      <y>404</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="button_delete_surface">
+    <property name="geometry">
+     <rect>
+      <x>174</x>
+      <y>404</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="list_surfaces">
+    <property name="geometry">
+     <rect>
+      <x>11</x>
+      <y>439</y>
+      <width>256</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QScrollArea" name="scrollarea_properties">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>50</y>
+      <width>251</width>
+      <height>731</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>249</width>
+       <height>729</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <layout class="QVBoxLayout" name="properties_layout"/>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="viewport_widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>274</x>
+      <y>57</y>
+      <width>511</width>
+      <height>551</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <layout class="QVBoxLayout" name="viewport_layout"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="label_viewport">
+    <property name="geometry">
+     <rect>
+      <x>274</x>
+      <y>34</y>
+      <width>51</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Viewport</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1138</width>
+     <width>1059</width>
      <height>26</height>
     </rect>
    </property>

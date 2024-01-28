@@ -9,10 +9,10 @@ from widgets.styling_widget import StylingWidget
 class Application:
     def __init__(self):
         self.app = QApplication(sys.argv)
-        # self.main_window = MainWindow()
-        self.main_window = StylingWidget()
-        with open('styles/style.qss', 'r') as file:
-            self.main_window.setStyleSheet(file.read())
+        self.main_window = MainWindow()
+        # self.main_window = StylingWidget()
+        # with open('styles/style.qss', 'r') as file:
+        #     self.main_window.setStyleSheet(file.read())
         self.main_window.show()
 
     def run(self):

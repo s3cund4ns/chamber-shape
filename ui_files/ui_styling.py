@@ -20,7 +20,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QDoubleSpinBox, QLabel,
     QRadioButton, QScrollBar, QSizePolicy, QSlider,
     QSpinBox, QTabWidget, QWidget)
 
-class UiForm(object):
+class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
@@ -87,7 +87,6 @@ class UiForm(object):
 
 
         QMetaObject.connectSlotsByName(Form)
-
     # setupUi
 
     def retranslateUi(self, Form):

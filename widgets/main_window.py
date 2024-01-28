@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QMainWindow, QDoubleSpinBox, QLabel, QListWidgetItem, QComboBox
 
+from renderer.scene import vertices, scene
 from surfaces.create_surface import create_surface
 from widgets.property_type_item_widget import PropertyTypeItemWidget
 from ui_files.ui_main import Ui_MainWindow
@@ -30,6 +31,8 @@ class MainWindow(QMainWindow):
         self.ui.button_delete_surface.clicked.connect(self.delete_item)
         # self.ui.action_save.triggered.connect(self.save_file)
 
+
+
     @staticmethod
     def list_to_str(list_item: list, delimiter: str) -> str:
         str_item = delimiter.join(map(str, list_item))
@@ -49,6 +52,7 @@ class MainWindow(QMainWindow):
         self.surface_classes.append(surface)
         count = self.ui.list_surfaces.count()
         self.insert_item_to_list_box(count, surface)
+        self.ui.view.add_surface_entity(SurfacesTypes.Plane, count)
 
     def insert_item_to_list_box(self, row, surface):
         item = [surface.get_type(), surface.get_values()]
@@ -61,6 +65,7 @@ class MainWindow(QMainWindow):
         del item
         del self.surface_classes[self.selected_row]
         self.clear_properties()
+        self.ui.view.delete_surface_entity(self.selected_row)
 
     def clear_properties(self):
         while self.ui.properties_layout.count() > 0:
@@ -71,12 +76,26 @@ class MainWindow(QMainWindow):
     def select_item(self, item):
         if len(self.property_classes) > 0:
             property_position = self.property_classes[1].get_items_values()
-            property_rotation = self.property_classes[2].get_items_values()
+            property_color = self.property_classes[2].get_items_values()
+            print(property_color)
             property_parameters = self.property_classes[3].get_items_values()
-            self.surface_classes[self.selected_row].set_properties(property_position, property_rotation,
-                                                                   property_parameters)
+
+            self.surface_classes[self.selected_row].set_position(property_position)
+            self.surface_classes[self.selected_row].set_color(property_color)
+            self.surface_classes[self.selected_row].set_parameters(property_parameters)
 
             self.clear_properties()
+
+            self.ui.view.set_surface_transform(self.selected_row, property_position[0], property_position[1],
+                                               property_position[2])
+
+            self.ui.view.set_surface_mesh(self.selected_row, self.surface_classes[self.selected_row].get_type(),
+                                          property_parameters)
+
+            self.ui.view.deselect_surface_entity(self.selected_row)
+
+            self.ui.view.set_surface_color(self.selected_row, property_color[0], property_color[1],
+                                           property_color[2], property_color[3])
 
             if self.ui.list_surfaces.item(self.selected_row) is not None:
                 self.ui.list_surfaces.item(self.selected_row).setText(self.list_to_str(
@@ -106,12 +125,15 @@ class MainWindow(QMainWindow):
             self.property_classes.append(property_widget)
             self.ui.properties_layout.addWidget(property_widget)
 
+        self.ui.view.select_surface_entity(self.selected_row)
+
     def change_item_type(self):
         surface_type = self.property_classes[0].get_value()
         self.delete_item()
         surface = create_surface(surface_type)
         self.surface_classes.insert(self.selected_row, surface)
         self.insert_item_to_list_box(self.selected_row, surface)
+        self.ui.view.add_surface_entity(surface_type, self.selected_row)
 
     def save_file(self):
         surfaces = ['Surfaces']
@@ -119,4 +141,3 @@ class MainWindow(QMainWindow):
             surfaces.append(surface_class.get_properties())
         with open('Projects/Project.json', 'w') as file:
             json.dump(surfaces, file, indent=4)
-

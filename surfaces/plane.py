@@ -2,16 +2,32 @@ from typing import Set, Dict
 
 from surfaces.surface import SurfacesTypes, Surface
 
+import numpy as np
+
 
 class Plane(Surface):
-    def __init__(self, pos_x, pos_y, pos_z, rot_x, rot_y, rot_z):
-        super().__init__(pos_x, pos_y, pos_z, rot_x, rot_y, rot_z)
+    def __init__(self, position: list[float, float, float], color: list[float, float, float, float]):
+        super().__init__(position, color)
         self.type = SurfacesTypes.Plane
-        self.parameters = {}
+        self.parameters_names = []
+        self.parameters_values = []
 
-    def set_properties(self, position: list, rotation: list, parameters: list):
-        pos_x, pos_y, pos_z = position
-        rot_x, rot_y, rot_z = rotation
-        self.position: dict = {'x': pos_x, 'y': pos_y, 'z': pos_z}
-        self.rotation: dict = {'x': rot_x, 'y': rot_y, 'z': rot_z}
+        self.vertices = np.array((
+            np.array([-0.5, 0.5, 0.0], dtype=np.float32),
+            np.array([-0.5, -0.5, 0.0], dtype=np.float32),
+            np.array([0.5, -0.5, 0.0], dtype=np.float32),
+            np.array([0.5, 0.5, 0.0], dtype=np.float32)
+        ), dtype=np.float32)
+
+        self.indices = np.array((
+            0, 1, 2,
+            0, 2, 3
+        ), dtype=np.uint32)
+
+    def set_parameters(self, parameters: list):
+        pass
+
+
+
+
 
