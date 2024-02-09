@@ -1,0 +1,376 @@
+QWidget {
+background-color: #E3E3E3;
+font-family: "Gadugi Regular";
+font-size: 12px;
+}
+
+/* кнопочка */
+QPushButton:hover {
+background-color: #B3B3B3;
+border-radius: 10px;
+border-color: #B3B3B3;
+color: #000000;
+}
+QPushButton {
+background-color: #C2C2C2;
+border-radius: 10px;
+border-color: #C2C2C2;
+color: #000000;
+}
+QPushButton:pressed {
+background-color: #1572E0;
+border-radius: 10px;
+border-color: #C2C2C2;
+color: #FFFFFF;
+}
+
+/* строка ввода */
+QLineEdit {
+text-align: center;
+padding: 6px;
+min-height: 14px;
+min-width: 100px;
+color: #000000;
+border-radius: 10px;
+border: 1px solid #C2C2C2;
+}
+
+/* надпись */
+QLabel {
+color: #000000;
+}
+
+/* флажки-галочки */
+QRadioButton {
+color: #000000;
+}
+QCheckBox {
+color: #000000;
+}
+
+/* горизонтальный слайдер */
+QSlider::groove:horizontal {
+    border-radius: 1px;
+    height: 7px;
+    margin: -1px 0;
+}
+QSlider::handle:horizontal {
+    background-color: #C2C2C2;
+    border: 2px solid #C2C2C2;
+    height: 20px;
+    width: 10px;
+    margin: -6px 0;
+    border-radius: 6px  ;
+    padding: -4px 0px;
+}
+QSlider::handle:horizontal:hover {
+    background-color: #B3B3B3;
+    border: 2px solid #B3B3B3;
+    height: 20px;
+    width: 10px;
+    margin: -6px 0;
+    border-radius: 6px  ;
+    padding: -4px 0px;
+}
+QSlider::handle:horizontal:pressed {
+    background-color: #1572E0;
+    border: 2px solid #1572E0;
+    height: 20px;
+    width: 10px;
+    margin: -6px 0;
+    border-radius: 6px  ;
+    padding: -4px 0px;
+}
+QSlider::add-page:horizontal {
+    background: #ADADAD;
+}
+QSlider::sub-page:horizontal {
+    background: #ADADAD;
+}
+
+/* вертикальный слайдер */
+QSlider::groove:vertical {
+    border-radius: 1px;
+    width: 7px;
+    margin: 0px -1px;
+}
+QSlider::handle:vertical {
+    background-color: #C2C2C2;
+    border: 2px solid #C2C2C2;
+    height: 10px;
+    width: 20px;
+    margin: 0 -6px;
+    border-radius: 6px ;
+    padding: 0px -4px;
+}
+QSlider::handle:vertical:hover {
+    background-color: #B3B3B3;
+    border: 2px solid #B3B3B3;
+    height: 10px;
+    width: 20px;
+    margin: 0 -6px;
+    border-radius: 6px ;
+    padding: 0px -4px;
+}
+QSlider::handle:vertical:pressed {
+    background-color: #1572E0;
+    border: 2px solid #1572E0;
+    height: 10px;
+    width: 20px;
+    margin: 0 -6px;
+    border-radius: 6px ;
+    padding: 0px -4px;
+}
+QSlider::add-page:vertical {
+    background: #ADADAD;
+}
+QSlider::sub-page:vertical {
+    background: #ADADAD;
+}
+
+/* полосы прокрутки */
+QScrollBar:horizontal {
+    border-radius: 7px;
+    background: #ADADAD;
+    height: 10px;
+    margin: 0px 11px 0 11px;
+}
+
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+    background: transparent;
+}
+
+QScrollBar::handle:horizontal {
+    background: #C2C2C2;
+    border-radius: 7px;
+    min-width: 30px;
+    margin: 0px 4px 0 4px;
+}
+QScrollBar::handle:horizontal:hover {
+    background: #BABABA;
+    border-radius: 7px;
+    min-width: 30px;
+    margin: 0px 4px 0 4px;
+}
+QScrollBar::handle:horizontal:pressed {
+    background: #1572E0;
+    border-radius: 7px;
+    min-width: 30px;
+    margin: 0px 4px 0 4px;
+}
+
+QScrollBar::add-line:horizontal {
+    border-radius: 3px;
+    background: transparent;
+    width: 10px;
+    height: 15px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:horizontal {
+    border-radius: 3px;
+    background: transparent;
+    width: 10px;
+    height: 15px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
+
+QScrollBar:left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
+    border: 1px solid #ADADAD;
+    border-radius: 2px;
+    width: 4px;
+    height: 10px;
+    background: #ADADAD ;
+}
+QScrollBar:left-arrow:horizontal:hover, QScrollBar::right-arrow:horizontal:hover {
+    border: 1px solid #AFAFAF;
+    border-radius: 2px;
+    width: 4px;
+    height: 10px;
+    background: #C2C2C2;
+}
+QScrollBar:left-arrow:horizontal:pressed, QScrollBar::right-arrow:horizontal:pressed {
+    border: 1px solid #1572E0;
+    border-radius: 2px;
+    width: 4px;
+    height: 10px;
+    background: #C2C2C2;
+}
+
+/* полосы прокрутки */
+QScrollBar:vertical {
+    border-radius: 7px;
+    background: #ADADAD;
+    width: 10px;
+    margin: 11px 0px 11px 0;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: transparent;
+}
+
+QScrollBar::handle:vertical {
+    background: #C2C2C2;
+    border-radius: 7px;
+    min-height: 30px;
+    margin: 4px 0px 4px 0;
+}
+QScrollBar::handle:vertical:hover {
+    background: #BABABA;
+    border-radius: 7px;
+    min-height: 30px;
+    margin: 4px 0px 4px 0;
+}
+QScrollBar::handle:vertical:pressed {
+    background: #1572E0;
+    border-radius: 7px;
+    min-height: 30px;
+    margin: 4px 0px 4px 0;
+}
+
+QScrollBar::add-line:vertical {
+    border-radius: 3px;
+    background: transparent;
+    width: 15px;
+    height: 10px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical {
+    border-radius: 3px;
+    background: transparent;
+    width: 15px;
+    height: 10px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+
+QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical {
+    border: 1px solid #ADADAD;
+    border-radius: 2px;
+    width: 10px;
+    height: 4px;
+    background: #ADADAD;
+}
+QScrollBar:up-arrow:vertical:hover, QScrollBar::down-arrow:vertical:hover {
+    border: 1px solid #AFAFAF;
+    border-radius: 2px;
+    width: 10px;
+    height: 4px;
+    background: #C2C2C2;
+}
+QScrollBar:up-arrow:vertical:pressed, QScrollBar::down-arrow:vertical:pressed {
+    border: 1px solid #1572E0;
+    border-radius: 2px;
+    width: 10px;
+    height: 4px;
+    background: #C2C2C2;
+}
+
+/* список */
+QListView {
+    background: #C4C4C4;
+    padding: 5px;
+    border-radius: 7px;
+    color: #000000;
+    min-height: 160px;
+}
+QListView::item {
+    margin: 2px;
+    padding: 2px;
+    border-radius: 7px;
+}
+QListView::item:hover {
+    background: #B3B3B3;
+    border-radius: 7px;
+}
+QListView::item:selected {
+    background: #1572E0;
+    border-radius: 7px;
+    color: #FFFFFF;
+}
+
+/* вкладочки */
+QTabWidget {
+    min-height: 190px;
+}
+QTabWidget::pane { /* The tab widget frame */
+    border: 4px solid #C4C4C4;
+    border-radius: 3px;
+}
+QTabBar::tab:selected {
+    background: #1572E0;
+    border-radius: 4px;
+    color: #FFFFFF
+}
+QTabBar::tab {
+    background: #B3B3B3;
+    color: #000000;
+    border-radius: 4px;
+    padding: 6px;
+    font-size: 11px;
+}
+
+/* cчётчики */
+QSpinBox {
+    padding: 5px;
+	padding-right: 25px;
+	border: 1px solid #C4C4C4;
+	border-radius: 10px;
+	background: #E3E3E3;
+	min-width: 80px;
+	min-height: 25px;
+	color: #000000;
+	font-size: 14px;
+}
+
+QDoubleSpinBox {
+    padding: 5px;
+	padding-right: 25px;
+	border: 1px solid #C4C4C4;
+	border-radius: 10px;
+	background: #E3E3E3;
+	min-width: 80px;
+	min-height: 25px;
+	color: #000000;
+	font-size: 14px;
+}
+
+/* выпадающий список */
+QComboBox {
+    border: 1px solid #C4C4C4;
+    background: #E3E3E3;
+    border-radius: 10px;
+    min-width: 80px;
+	min-height: 25px;
+    padding: 3px 18px 3px 10px;
+}
+QComboBox:hover {
+    border: 2px solid #B3B3B3;
+    background: #E0E0E0;
+    border-radius: 10px;
+    min-width: 100px;
+	min-height: 45px;
+    padding: 3px 18px 3px 10px;
+}
+QComboBox:pressed {
+    border: 2px solid #1572E0;
+    background: #E0E0E0;
+    border-radius: 10px;
+    min-width: 100px;
+	min-height: 45px;
+    padding: 3px 18px 3px 10px;
+}
+
+QComboBox:editable {
+    background: #E3E3E3;
+}
+
+QComboBox::drop-down {
+    background-color: transparent;
+    margin-right: 3px;
+}
+

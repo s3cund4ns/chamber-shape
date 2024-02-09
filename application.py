@@ -11,8 +11,8 @@ class Application:
         self.app = QApplication(sys.argv)
         self.main_window = MainWindow()
         # self.main_window = StylingWidget()
-        # with open('styles/style.qss', 'r') as file:
-        #     self.main_window.setStyleSheet(file.read())
+        with open('styles/light.qss', 'r') as file:
+            self.main_window.setStyleSheet(file.read())
         self.main_window.show()
 
     def run(self):

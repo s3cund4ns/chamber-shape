@@ -7,7 +7,7 @@ from PySide6.QtGui import QVector3D, QRgba64, QQuaternion
 from renderer.multi_parent_entity import MultiParentEntity
 from surfaces.surface import SurfacesTypes
 
-BACKGROUND_COLOR = QRgba64.fromRgba(100, 100, 100, 255)
+BACKGROUND_COLOR = QRgba64.fromRgba(41, 41, 41, 255)
 CAMERA_FOV = 60.0
 CAMERA_NEAR_PLANE = 0.1
 CAMERA_FAR_PLANE = 1000.0
@@ -22,6 +22,8 @@ class ViewPort(Qt3DExtras.Qt3DWindow):
     def __init__(self):
         super().__init__()
         self.surface_entities = []
+        self.universe_entities = []
+        self.cell_entities = []
         self.mesh_entities = []
         self.material_entities = []
         self.transform_entities = []
@@ -140,7 +142,7 @@ class ViewPort(Qt3DExtras.Qt3DWindow):
     def deselect_surface_entity(self, entity_id):
         self.material_entities[entity_id].setDiffuse(QRgba64.fromRgba(139, 0, 255, 255))
 
-    def set_surface_transform(self, entity_id: int, pos_x: float, pos_y: float, pos_z: float,):
+    def set_surface_transform(self, entity_id: int, pos_x: float, pos_y: float, pos_z: float, ):
         self.transform_entities[entity_id].setTranslation(QVector3D(pos_x, pos_y, pos_z))
 
     def set_surface_color(self, entity_id: int, red: float, green: float, blue: float, alpha: float):
@@ -148,7 +150,6 @@ class ViewPort(Qt3DExtras.Qt3DWindow):
 
     def set_surface_mesh(self, mesh_id, surface_type: SurfacesTypes, parameters):
         mesh = self.mesh_entities[mesh_id]
-        print(mesh)
         if surface_type == SurfacesTypes.Plane:
             pass
         elif surface_type == SurfacesTypes.Cylinder:
@@ -164,3 +165,18 @@ class ViewPort(Qt3DExtras.Qt3DWindow):
         elif (surface_type == SurfacesTypes.XHexagonalPrism) or (surface_type == SurfacesTypes.YHexagonalPrism):
             half_width, = parameters
             mesh.setRadius(half_width)
+
+    def add_universe_entity(self):
+        universe_entity: Qt3DCore.QEntity = Qt3DCore.QEntity(self.root_entity)
+        universe_transform: Qt3DCore.QTransform = Qt3DCore.QTransform(universe_entity)
+        universe_transform.setTranslation(QVector3D(0.0, 0.0, 0.0))
+        universe_entity.addComponent(universe_transform)
+        self.universe_entities.append(universe_entity)
+
+    def add_cell_entity(self, universe_id: int):
+        cell_entity: Qt3DCore.QEntity = Qt3DCore.QEntity(self.root_entity)
+        self.cell_entities.append(cell_entity)
+
+    def add_surface_entity_to_cell(self, surface_id: int, cell_id: int):
+        self.surface_entities[surface_id].add_parent(self.cell_entities[cell_id])
+
