@@ -1,7 +1,9 @@
+import os
+
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QCursor
 from PySide6.QtWidgets import QMainWindow, QDoubleSpinBox, QLabel, QListWidgetItem, QComboBox, QMenu, QTreeWidgetItem, \
-    QButtonGroup, QRadioButton, QLineEdit, QListWidget, QPushButton, QCheckBox
+    QButtonGroup, QRadioButton, QLineEdit, QListWidget, QPushButton, QCheckBox, QSpinBox, QGridLayout, QGroupBox
 
 from preprocessor.cell import Cell, CellProperties, SpecialEntires
 from preprocessor.input_data_writer import InputDataWriter
@@ -11,6 +13,7 @@ from preprocessor.pin import Pin
 from preprocessor.universe import Universe, UniverseProperties
 from renderer.scene import vertices, scene
 from surfaces.create_surface import create_surface
+from widgets.droppable_button import DroppableButton
 from widgets.property_item_widget import PropertyItemWidget
 from widgets.property_type_item_widget import PropertyTypeItemWidget
 from ui_files.ui_main import Ui_MainWindow
@@ -24,6 +27,7 @@ import json
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.selected_lattice_element = None
         self.surface_classes = []
         self.property_classes = []
         self.selected_row = None
@@ -41,6 +45,7 @@ class MainWindow(QMainWindow):
         self.material_property_classes = []
 
         self.lattice_classes = []
+        self.lattice_property_classes = []
 
         self.input_data_writer = InputDataWriter()
 
@@ -48,9 +53,20 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
 
         self.file_menu = self.ui.menubar.addMenu('File')
-        # self.file_menu.addAction(self.ui.action_new_project)
-        # self.file_menu.addAction(self.ui.action_open)
-        # self.file_menu.addAction(self.ui.action_save)
+        self.file_menu.addAction('New project')
+        self.file_menu.addAction('Open')
+        self.file_menu.addAction('Save')
+
+        self.file_menu = self.ui.menubar.addMenu('Edit')
+        self.file_menu.addAction('Cut')
+        self.file_menu.addAction('Copy')
+        self.file_menu.addAction('Paste')
+
+        self.file_menu = self.ui.menubar.addMenu('Project')
+        run_simulation = self.file_menu.addAction('Run simulation')
+        run_simulation.triggered.connect(self.run_simulation)
+        open_code = self.file_menu.addAction('Open code')
+        open_code.triggered.connect(self.open_code_editor)
 
         self.ui.button_add_surface.clicked.connect(self.add_item)
         self.ui.list_surfaces.itemClicked.connect(self.select_item)
@@ -60,6 +76,7 @@ class MainWindow(QMainWindow):
 
         self.ui.tree_universes.setColumnCount(2)
         self.ui.tree_universes.setHeaderLabels(['Element', 'Name'])
+        self.ui.tree_universes.setDragEnabled(True)
         self.ui.button_add_universe.clicked.connect(self.add_universe)
         self.ui.tree_universes.itemClicked.connect(self.select_universe)
 
@@ -77,6 +94,8 @@ class MainWindow(QMainWindow):
         self.ui.list_materials.itemClicked.connect(self.select_material)
 
         self.context_menu_pin_elements = QMenu(self)
+
+        self.context_menu_universes_for_lattice = QMenu(self)
 
     @staticmethod
     def list_to_str(list_item: list, delimiter: str) -> str:
@@ -128,6 +147,8 @@ class MainWindow(QMainWindow):
                 del self.material_property_classes[0]
             elif len(self.pin_property_classes) > 0:
                 del self.pin_property_classes[0]
+            elif len(self.lattice_property_classes) > 0:
+                del self.lattice_property_classes[0]
 
     def select_item(self, item):
         if len(self.universe_property_classes) > 0:
@@ -138,7 +159,6 @@ class MainWindow(QMainWindow):
         if len(self.property_classes) > 0:
             property_position = self.property_classes[1].get_items_values()
             property_color = self.property_classes[2].get_items_values()
-            print(property_color)
             property_parameters = self.property_classes[3].get_items_values()
 
             self.surface_classes[self.selected_row].set_position(property_position)
@@ -157,11 +177,6 @@ class MainWindow(QMainWindow):
 
             self.ui.view.set_surface_color(self.selected_row, property_color[0], property_color[1],
                                            property_color[2], property_color[3])
-
-            # if self.ui.list_surfaces.item(self.selected_row) is not None:
-            #     self.ui.list_surfaces.item(self.selected_row).setText(self.list_to_str(
-            #         [self.surface_classes[self.selected_row].get_type(),
-            #          self.surface_classes[self.selected_row].get_values()], ' '))
 
         self.context_menu_cell_elements.clear()
 
@@ -217,6 +232,8 @@ class MainWindow(QMainWindow):
             self.clear_properties()
         if len(self.pin_property_classes) > 0:
             self.clear_properties()
+        if len(self.lattice_property_classes) > 0:
+            self.clear_properties()
 
         if self.ui.tree_universes.currentItem().text(0) == 'Universe':
             self.select_universe_item()
@@ -233,6 +250,10 @@ class MainWindow(QMainWindow):
         if len(self.universe_property_classes) > 0:
             self.clear_properties()
         if len(self.cell_property_classes) > 0:
+            self.clear_properties()
+        if len(self.pin_property_classes) > 0:
+            self.clear_properties()
+        if len(self.lattice_property_classes) > 0:
             self.clear_properties()
 
         self.selected_row = self.ui.tree_universes.indexOfTopLevelItem(self.ui.tree_universes.currentItem())
@@ -342,7 +363,6 @@ class MainWindow(QMainWindow):
 
     def add_cell(self):
         universe_id = self.ui.tree_universes.indexOfTopLevelItem(self.ui.tree_universes.currentItem())
-        print(universe_id)
         cell = Cell('New Cell', 'void', self.ui.tree_universes.currentItem())
         cell.set_universe_number(universe_id)
         self.universe_classes[universe_id].add_element(cell)
@@ -405,12 +425,97 @@ class MainWindow(QMainWindow):
         universe_id = self.ui.tree_universes.indexOfTopLevelItem(self.ui.tree_universes.currentItem())
         sender = self.sender().text()
         if sender == 'Square Lattice':
-            lattice = LatticeSquare([0.0, 0.0, 0.0], 5, 5, 5.0, self.ui.tree_universes.currentItem())
+            lattice = LatticeSquare('New Square Lattice', [0.0, 0.0, 0.0],
+                                    5, 5, 5.0, self.ui.tree_universes.currentItem())
             lattice.set_universe_number(universe_id)
             self.lattice_classes.append(lattice)
 
     def select_lattice(self):
-        pass
+        self.selected_row = self.ui.tree_universes.currentIndex().row()
+        line_edit_name = QLineEdit()
+        line_edit_name.setText(self.lattice_classes[self.selected_row].get_name())
+        line_edit_name.textChanged.connect(self.change_lattice_name)
+        self.lattice_property_classes.append(line_edit_name)
+        self.ui.properties_layout.addWidget(line_edit_name)
+
+        position_widget = PropertyWidget()
+        position_widget.set_name('Position')
+        x, y, z = self.lattice_classes[self.selected_row].get_position()
+        position_widget.add_items(['x', 'y', 'z'])
+        position_widget.set_items_values([x, y, z])
+        self.lattice_property_classes.append(position_widget)
+        self.ui.properties_layout.addWidget(position_widget)
+
+        x_number_widget = PropertyItemWidget()
+        x_number_widget.set_name('X number')
+        x_number_widget.set_value(self.lattice_classes[self.selected_row].get_x_number())
+        self.lattice_property_classes.append(x_number_widget)
+        self.ui.properties_layout.addWidget(x_number_widget)
+        x_number_widget.ui.dsb_property_item_value.valueChanged.connect(self.change_x_number_in_lattice)
+
+        y_number_widget = PropertyItemWidget()
+        y_number_widget.set_name('Y number')
+        y_number_widget.set_value(self.lattice_classes[self.selected_row].get_y_number())
+        self.lattice_property_classes.append(y_number_widget)
+        self.ui.properties_layout.addWidget(y_number_widget)
+        y_number_widget.ui.dsb_property_item_value.valueChanged.connect(self.change_y_number_in_lattice)
+
+        pitch_widget = PropertyItemWidget()
+        pitch_widget.set_name('Pitch')
+        pitch_widget.set_value(self.lattice_classes[self.selected_row].get_pitch())
+        self.lattice_property_classes.append(pitch_widget)
+        self.ui.properties_layout.addWidget(pitch_widget)
+        pitch_widget.ui.dsb_property_item_value.valueChanged.connect(self.change_pitch_in_lattice)
+
+        universes_matrix_widget = QGroupBox()
+        universes_matrix_widget.setTitle('Universes')
+        grid_layout = QGridLayout(universes_matrix_widget)
+        for row in range(self.lattice_classes[self.selected_row].get_y_number()):
+            for column in range(self.lattice_classes[self.selected_row].get_x_number()):
+                universe = QPushButton()
+                universe.setObjectName(f'{row}_{column}')
+                universe.setText(str(self.lattice_classes[self.selected_row].get_universe_from_matrix(row, column)))
+                universe.clicked.connect(self.open_menu_with_universes_for_lattice)
+                grid_layout.addWidget(universe, row, column)
+
+        self.lattice_property_classes.append(universes_matrix_widget)
+        self.ui.properties_layout.addWidget(universes_matrix_widget)
+
+    def change_lattice_name(self):
+        sender = self.sender()
+        self.lattice_classes[self.selected_row].set_name(sender.text())
+        self.ui.tree_universes.currentItem().setText(1, sender.text())
+
+    def change_x_number_in_lattice(self):
+        sender = self.sender().value()
+        self.lattice_classes[self.selected_row].set_x_number(int(sender))
+
+    def change_y_number_in_lattice(self):
+        sender = self.sender().value()
+        self.lattice_classes[self.selected_row].set_y_number(int(sender))
+
+    def change_pitch_in_lattice(self):
+        sender = self.sender().value()
+        self.lattice_classes[self.selected_row].set_pitch(sender)
+
+    def open_menu_with_universes_for_lattice(self):
+        self.selected_lattice_element = self.sender().objectName()
+        print(self.selected_lattice_element)
+        self.context_menu_universes_for_lattice.clear()
+        for universe in self.universe_classes:
+            universe_id = self.universe_classes.index(universe)
+            action = self.context_menu_universes_for_lattice.addAction(str(universe_id))
+            action.triggered.connect(self.add_universe_to_lattice_element)
+        self.context_menu_universes_for_lattice.exec_(QCursor.pos())
+
+    def add_universe_to_lattice_element(self):
+        sender = self.sender().text()
+        row = int(self.selected_lattice_element[0])
+        column = int(self.selected_lattice_element[2])
+        self.lattice_classes[self.selected_row].set_universe_in_matrix(column, row, int(sender))
+        pin: Pin = self.pin_classes[int(sender) - 1]
+        universe_position = self.lattice_classes[self.selected_row].get_universe_position(column, row)
+        self.ui.view.add_pin_entity_to_lattice_entity(universe_position, pin)
 
     def add_material(self):
         material = Material('New material', 0.0)
@@ -498,3 +603,11 @@ class MainWindow(QMainWindow):
             surfaces.append(surface_class.get_properties())
         with open('Projects/Project.json', 'w') as file:
             json.dump(surfaces, file, indent=4)
+
+    def open_code_editor(self):
+        pass
+
+    def run_simulation(self):
+        os.system("echo Hello, world!")
+        # os.system("gnome-terminal -e 'bash -c \"echo Hello, world!; exec bash\"'")
+

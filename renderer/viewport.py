@@ -4,6 +4,8 @@ from PySide6.Qt3DRender import Qt3DRender
 
 from PySide6.QtGui import QVector3D, QRgba64, QQuaternion
 
+from preprocessor.lattice import Lattice
+from preprocessor.pin import Pin
 from renderer.multi_parent_entity import MultiParentEntity
 from surfaces.surface import SurfacesTypes
 
@@ -24,6 +26,7 @@ class ViewPort(Qt3DExtras.Qt3DWindow):
         self.surface_entities = []
         self.universe_entities = []
         self.cell_entities = []
+        self.lattice_entities = []
         self.mesh_entities = []
         self.material_entities = []
         self.transform_entities = []
@@ -109,8 +112,12 @@ class ViewPort(Qt3DExtras.Qt3DWindow):
         surface_material: Qt3DExtras.QPhongMaterial = Qt3DExtras.QPhongMaterial(surface_entity)
         surface_material.setDiffuse(QRgba64.fromRgba(139, 0, 255, 255))
         surface_transform: Qt3DCore.QTransform = Qt3DCore.QTransform(surface_entity)
+        if surface_type == SurfacesTypes.XHexagonalPrism:
+            surface_transform.setRotationZ(90.0)
+        else:
+            surface_transform.setRotationX(90.0)
+
         surface_transform.setTranslation(QVector3D(0.0, 0.0, 0.0))
-        surface_transform.setRotationX(90.0)
 
         surface_entity.addComponent(surface_mesh)
         surface_entity.addComponent(surface_material)
@@ -179,4 +186,23 @@ class ViewPort(Qt3DExtras.Qt3DWindow):
 
     def add_surface_entity_to_cell(self, surface_id: int, cell_id: int):
         self.surface_entities[surface_id].add_parent(self.cell_entities[cell_id])
+
+    def add_pin_entity_to_lattice_entity(self, position, pin: Pin):
+        pin_entity: Qt3DCore.QEntity = Qt3DCore.QEntity(self.root_entity)
+        pin_transform = Qt3DCore.QTransform(pin_entity)
+        pin_transform.setTranslation(QVector3D(position[0], position[1], position[2]))
+        pin_transform.setRotationX(90.0)
+        pin_mesh = Qt3DExtras.QCylinderMesh(pin_entity)
+        pin_mesh.setRadius(3.0)
+        pin_mesh.setLength(50.0)
+        pin_material = Qt3DExtras.QPhongMaterial(pin_entity)
+        pin_material: Qt3DExtras.QPhongMaterial = Qt3DExtras.QPhongMaterial(pin_entity)
+        pin_entity.addComponent(pin_transform)
+        pin_entity.addComponent(pin_mesh)
+        pin_entity.addComponent(pin_material)
+        self.lattice_entities.append(pin_entity)
+        print(pin_entity.components())
+
+    def select_lattice_entity(self):
+        pass
 

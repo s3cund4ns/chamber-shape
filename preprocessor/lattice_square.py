@@ -5,11 +5,11 @@ from preprocessor.lattice import Lattice, LatticeTypes
 
 
 class LatticeSquare(Lattice):
-    def __init__(self, position: list[float, float, float], x_number: int, y_number: int, pitch: float, parent=None):
-        super().__init__(position, x_number, y_number, pitch, parent)
+    def __init__(self, name: str, position: list[float, float, float], x_number: int, y_number: int, pitch: float, parent=None):
+        super().__init__(name, position, x_number, y_number, pitch, parent)
         self.type = LatticeTypes.Square
 
-        self.setText(1, 'New Square Lattice')
+        self.setText(1, self.name)
 
     def get_universe_position(self, x_number: int, y_number: int):
         x_position = self.position[0] + x_number * self.pitch

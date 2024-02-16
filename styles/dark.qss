@@ -412,3 +412,18 @@ QHeaderView::section {
     background: #292929;
     padding: 5px;
 }
+
+QMenuBar {
+    color: #FFFFFF;
+    padding: 5px;
+}
+
+QMenu {
+    border-radius: 7px;
+    padding: 5px;
+    color: #FFFFFF;
+}
+
+
+
+
