@@ -14,6 +14,7 @@ from preprocessor.universe import Universe, UniverseProperties
 from renderer.scene import vertices, scene
 from surfaces.create_surface import create_surface
 from widgets.droppable_button import DroppableButton
+from widgets.plot_widget import PlotWidget
 from widgets.property_item_widget import PropertyItemWidget
 from widgets.property_type_item_widget import PropertyTypeItemWidget
 from ui_files.ui_main import Ui_MainWindow
@@ -52,6 +53,8 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.plot_widget = PlotWidget()
+
         self.file_menu = self.ui.menubar.addMenu('File')
         self.file_menu.addAction('New project')
         self.file_menu.addAction('Open')
@@ -67,6 +70,8 @@ class MainWindow(QMainWindow):
         run_simulation.triggered.connect(self.run_simulation)
         open_code = self.file_menu.addAction('Open code')
         open_code.triggered.connect(self.open_code_editor)
+        open_plot = self.file_menu.addAction('Open plot')
+        open_plot.triggered.connect(self.open_plot)
 
         self.ui.button_add_surface.clicked.connect(self.add_item)
         self.ui.list_surfaces.itemClicked.connect(self.select_item)
@@ -606,6 +611,9 @@ class MainWindow(QMainWindow):
 
     def open_code_editor(self):
         pass
+
+    def open_plot(self):
+        self.plot_widget.show()
 
     def run_simulation(self):
         os.system("echo Hello, world!")
