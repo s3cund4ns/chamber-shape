@@ -23,14 +23,14 @@ class UniverseProperties:
         return [self.Position, self.Elements]
 
 
-class Universe(QTreeWidgetItem):
-    def __init__(self, text: str, id: int, parent=None):
-        super().__init__(parent)
+class Universe():
+    def __init__(self, index: int):
+        self.index: int = index
         self.position = np.array([0.0, 0.0, 0.0], dtype=np.float32)
         self.elements: list[Cell | Pin] = []
 
-        self.setText(0, text)
-        self.setText(1, str(id))
+        # self.setText(0, text)
+        # self.setText(1, str(id))
 
     def add_element(self, element: Cell):
         self.elements.append(element)

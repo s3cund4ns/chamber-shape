@@ -25,17 +25,13 @@ class SpecialEntires:
         return [self.Void, self.Outside]
 
 
-class Cell(QTreeWidgetItem):
-    def __init__(self, name: str, fill, parent=None):
-        super().__init__(parent)
+class Cell:
+    def __init__(self):
         self.type: str = 'Cell'
-        self.name: str = name
+        self.name: str = 'NewCell'
         self.universe_number: int = 0
-        self.fill: str | Material | int = fill
+        self.fill: str | Material | int = SpecialEntires.Void
         self.surfaces: list[[Surface | int]] = []
-
-        self.setText(0, 'Cell')
-        self.setText(1, name)
 
     def get_type(self):
         return self.type

@@ -1,16 +1,24 @@
+from dataclasses import dataclass
 from typing import Set, Dict
+
+from PySide6.Qt3DCore import Qt3DCore
+from PySide6.Qt3DExtras import Qt3DExtras
 
 from surfaces.surface import SurfacesTypes, Surface
 
 import numpy as np
 
 
+@dataclass
+class Properties:
+    Object = 'Object'
+    Position = 'Position'
+
+
 class Plane(Surface):
-    def __init__(self, position: list[float, float, float], color: list[float, float, float, float]):
-        super().__init__(position, color)
+    def __init__(self):
+        super().__init__()
         self.type = SurfacesTypes.Plane
-        self.parameters_names = []
-        self.parameters_values = []
 
         self.vertices = np.array((
             np.array([-0.5, 0.5, 0.0], dtype=np.float32),
@@ -27,7 +35,12 @@ class Plane(Surface):
     def set_parameters(self, parameters: list):
         pass
 
+    def get_data(self):
+        return {Properties.Position: list(self.position)}
 
-
-
-
+    def set_data(self, properties: tuple):
+        print(properties)
+        name, value = properties
+        match name:
+            case Properties.Position:
+                self.position[0:3] = value

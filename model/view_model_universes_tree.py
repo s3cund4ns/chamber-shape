@@ -1,0 +1,89 @@
+from abc import abstractmethod
+from dataclasses import dataclass
+
+from data_structs.tree import Tree
+from model.view_model import ViewModel
+
+
+@dataclass
+class Operations:
+    Add = 'Add'
+    Select = 'Select'
+    Delete = 'Delete'
+
+
+class ViewModelUniversesTree(ViewModel):
+    def __init__(self):
+        self.data: Tree = Tree()
+        self.current_key: str = ''
+        super().__init__()
+
+    def set_node_value(self, value: any):
+        self.data.set_node_value(self.current_key, value)
+        print(self.data.get())
+
+    def add_item_to_models(self, *args):
+        item_type = args
+        for model in self.models:
+            model.add_item(item_type)
+
+    def add_item_to_views(self, *args):
+        index, item_text, key = args
+        self.data.insert_node(index, key, None)
+        self.current_key = key
+        for view in self.views:
+            view.add_item(index, item_text)
+
+    def select_item_in_models(self, *args):
+        item, = args
+        for key, value in self.data.get().items():
+            if value == item:
+                print(key)
+                self.current_key = key
+        for model in self.models:
+            model.select_item(self.current_key)
+
+    def select_item_in_views(self, *args):
+        level, item = args
+        for view in self.views:
+            view.select_item(level, item)
+
+    def change_item_in_models(self, *args):
+        value, = args
+        for model in self.models:
+            model.change_data(value)
+
+    def change_item_in_views(self, *args):
+        value, = args
+        for view in self.views:
+            view.change_item(value)
+
+    def delete_item_in_models(self):
+        for model in self.models:
+            model.delete_item()
+
+    def delete_item_in_views(self, key):
+        self.data.delete_node(key)
+        for view in self.views:
+            view.delete_item(key)
+
+    def notify_model(self, operation: Operations, parameters: list):
+        match operation:
+            case Operations.Add:
+                self.model.add_item()
+            case Operations.Select:
+                item_index = parameters[0]
+                self.model.select_item(item_index)
+            case Operations.Delete:
+                self.model.delete_item(parameters[0])
+
+    def notify_views(self, item_index, item, current_object, operation: Operations):
+        for view in self.views:
+            match operation:
+                case Operations.Add:
+                    view.add_item(str(item_index))
+                case Operations.Select:
+                    view.select_item(item_index)
+                case Operations.Delete:
+                    view.delete_item(item_index)
+

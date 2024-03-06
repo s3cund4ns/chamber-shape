@@ -3,8 +3,16 @@ import os
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QCursor
 from PySide6.QtWidgets import QMainWindow, QDoubleSpinBox, QLabel, QListWidgetItem, QComboBox, QMenu, QTreeWidgetItem, \
-    QButtonGroup, QRadioButton, QLineEdit, QListWidget, QPushButton, QCheckBox, QSpinBox, QGridLayout, QGroupBox
+    QButtonGroup, QRadioButton, QLineEdit, QListWidget, QPushButton, QCheckBox, QSpinBox, QGridLayout, QGroupBox, \
+    QWidget
 
+from model.model_materials_list import ModelMaterialsList
+from model.model_surfaces_list import ModelSurfacesList
+from model.project_data import ProjectData
+from model.view_model_materials_list import ViewModelMaterialsList
+from model.view_model_properties import ViewModelProperties
+from model.view_model_surfaces_list import ViewModelSurfacesList
+from model.view_model_viewport import ViewModelViewport
 from preprocessor.cell import Cell, CellProperties, SpecialEntires
 from preprocessor.input_data_writer import InputDataWriter
 from preprocessor.lattice_square import LatticeSquare
@@ -12,6 +20,8 @@ from preprocessor.material import Material
 from preprocessor.pin import Pin
 from preprocessor.universe import Universe, UniverseProperties
 from renderer.scene import vertices, scene
+from renderer.view_renderer import ViewRenderer
+from renderer.viewport import Viewport
 from surfaces.create_surface import create_surface
 from widgets.droppable_button import DroppableButton
 from widgets.plot_widget import PlotWidget
@@ -23,6 +33,11 @@ from surfaces.surface import SurfacesTypes, SurfacesProperties
 from surfaces.plane import Plane
 
 import json
+
+from widgets.view_materials_list import ViewMaterialsList
+from widgets.view_properties import ViewSurfaceProperties, ViewMaterialProperties
+from widgets.view_surfaces_list import ViewSurfacesList
+from widgets.view_universes_tree import ViewUniversesTree
 
 
 class MainWindow(QMainWindow):
@@ -73,17 +88,37 @@ class MainWindow(QMainWindow):
         open_plot = self.file_menu.addAction('Open plot')
         open_plot.triggered.connect(self.open_plot)
 
-        self.ui.button_add_surface.clicked.connect(self.add_item)
-        self.ui.list_surfaces.itemClicked.connect(self.select_item)
-        self.ui.list_surfaces.installEventFilter(self)
-        self.ui.button_delete_surface.clicked.connect(self.delete_item)
-        # self.ui.action_save.triggered.connect(self.save_file)
+        self.viewport = Viewport()
+        self.ui.view_container = QWidget.createWindowContainer(self.viewport.scene)
+        self.ui.viewport_layout.addWidget(self.ui.view_container)
 
-        self.ui.tree_universes.setColumnCount(2)
-        self.ui.tree_universes.setHeaderLabels(['Element', 'Name'])
-        self.ui.tree_universes.setDragEnabled(True)
-        self.ui.button_add_universe.clicked.connect(self.add_universe)
-        self.ui.tree_universes.itemClicked.connect(self.select_universe)
+        self.view_universes_tree = ViewUniversesTree()
+        self.ui.universes_layout.addWidget(self.view_universes_tree.universes_tree_widget)
+
+        self.view_materials_list = ViewMaterialsList()
+        self.ui.materials_layout.addWidget(self.view_materials_list.materials_list_widget)
+
+        self.view_surfaces_list = ViewSurfacesList()
+        self.ui.surfaces_layout.addWidget(self.view_surfaces_list.surfaces_list_widget)
+
+        self.view_material_properties = ViewMaterialProperties(self.ui.properties_layout)
+        self.view_surface_properties = ViewSurfaceProperties(self.ui.properties_layout)
+
+        self.view_surfaces_renderer = ViewRenderer()
+        self.view_surfaces_renderer.set_scene(self.viewport.root_entity)
+
+        self.project_data = ProjectData()
+        self.project_data.load_views(self.view_universes_tree, self.view_materials_list, self.view_surfaces_list,
+                                     self.view_material_properties,
+                                     self.view_surface_properties, self.view_surfaces_renderer)
+
+        self.view_model_properties = ViewModelProperties()
+
+        # self.ui.tree_universes.setColumnCount(2)
+        # self.ui.tree_universes.setHeaderLabels(['Element', 'Name'])
+        # self.ui.tree_universes.setDragEnabled(True)
+        # self.ui.button_add_universe.clicked.connect(self.add_universe)
+        # self.ui.tree_universes.itemClicked.connect(self.select_universe)
 
         self.context_menu_universe_elements = QMenu(self)
         action_add_cell = self.context_menu_universe_elements.addAction('Cell')
@@ -95,8 +130,8 @@ class MainWindow(QMainWindow):
 
         self.context_menu_cell_elements = QMenu(self)
 
-        self.ui.button_add_material.clicked.connect(self.add_material)
-        self.ui.list_materials.itemClicked.connect(self.select_material)
+        # self.ui.button_add_material.clicked.connect(self.add_material)
+        # self.ui.list_materials.itemClicked.connect(self.select_material)
 
         self.context_menu_pin_elements = QMenu(self)
 
@@ -618,4 +653,3 @@ class MainWindow(QMainWindow):
     def run_simulation(self):
         os.system("echo Hello, world!")
         # os.system("gnome-terminal -e 'bash -c \"echo Hello, world!; exec bash\"'")
-

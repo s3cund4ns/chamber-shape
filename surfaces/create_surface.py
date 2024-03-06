@@ -9,7 +9,7 @@ from surfaces.x_hexagonal_prism import XHexagonalPrism
 from surfaces.y_hexagonal_prism import YHexagonalPrism
 
 
-def create_surface(surface_type: SurfacesTypes):
+def create_surface(surface_type):
     match surface_type:
         case SurfacesTypes.Plane:
             return Plane([0.0, 0.0, 0.0], [randint(100, 255), randint(100, 255), randint(100, 255), 255])
