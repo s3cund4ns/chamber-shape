@@ -2,12 +2,12 @@ import os
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QCursor, QFont, QFontDatabase
-from PySide6.QtWidgets import QMainWindow, QLabel, QListWidgetItem, QMenu, QLineEdit, QListWidget, QPushButton, QCheckBox, \
+from PySide6.QtWidgets import QMainWindow, QLabel, QListWidgetItem, QMenu, QLineEdit, QListWidget, QPushButton, \
+    QCheckBox, \
     QGridLayout, QGroupBox, \
     QWidget, QFileDialog
 
 from project_data.project_data import ProjectData
-from viewmodels.view_model_properties import ViewModelProperties
 from cshape_objects.cell import Cell, SpecialEntires
 from preprocessor.input_data_writer import InputDataWriter
 from cshape_objects.lattices.lattice_square import LatticeSquare
@@ -107,16 +107,9 @@ class MainWindow(QMainWindow):
 
         self.project_data = ProjectData()
         self.project_data.load_views(self.view_universes_tree, self.view_materials_list, self.view_surfaces_list,
-                                     self.view_material_properties, self.view_surface_properties, self.view_universe_properties,
+                                     self.view_material_properties, self.view_surface_properties,
+                                     self.view_universe_properties,
                                      self.view_surfaces_renderer)
-
-        self.view_model_properties = ViewModelProperties()
-
-        # self.ui.tree_universes.setColumnCount(2)
-        # self.ui.tree_universes.setHeaderLabels(['Element', 'Name'])
-        # self.ui.tree_universes.setDragEnabled(True)
-        # self.ui.button_add_universe.clicked.connect(self.add_universe)
-        # self.ui.tree_universes.itemClicked.connect(self.select_universe)
 
         self.context_menu_universe_elements = QMenu(self)
         action_add_cell = self.context_menu_universe_elements.addAction('Cell')
@@ -127,9 +120,6 @@ class MainWindow(QMainWindow):
         action_add_lattice.triggered.connect(self.add_lattice)
 
         self.context_menu_cell_elements = QMenu(self)
-
-        # self.ui.button_add_material.clicked.connect(self.add_material)
-        # self.ui.list_materials.itemClicked.connect(self.select_material)
 
         self.context_menu_pin_elements = QMenu(self)
 

@@ -9,8 +9,8 @@ class Model:
     def set_view_model(self, view_model):
         self.view_model = view_model
 
-    def notify_view_models(self, item_index, item, current_object, operation):
-        self.view_model.notify_views(item_index, item, operation)
+    # def notify_view_models(self, item_index, item, current_object, operation):
+    #     self.view_model.notify_views(item_index, item, operation)
 
     @abstractmethod
     def add_item(self, *args):

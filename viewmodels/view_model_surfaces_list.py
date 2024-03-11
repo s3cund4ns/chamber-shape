@@ -54,25 +54,25 @@ class ViewModelSurfacesList(ViewModel):
         for view in self.views:
             view.delete_item(index)
 
-    def notify_model(self, operation: Operations, parameters: list):
-        match operation:
-            case Operations.Add:
-                self.model.add_item(parameters[1])
-            case Operations.Select:
-                item_index = parameters[0]
-                self.model.select_item(item_index)
-            case Operations.Delete:
-                self.model.delete_item(parameters[0])
-
-    def notify_views(self, item_index, item, current_object, operation: Operations):
-        for view in self.views:
-            match operation:
-                case Operations.Add:
-                    view.add_item(item_index, item)
-                case Operations.Select:
-                    view.select_item(item_index)
-                case Operations.Change:
-                    view.change_item(item_index, item)
-                case Operations.Delete:
-                    view.delete_item(item_index)
+    # def notify_model(self, operation: Operations, parameters: list):
+    #     match operation:
+    #         case Operations.Add:
+    #             self.model.add_item(parameters[1])
+    #         case Operations.Select:
+    #             item_index = parameters[0]
+    #             self.model.select_item(item_index)
+    #         case Operations.Delete:
+    #             self.model.delete_item(parameters[0])
+    #
+    # def notify_views(self, item_index, item, current_object, operation: Operations):
+    #     for view in self.views:
+    #         match operation:
+    #             case Operations.Add:
+    #                 view.add_item(item_index, item)
+    #             case Operations.Select:
+    #                 view.select_item(item_index)
+    #             case Operations.Change:
+    #                 view.change_item(item_index, item)
+    #             case Operations.Delete:
+    #                 view.delete_item(item_index)
 

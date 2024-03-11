@@ -16,5 +16,5 @@ surfaces_types = {
 }
 
 
-def create_object(surface_type):
+def create_surface(surface_type):
     return surfaces_types[surface_type]()
