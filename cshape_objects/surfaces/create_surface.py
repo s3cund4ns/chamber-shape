@@ -1,12 +1,12 @@
 from random import randint
 
-from surfaces.surface import SurfacesTypes, Surface
-from surfaces.plane import Plane
-from surfaces.cylinder import Cylinder
-from surfaces.sphere import Sphere
-from surfaces.cone import Cone
-from surfaces.x_hexagonal_prism import XHexagonalPrism
-from surfaces.y_hexagonal_prism import YHexagonalPrism
+from cshape_objects.surfaces.surface import SurfacesTypes
+from cshape_objects.surfaces.plane import Plane
+from cshape_objects.surfaces.cylinder import Cylinder
+from cshape_objects.surfaces.sphere import Sphere
+from cshape_objects.surfaces.cone import Cone
+from cshape_objects.surfaces.x_hexagonal_prism import XHexagonalPrism
+from cshape_objects.surfaces.y_hexagonal_prism import YHexagonalPrism
 
 
 def create_surface(surface_type):

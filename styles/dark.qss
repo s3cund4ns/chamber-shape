@@ -1,8 +1,8 @@
 
 QWidget {
-    background-color: #333333;
-    font-family: "Gadugi Regular";
-    font-size: 12px;
+    background-color: #292929;
+    /* font-family: "Gadugi Regular"; */
+    /* font-size: 12px; */
 }
 
 /* кнопочка */
@@ -273,9 +273,10 @@ QScrollBar:up-arrow:vertical:pressed, QScrollBar::down-arrow:vertical:pressed {
 
 /* список */
 QListView {
-    background: #292929;
+    background: #373737;
     padding: 5px;
-    border-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
     color: #FFFFFF;
     min-height: 160px;
 }
@@ -378,9 +379,9 @@ QComboBox::drop-down {
 
 QTreeWidget {
     color: #FFFFFF;
-    border-radius: 7px;
-    background-color: #292929;
-    header-color: #292929;
+    border-radius: 0px;
+    background-color: #373737;
+    header-color: #373737;
 }
 
 QTreeWidget::item {
@@ -409,7 +410,7 @@ QTreeWidget::branch:has-children:!has-siblings:closed {
 QHeaderView::section {
     border-radius: 7px;
     color: #FFFFFF;
-    background: #292929;
+    background: #303030;
     padding: 5px;
 }
 
@@ -434,8 +435,9 @@ QDockWidget {
 }
 
 QDockWidget::title {
-    background-color: #292929;
-    border-radius: 7px;
+    background-color: #373737;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
 /*    border-top-left-radius: 7px;*/
 /*    border-top-right-radius: 7px;*/
 }
@@ -444,6 +446,8 @@ QDockWidget::close-button {
     color: #FFFFFF;
 }
 
-
+QScrollArea {
+    background-color: #373737;
+}
 
 

@@ -1,13 +1,14 @@
 from dataclasses import dataclass
 
-from PySide6.Qt3DExtras import Qt3DExtras
-
-from surfaces.surface import SurfacesTypes, Surface
+from cshape_objects.cshape_object import CShapeObjectProperties
+from cshape_objects.cshape_types import CShapeTypes
+from cshape_objects.surfaces.surface import SurfacesTypes, Surface
 
 
 @dataclass
-class Properties:
+class Properties(CShapeObjectProperties):
     Object = 'Object'
+    Name = 'Name'
     Position = 'Position'
     Radius = 'Radius'
 
@@ -15,7 +16,8 @@ class Properties:
 class Cylinder(Surface):
     def __init__(self):
         super().__init__()
-        self.type = SurfacesTypes.Cylinder
+        self.surface_type = SurfacesTypes.Cylinder
+        self.properties = Properties()
         self.radius: float = 5.0
 
     def set_parameters(self, parameters: list):
@@ -25,11 +27,16 @@ class Cylinder(Surface):
         self.radius = radius
 
     def get_data(self):
-        return {Properties.Position: list(self.position), Properties.Radius: self.radius}
+        return {self.properties.Name: (CShapeTypes.String, self.name),
+            Properties.Position: (CShapeTypes.Vector3DFloat, list(self.position)),
+                Properties.Radius: (CShapeTypes.Float, self.radius)}
 
     def set_data(self, properties: dict):
         name, value = properties
         match name:
+            case self.properties.Name:
+                name = value
+                self.name = name
             case Properties.Position:
                 self.position[0:3] = value
             case Properties.Radius:

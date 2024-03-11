@@ -22,6 +22,9 @@ class PropertyFloat(PropertyItem):
         self.label_name.setText(name)
         self.double_spin_box_value.setValue(value)
 
+    def set_default_values(self, *args):
+        pass
+
     def get_values_changes(self):
         sender = self.sender()
         self.properties_view.apply_values_changes((self.label_name.text(), sender.value()))

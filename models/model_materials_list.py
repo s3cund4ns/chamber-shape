@@ -1,11 +1,5 @@
-import inspect
-import random
-
-from model.model import Model
-from model.object_creator import create_object
-from preprocessor.material import Material
-from surfaces.create_surface import create_surface
-from surfaces.surface import Surface, SurfacesTypes
+from project_data.model import Model
+from cshape_objects.material import Material
 
 
 class ModelMaterialsList(Model):
@@ -23,7 +17,7 @@ class ModelMaterialsList(Model):
     def select_item(self, index):
         self.selected_item_index = index
         selected_item: Material = self.data[self.selected_item_index]
-        self.view_model.select_item_in_views(index, selected_item)
+        self.view_model.select_item_in_views(index, selected_item.get_data())
 
     def delete_item(self):
         self.data.pop(self.selected_item_index)

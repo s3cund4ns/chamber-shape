@@ -1,8 +1,11 @@
 from dataclasses import dataclass
 
+from cshape_objects.cshape_object import CShapeObject, CShapeObjectTypes, CShapeObjectProperties
+from cshape_objects.cshape_types import CShapeTypes
+
 
 @dataclass
-class Properties:
+class Properties(CShapeObjectProperties):
     Name = 'Name'
     Density = 'Density'
     Mode = 'Mode'
@@ -18,14 +21,16 @@ class Mode:
     Summary = 'Summary'
 
 
-class Material:
+class Material(CShapeObject):
     def __init__(self):
+        super().__init__()
+        self.type = CShapeObjectTypes.Material
         self.name: str = 'NewMaterial'
+        self.properties = Properties()
         self.density: float = 0.0
         self.modes: dict = {'Atomic': 'Atomic', 'Massive': 'Massive', 'Summary': 'Summary'}
         self.mode = self.modes['Atomic']
         self.nuclides: list[list[str | float]] = []
-        self.add_nuclide()
 
     def set_name(self, name: str):
         self.name = name
@@ -58,27 +63,30 @@ class Material:
         return len(self.nuclides)
 
     def get_data(self):
-        return {'Name': self.name, 'Density': self.density, 'Mode': [self.modes, self.mode], 'Nuclides': self.nuclides}
+        return {self.properties.Name: (CShapeTypes.String, self.name),
+                self.properties.Density: (CShapeTypes.Float, self.density),
+                self.properties.Mode: (CShapeTypes.Enum, [self.modes, self.mode]),
+                self.properties.Nuclides: (CShapeTypes.List, self.nuclides)}
 
     def set_data(self, properties: dict):
         name, value = properties
         match name:
-            case Properties.Name:
+            case self.properties.Name:
                 name = value
                 self.name = name
-            case Properties.Density:
+            case self.properties.Density:
                 density = value
                 self.set_density(density)
-            case Properties.Mode:
+            case self.properties.Mode:
                 mode = value
                 self.mode = self.modes[mode]
-            case Properties.Nuclides:
+            case self.properties.Nuclides:
                 index, name, density = value
                 self.set_nuclide(index, name, density)
-            case Properties.Add:
+            case self.properties.Add:
                 index, name, density = value
                 self.add_nuclide()
                 self.set_nuclide(index, name, density)
-            case Properties.Delete:
+            case self.properties.Delete:
                 index = value
                 self.delete_nuclide(index)

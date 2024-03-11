@@ -1,17 +1,23 @@
+from dataclasses import dataclass
+
 from PySide6.QtWidgets import QTreeWidgetItem
 
+from cshape_objects.cshape_object import CShapeObject, CShapeObjectTypes, CShapeObjectProperties
 
 
-class Pin(QTreeWidgetItem):
-    def __init__(self, name: str, parent=None,):
-        super().__init__(parent)
-        self.type = 'Pin'
+@dataclass
+class Properties(CShapeObjectProperties):
+    pass
+
+
+class Pin(CShapeObject):
+    def __init__(self):
+        super().__init__()
+        self.type = CShapeObjectTypes.Pin
+        self.properties = Properties()
         self.universe = None
-        self.name: str = name
+        self.name: str = 'NewPin'
         self.material_regions = []
-
-        self.setText(0, 'Pin')
-        self.setText(1, self.name)
 
     def get_type(self):
         return self.type

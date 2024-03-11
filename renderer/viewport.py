@@ -2,18 +2,15 @@ from PySide6.Qt3DExtras import Qt3DExtras
 from PySide6.Qt3DCore import Qt3DCore
 from PySide6.Qt3DRender import Qt3DRender
 
-from PySide6.QtGui import QVector3D, QRgba64, QQuaternion, QColor
+from PySide6.QtGui import QVector3D, QRgba64
 
-from preprocessor.lattice import Lattice
-from preprocessor.pin import Pin
-from renderer.entities.plane_entity import PlaneEntity
+from cshape_objects.pin import Pin
 from renderer.entities.surface_entity import SurfaceEntity
-from renderer.mesh_creator import create_mesh
 from renderer.multi_parent_entity import MultiParentEntity
-from surfaces.surface import SurfacesTypes, Surface
-from widgets.view import View
+from cshape_objects.surfaces.surface import SurfacesTypes
+from project_data.view import View
 
-BACKGROUND_COLOR = QRgba64.fromRgba(41, 41, 41, 255)
+BACKGROUND_COLOR = QRgba64.fromRgba(31, 31, 31, 255)
 CAMERA_FOV = 60.0
 CAMERA_NEAR_PLANE = 0.1
 CAMERA_FAR_PLANE = 1000.0

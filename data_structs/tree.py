@@ -39,3 +39,6 @@ class Tree:
 
     def set_node_value(self, key: str, value: any) -> None:
         self.adjacency_lists[key][0] = value
+
+    def get_node_value(self, key: str):
+        return self.adjacency_lists[key][0]

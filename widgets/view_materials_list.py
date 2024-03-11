@@ -1,8 +1,7 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QListWidget, QMenu
 
-from surfaces.surface import SurfacesTypes
-from widgets.view import View
+from project_data.view import View
 
 
 class ViewMaterialsList(View):

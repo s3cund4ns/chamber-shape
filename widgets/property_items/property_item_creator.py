@@ -1,16 +1,18 @@
+from cshape_objects.cshape_types import CShapeTypes
 from widgets.property_items.property_combo_box import PropertyComboBox
 from widgets.property_items.property_float import PropertyFloat
-from widgets.property_items.property_item import PropertyItemTypes
 from widgets.property_items.property_list import PropertyList
 from widgets.property_items.property_string import PropertyString
+from widgets.property_items.property_table import PropertyTable
 from widgets.property_items.property_vector3d_float import PropertyVector3DFloat
 
 properties_types = {
-    PropertyItemTypes.Float: PropertyFloat,
-    PropertyItemTypes.String: PropertyString,
-    PropertyItemTypes.Vector3DFloat: PropertyVector3DFloat,
-    PropertyItemTypes.ComboBox: PropertyComboBox,
-    PropertyItemTypes.ListBox: PropertyList
+    CShapeTypes.Float: PropertyFloat,
+    CShapeTypes.String: PropertyString,
+    CShapeTypes.Vector3DFloat: PropertyVector3DFloat,
+    CShapeTypes.Enum: PropertyComboBox,
+    CShapeTypes.List: PropertyList,
+    CShapeTypes.Table: PropertyTable
 }
 
 

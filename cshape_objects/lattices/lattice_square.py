@@ -1,7 +1,6 @@
 import numpy as np
-from PySide6.QtWidgets import QTreeWidgetItem
 
-from preprocessor.lattice import Lattice, LatticeTypes
+from cshape_objects.lattices.lattice import Lattice, LatticeTypes
 
 
 class LatticeSquare(Lattice):

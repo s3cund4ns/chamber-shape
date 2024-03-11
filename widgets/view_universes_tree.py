@@ -1,7 +1,7 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QTreeWidget, QMenu, QTreeWidgetItem
 
-from widgets.view import View
+from project_data.view import View
 
 
 class ViewUniversesTree(View):
@@ -41,6 +41,13 @@ class ViewUniversesTree(View):
         item.setText(0, element)
         item.setText(1, name)
         self.view_model.set_node_value(item)
+
+    def select_item(self, *args):
+        pass
+
+    def change_item(self, *args):
+        value, = args
+        self.universes_tree_widget.currentItem().setText(1, value)
 
     def delete_item(self, key):
         index = self.universes_tree_widget.currentIndex().row()

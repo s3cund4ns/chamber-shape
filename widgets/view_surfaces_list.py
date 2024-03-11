@@ -1,8 +1,8 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QListWidget, QMenu, QListWidgetItem
+from PySide6.QtWidgets import QListWidget, QMenu
 
-from surfaces.surface import SurfacesTypes
-from widgets.view import View
+from cshape_objects.surfaces.surface import SurfacesTypes
+from project_data.view import View
 
 
 class ViewSurfacesList(View):
@@ -33,8 +33,8 @@ class ViewSurfacesList(View):
     def select_item(self, item_index, item):
         self.surfaces_list_widget.setCurrentRow(item_index)
 
-    def change_item(self, item_index, value):
-        pass
+    def change_item(self, item_index, value, item_text):
+        self.surfaces_list_widget.currentItem().setText(self.list_to_str(item_text, ' '))
 
     def notify_view_models_delete(self):
         self.view_model.delete_item_in_models()
@@ -56,3 +56,8 @@ class ViewSurfacesList(View):
             selected_item_name = selected_action.parent().objectName()
             select_action_name = selected_action.text()
             self.view_model.add_item_to_models(self.surfaces_list_widget.count(), select_action_name)
+
+    @staticmethod
+    def list_to_str(list_item: list, delimiter: str) -> str:
+        str_item = delimiter.join(map(str, list_item))
+        return str_item

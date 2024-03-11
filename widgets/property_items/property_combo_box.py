@@ -27,6 +27,9 @@ class PropertyComboBox(PropertyItem):
 
         self.combo_box_value.setCurrentText(current_value)
 
+    def set_default_values(self, *args):
+        pass
+
     def get_values_changes(self):
         sender = self.sender().currentText()
         self.properties_view.apply_values_changes((self.label_name.text(), sender))

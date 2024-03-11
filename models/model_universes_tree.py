@@ -1,7 +1,8 @@
 from data_structs.tree import Tree
-from model.model import Model
-from preprocessor.cell import Cell
-from preprocessor.universe import Universe
+from project_data.model import Model
+from cshape_objects.cell import Cell
+from cshape_objects.pin import Pin
+from cshape_objects.universe import Universe
 
 
 class ModelUniversesTree(Model):
@@ -20,7 +21,7 @@ class ModelUniversesTree(Model):
             case 'Cell':
                 self.add_cell()
             case 'Pin':
-                pass
+                self.add_pin()
 
     def add_universe(self):
         item: Universe = Universe(self.elements_amount)
@@ -31,17 +32,24 @@ class ModelUniversesTree(Model):
         self.view_model.add_item_to_views('root', item_text, str(item))
 
     def add_cell(self):
-        # index = self.selected_item_index
-        # selected_item = self.data[index]
-        # level = selected_item[0] + 1
+        if type(self.data.get_node_value(self.key_of_selected_item)) != Universe:
+            return
+
         item: Cell = Cell()
         self.data.insert_node(self.key_of_selected_item, str(item), item)
+        self.data.get_node_value(self.key_of_selected_item).add_element([item.get_type(), item.get_name()])
         item_text = (item.get_type(), item.get_name())
         self.view_model.add_item_to_views(self.key_of_selected_item, item_text, str(item))
 
+    def add_pin(self):
+        if type(self.data.get_node_value(self.key_of_selected_item)) != Universe:
+            return
+        item: Pin = Pin()
+
     def select_item(self, key):
-        self.key_of_selected_item = str(self.data.get_node(key)[0])
+        self.key_of_selected_item = key
         print(self.key_of_selected_item)
+        self.view_model.select_item_in_views(self.data.get_node(key)[0])
 
     def delete_item(self):
         self.data.delete_node(self.key_of_selected_item)
@@ -50,6 +58,8 @@ class ModelUniversesTree(Model):
         print(self.data.get())
 
     def change_data(self, value):
-        self.data[self.selected_item_index].set_data(value)
-        self.view_model.change_item_in_views([self.data[self.selected_item_index].get_name(),
-                                              self.data[self.selected_item_index].get_density()])
+        item = self.data.get_node_value(self.key_of_selected_item)
+        item.set_data(value)
+        name, item_value = value
+        if name == 'Name':
+            self.view_model.change_item_in_views(item_value)

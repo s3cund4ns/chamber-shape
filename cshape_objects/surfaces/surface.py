@@ -2,11 +2,11 @@ from random import randint
 
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
-from typing import Sequence, List, Any, Type
+from typing import Sequence
 
 import numpy as np
 
-from model.model import Model
+from cshape_objects.cshape_object import CShapeObject, CShapeObjectTypes, CShapeObjectProperties
 
 
 @dataclass
@@ -41,7 +41,7 @@ class SurfacesTypes:
 
 
 @dataclass
-class SurfacesProperties:
+class Properties(CShapeObjectProperties):
     Position = 'Position'
     Color = 'Color'
     Parameters = 'Parameters'
@@ -50,11 +50,12 @@ class SurfacesProperties:
         return [self.Position, self.Color, self.Parameters]
 
 
-class Surface(ABC):
+class Surface(CShapeObject):
     def __init__(self):
         super().__init__()
-        self.object = CShapeObjects.Surface
-        self.type: SurfacesTypes = SurfacesTypes.NoneType
+        self.type = CShapeObjectTypes.Surface
+        self.surface_type: SurfacesTypes = SurfacesTypes.NoneType
+        self.name: str = 'NewSurface'
         self.position = np.array([0.0, 0.0, 0.0], dtype=np.float32)
         self.color = np.array([randint(100, 255), randint(100, 255), randint(100, 255), 255], dtype=np.float16)
         self.parameters_names: list = []
@@ -70,7 +71,10 @@ class Surface(ABC):
         self.color = color
 
     def get_type(self):
-        return self.type
+        return self.surface_type
+
+    def get_name(self):
+        return self.name
 
     def get_names(self):
         position_names = ['x', 'y', 'z']
@@ -87,12 +91,6 @@ class Surface(ABC):
         pass
 
 
-    # def get_values(self):
-    #     position, color, parameters_values = (self.position, self.color, self.parameters_values)
-    #     return position, color, parameters_values
-    #
-    # def get_properties(self):
-    #     return self.type, self.position, self.color, self.parameters_values
 
 
 

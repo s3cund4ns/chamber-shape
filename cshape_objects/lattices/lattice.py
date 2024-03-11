@@ -1,10 +1,10 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from dataclasses import dataclass
 
 import numpy as np
 from PySide6.QtWidgets import QTreeWidgetItem
 
-from preprocessor.universe import Universe
+from cshape_objects.universe import Universe
 
 
 @dataclass

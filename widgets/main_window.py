@@ -1,41 +1,33 @@
 import os
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QCursor
-from PySide6.QtWidgets import QMainWindow, QDoubleSpinBox, QLabel, QListWidgetItem, QComboBox, QMenu, QTreeWidgetItem, \
-    QButtonGroup, QRadioButton, QLineEdit, QListWidget, QPushButton, QCheckBox, QSpinBox, QGridLayout, QGroupBox, \
-    QWidget
+from PySide6.QtGui import QCursor, QFont, QFontDatabase
+from PySide6.QtWidgets import QMainWindow, QLabel, QListWidgetItem, QMenu, QLineEdit, QListWidget, QPushButton, QCheckBox, \
+    QGridLayout, QGroupBox, \
+    QWidget, QFileDialog
 
-from model.model_materials_list import ModelMaterialsList
-from model.model_surfaces_list import ModelSurfacesList
-from model.project_data import ProjectData
-from model.view_model_materials_list import ViewModelMaterialsList
-from model.view_model_properties import ViewModelProperties
-from model.view_model_surfaces_list import ViewModelSurfacesList
-from model.view_model_viewport import ViewModelViewport
-from preprocessor.cell import Cell, CellProperties, SpecialEntires
+from project_data.project_data import ProjectData
+from viewmodels.view_model_properties import ViewModelProperties
+from cshape_objects.cell import Cell, SpecialEntires
 from preprocessor.input_data_writer import InputDataWriter
-from preprocessor.lattice_square import LatticeSquare
-from preprocessor.material import Material
-from preprocessor.pin import Pin
-from preprocessor.universe import Universe, UniverseProperties
-from renderer.scene import vertices, scene
+from cshape_objects.lattices.lattice_square import LatticeSquare
+from cshape_objects.material import Material
+from cshape_objects.pin import Pin
+from cshape_objects.universe import Universe
 from renderer.view_renderer import ViewRenderer
 from renderer.viewport import Viewport
-from surfaces.create_surface import create_surface
-from widgets.droppable_button import DroppableButton
+from cshape_objects.surfaces.create_surface import create_surface
 from widgets.plot_widget import PlotWidget
 from widgets.property_item_widget import PropertyItemWidget
 from widgets.property_type_item_widget import PropertyTypeItemWidget
 from ui_files.ui_main import Ui_MainWindow
 from widgets.property_widget import PropertyWidget
-from surfaces.surface import SurfacesTypes, SurfacesProperties
-from surfaces.plane import Plane
+from cshape_objects.surfaces.surface import SurfacesTypes
 
 import json
 
 from widgets.view_materials_list import ViewMaterialsList
-from widgets.view_properties import ViewSurfaceProperties, ViewMaterialProperties
+from widgets.view_properties import ViewSurfaceProperties, ViewMaterialProperties, ViewUniverseProperties
 from widgets.view_surfaces_list import ViewSurfacesList
 from widgets.view_universes_tree import ViewUniversesTree
 
@@ -68,12 +60,17 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        QFontDatabase.addApplicationFont('../resources/fonts/Inter-Medium.ttf')
+        font = QFont("Inter-Medium.ttf", 14)
+
         self.plot_widget = PlotWidget()
 
         self.file_menu = self.ui.menubar.addMenu('File')
-        self.file_menu.addAction('New project')
-        self.file_menu.addAction('Open')
-        self.file_menu.addAction('Save')
+        new_project_action = self.file_menu.addAction('New project')
+        open_action = self.file_menu.addAction('Open')
+        save_action = self.file_menu.addAction('Save')
+        save_as_action = self.file_menu.addAction('Save as')
+        save_as_action.triggered.connect(self.save_as)
 
         self.file_menu = self.ui.menubar.addMenu('Edit')
         self.file_menu.addAction('Cut')
@@ -103,14 +100,15 @@ class MainWindow(QMainWindow):
 
         self.view_material_properties = ViewMaterialProperties(self.ui.properties_layout)
         self.view_surface_properties = ViewSurfaceProperties(self.ui.properties_layout)
+        self.view_universe_properties = ViewUniverseProperties(self.ui.properties_layout)
 
         self.view_surfaces_renderer = ViewRenderer()
         self.view_surfaces_renderer.set_scene(self.viewport.root_entity)
 
         self.project_data = ProjectData()
         self.project_data.load_views(self.view_universes_tree, self.view_materials_list, self.view_surfaces_list,
-                                     self.view_material_properties,
-                                     self.view_surface_properties, self.view_surfaces_renderer)
+                                     self.view_material_properties, self.view_surface_properties, self.view_universe_properties,
+                                     self.view_surfaces_renderer)
 
         self.view_model_properties = ViewModelProperties()
 
@@ -643,6 +641,17 @@ class MainWindow(QMainWindow):
             surfaces.append(surface_class.get_properties())
         with open('Projects/Project.json', 'w') as file:
             json.dump(surfaces, file, indent=4)
+
+    def save_as(self):
+        file_filter = 'JSON file (*.json)'
+        response = QFileDialog.getSaveFileName(
+            parent=self,
+            caption='Select a data file',
+            filter=file_filter
+        )
+
+        saved_file_directory = response[0]
+        self.project_data.save_data(saved_file_directory)
 
     def open_code_editor(self):
         pass

@@ -3,7 +3,7 @@ from PySide6.Qt3DExtras import Qt3DExtras
 from renderer.entities.cylinder_entity import CylinderEntity
 from renderer.entities.plane_entity import PlaneEntity
 from renderer.entities.sphere_entity import SphereEntity
-from surfaces.surface import SurfacesTypes
+from cshape_objects.surfaces.surface import SurfacesTypes
 
 meshes = {
     SurfacesTypes.Plane: PlaneEntity,

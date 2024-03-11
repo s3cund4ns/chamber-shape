@@ -1,7 +1,6 @@
-from abc import abstractmethod
 from dataclasses import dataclass
 
-from model.view_model import ViewModel
+from project_data.view_model import ViewModel
 
 
 @dataclass
@@ -42,9 +41,10 @@ class ViewModelSurfacesList(ViewModel):
             model.change_data(value)
 
     def change_item_in_views(self, *args):
-        index, value = args
+        index, value, item_text = args
+        print(index, value)
         for view in self.views:
-            view.change_item(index, value)
+            view.change_item(index, value, item_text)
 
     def delete_item_in_models(self):
         for model in self.models:

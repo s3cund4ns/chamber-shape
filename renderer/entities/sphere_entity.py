@@ -2,7 +2,7 @@ from PySide6.Qt3DExtras import Qt3DExtras
 from PySide6.QtGui import QVector3D
 
 from renderer.entities.surface_entity import SurfaceEntity
-from surfaces.sphere import Properties
+from cshape_objects.surfaces.sphere import Properties
 
 
 class SphereEntity(SurfaceEntity):

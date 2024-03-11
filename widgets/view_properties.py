@@ -1,10 +1,8 @@
-from PySide6.QtWidgets import QSpacerItem
-
+from cshape_objects.cell import Cell
+from cshape_objects.universe import Universe
 from widgets.property_items.property_item import PropertyItem
 from widgets.property_items.property_item_creator import create_property
-from widgets.property_items.property_label import PropertyLabel
-from widgets.property_items.property_vector3d_float import PropertyVector3DFloat
-from widgets.view import View
+from project_data.view import View
 
 
 class ViewProperties(View):
@@ -12,33 +10,27 @@ class ViewProperties(View):
         super().__init__()
         self.properties_layout = properties_layout
 
-    @staticmethod
-    def get_property_type(current_property):
-        if type(current_property) is list:
-            if type(current_property[0]) is list:
-                return f'{str(type(current_property))} {str(type(current_property[0]))}'
-            return f'{str(type(current_property))} {len(current_property)} {str(type(current_property[0]))}'
-        return str(type(current_property))
-
     def clear_properties(self):
         while self.properties_layout.count() > 0:
             current_property = self.properties_layout.takeAt(0)
             current_property.widget().deleteLater()
 
-    def generate_properties(self, item_index, item):
+    def generate_properties(self, default_values, item):
         self.clear_properties()
 
         for name, value in item.items():
+            property_type, values = value
             data = [name]
-            if type(value) is list:
-                for element in value:
+            if type(values) is list:
+                for element in values:
                     data.append(element)
             else:
-                data.append(value)
+                data.append(values)
 
-            property_item: PropertyItem = create_property(self.get_property_type(value))
+            property_item: PropertyItem = create_property(str(property_type))
             property_item.set_properties_view(self)
             property_item.set_data(data)
+            property_item.set_default_values(default_values)
             self.properties_layout.addWidget(property_item)
 
     def apply_values_changes(self, sender):
@@ -51,7 +43,7 @@ class ViewProperties(View):
     def select_item(self, *args):
         item_index, item = args
         self.clear_properties()
-        self.generate_properties(item_index, item.get_data())
+        self.generate_properties(item_index, item)
 
     def change_item(self, *args):
         pass
@@ -68,3 +60,23 @@ class ViewSurfaceProperties(ViewProperties):
 class ViewMaterialProperties(ViewProperties):
     def __init__(self, properties_layout):
         super().__init__(properties_layout)
+
+    def select_item(self, *args):
+        item_index, item = args
+        self.clear_properties()
+        self.generate_properties(['NewNuclide', 0.0], item)
+
+
+class ViewUniverseProperties(ViewProperties):
+    def __init__(self, properties_layout):
+        super().__init__(properties_layout)
+
+    def select_item(self, *args):
+        item_index, item = args
+        item = item[0]
+        self.clear_properties()
+        if type(item) is Universe:
+            self.generate_properties(['Element', 0.0], item.get_data())
+        if type(item) is Cell:
+            self.generate_properties(['Type', 'Name', 'Side'], item.get_data())
+

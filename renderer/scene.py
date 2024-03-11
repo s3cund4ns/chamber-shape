@@ -1,6 +1,6 @@
 import numpy as np
 
-from surfaces.surface import Surface
+from cshape_objects.surfaces.surface import Surface
 
 vertices = (
     np.array([-0.5, 0.5, 0.0], dtype=np.float32),

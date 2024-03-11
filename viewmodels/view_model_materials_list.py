@@ -1,7 +1,6 @@
-from abc import abstractmethod
 from dataclasses import dataclass
 
-from model.view_model import ViewModel
+from project_data.view_model import ViewModel
 
 
 @dataclass

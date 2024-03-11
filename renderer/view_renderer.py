@@ -1,6 +1,6 @@
 from renderer.entities.surface_entity import SurfaceEntity
 from renderer.mesh_creator import create_mesh
-from widgets.view import View
+from project_data.view import View
 
 
 class ViewRenderer(View):
@@ -14,13 +14,14 @@ class ViewRenderer(View):
 
     def add_item(self, *args):
         index, item_text, item = args
+        item_text = item_text.split()[0]
         surface_render = create_mesh(item_text, self.scene)
         self.surface_renders.append(surface_render)
 
     def select_item(self, *args):
         pass
 
-    def change_item(self, index, value):
+    def change_item(self, index, value, item_text):
         self.surface_renders[index].set_data(value)
 
     def delete_item(self, index):

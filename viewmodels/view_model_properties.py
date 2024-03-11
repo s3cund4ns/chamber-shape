@@ -1,4 +1,4 @@
-from model.view_model import ViewModel, Operations
+from project_data.view_model import ViewModel, Operations
 
 
 class ViewModelProperties(ViewModel):

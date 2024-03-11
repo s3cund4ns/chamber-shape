@@ -1,16 +1,17 @@
 from dataclasses import dataclass
 
-from PySide6.QtWidgets import QTreeWidgetItem
-
-from preprocessor.material import Material
-from surfaces.surface import Surface
-from typing import ClassVar
+from cshape_objects.cshape_object import CShapeObject, CShapeObjectTypes, CShapeObjectProperties
+from cshape_objects.cshape_types import CShapeTypes
+from cshape_objects.material import Material
+from cshape_objects.surfaces.surface import Surface
 
 
 @dataclass
-class CellProperties:
+class Properties(CShapeObjectProperties):
+    Name = 'Name'
     Fill = 'Fill'
     Surfaces = 'Surfaces'
+    SurfaceSide = 'SurfaceSide'
 
     def get(self):
         return [self.Fill, self.Surfaces]
@@ -25,13 +26,17 @@ class SpecialEntires:
         return [self.Void, self.Outside]
 
 
-class Cell:
+class Cell(CShapeObject):
     def __init__(self):
-        self.type: str = 'Cell'
+        super().__init__()
+        self.type = CShapeObjectTypes.Cell
+        self.properties = Properties()
         self.name: str = 'NewCell'
         self.universe_number: int = 0
-        self.fill: str | Material | int = SpecialEntires.Void
-        self.surfaces: list[[Surface | int]] = []
+        self.entires: dict = {'Void': 'Void', 'Outside': 'Outside'}
+        self.fill: str = self.entires['Void']
+        self.surfaces: list[list[Surface | str]] = []
+        self.surface_side: tuple = ('In', 'Out')
 
     def get_type(self):
         return self.type
@@ -69,3 +74,17 @@ class Cell:
 
     def get_surfaces(self):
         return self.surfaces
+
+    def get_data(self):
+        return {self.properties.Name: (CShapeTypes.String, self.name),
+                self.properties.Fill: (CShapeTypes.Enum, [self.entires, self.fill]),
+                self.properties.Surfaces: (CShapeTypes.Table, self.surfaces)}
+
+    def set_data(self, parameters: dict):
+        name, value = parameters
+        match name:
+            case self.properties.Name:
+                self.name = value
+            case self.properties.Fill:
+                fill = value
+                self.fill = self.entires[fill]

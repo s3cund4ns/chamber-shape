@@ -1,6 +1,6 @@
 from PySide6.QtCore import QObject
 
-from preprocessor.material import Material
+from cshape_objects.material import Material
 
 
 class InputDataWriter(QObject):

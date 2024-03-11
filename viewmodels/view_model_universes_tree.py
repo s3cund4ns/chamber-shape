@@ -1,8 +1,6 @@
-from abc import abstractmethod
 from dataclasses import dataclass
 
-from data_structs.tree import Tree
-from model.view_model import ViewModel
+from project_data.view_model import ViewModel
 
 
 @dataclass
@@ -14,13 +12,12 @@ class Operations:
 
 class ViewModelUniversesTree(ViewModel):
     def __init__(self):
-        self.data: Tree = Tree()
+        self.data: dict = {}
         self.current_key: str = ''
         super().__init__()
 
     def set_node_value(self, value: any):
-        self.data.set_node_value(self.current_key, value)
-        print(self.data.get())
+        self.data[self.current_key] = value
 
     def add_item_to_models(self, *args):
         item_type = args
@@ -29,24 +26,25 @@ class ViewModelUniversesTree(ViewModel):
 
     def add_item_to_views(self, *args):
         index, item_text, key = args
-        self.data.insert_node(index, key, None)
         self.current_key = key
         for view in self.views:
             view.add_item(index, item_text)
 
     def select_item_in_models(self, *args):
         item, = args
-        for key, value in self.data.get().items():
+        for key, value in self.data.items():
+            print(key)
+            print(value)
             if value == item:
-                print(key)
                 self.current_key = key
         for model in self.models:
             model.select_item(self.current_key)
 
     def select_item_in_views(self, *args):
-        level, item = args
+        item = args
+        print(item)
         for view in self.views:
-            view.select_item(level, item)
+            view.select_item(0, item)
 
     def change_item_in_models(self, *args):
         value, = args

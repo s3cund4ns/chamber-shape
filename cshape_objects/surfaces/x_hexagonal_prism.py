@@ -1,22 +1,23 @@
 from dataclasses import dataclass
-from typing import Set, Dict
 
-from surfaces.surface import SurfacesTypes, Surface
-
-import numpy as np
+from cshape_objects.cshape_object import CShapeObjectProperties
+from cshape_objects.cshape_types import CShapeTypes
+from cshape_objects.surfaces.surface import SurfacesTypes, Surface
 
 
 @dataclass
-class Properties:
+class Properties(CShapeObjectProperties):
     Object = 'Object'
+    Name = 'Name'
     Position = 'Position'
     HalfWidth = 'HalfWidth'
 
 
-class YHexagonalPrism(Surface):
+class XHexagonalPrism(Surface):
     def __init__(self):
         super().__init__()
-        self.type = SurfacesTypes.YHexagonalPrism
+        self.surface_type = SurfacesTypes.XHexagonalPrism
+        self.properties = Properties()
         self.half_width: float = 5.0
 
     def set_parameters(self, parameters: list):
@@ -29,15 +30,21 @@ class YHexagonalPrism(Surface):
         return self.half_width
 
     def get_data(self):
-        return {Properties.Position: list(self.position), Properties.HalfWidth: self.half_width}
+        return {self.properties.Name: (CShapeTypes.String, self.name),
+            Properties.Position: (CShapeTypes.Vector3DFloat, list(self.position)),
+                Properties.HalfWidth: (CShapeTypes.Float, self.half_width)}
 
     def set_data(self, properties: dict):
         name, value = properties
         match name:
+            case self.properties.Name:
+                name = value
+                self.name = name
             case Properties.Position:
                 self.position[0:3] = value
             case Properties.HalfWidth:
                 self.half_width = value
+
 
 
 

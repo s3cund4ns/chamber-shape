@@ -1,8 +1,8 @@
 from abc import abstractmethod
 from dataclasses import dataclass
 
-from model.model import Model
-from widgets.view import View
+from project_data.model import Model
+from project_data.view import View
 
 
 @dataclass

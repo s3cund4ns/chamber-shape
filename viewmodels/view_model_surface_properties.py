@@ -1,4 +1,4 @@
-from model.view_model_properties import ViewModelProperties
+from project_data.model import ViewModelProperties
 
 
 class ViewModelSurfaceProperties(ViewModelProperties):
