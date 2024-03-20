@@ -17,6 +17,7 @@ from cshape_objects.universe import Universe
 from renderer.view_renderer import ViewRenderer
 from renderer.viewport import Viewport
 from cshape_objects.surfaces.create_surface import create_surface
+from widgets.code_editor import CodeEditor
 from widgets.plot_widget import PlotWidget
 from widgets.property_item_widget import PropertyItemWidget
 from widgets.property_type_item_widget import PropertyTypeItemWidget
@@ -644,7 +645,8 @@ class MainWindow(QMainWindow):
         self.project_data.save_data(saved_file_directory)
 
     def open_code_editor(self):
-        pass
+        code_editor = CodeEditor()
+        self.ui.tab_main.addTab(code_editor, 'Code editor')
 
     def open_plot(self):
         self.plot_widget.show()

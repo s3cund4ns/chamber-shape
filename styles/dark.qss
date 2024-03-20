@@ -450,4 +450,11 @@ QScrollArea {
     background-color: #373737;
 }
 
+QTextEdit {
+	font: 14pt "Consolas";
+	background-color: #1f1f1f;
+	color: #FFFFFF;
+	border: none;
+}
+
 
