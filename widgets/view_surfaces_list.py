@@ -42,6 +42,9 @@ class ViewSurfacesList(View):
     def delete_item(self, index):
         self.surfaces_list_widget.takeItem(index)
 
+    def clear(self):
+        self.surfaces_list_widget.clear()
+
     def show_context_menu(self, pos):
         context_menu = QMenu(self.surfaces_list_widget)
         add = context_menu.addMenu('Add')

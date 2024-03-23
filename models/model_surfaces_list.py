@@ -30,3 +30,30 @@ class ModelSurfacesList(Model):
                                              [self.data[self.selected_item_index].get_type(),
                                               self.data[self.selected_item_index].get_name()])
         # self.notify_view_models(self.selected_item_index, value, 'Change')
+
+    def clear_data(self):
+        self.data.clear()
+        self.view_model.clear_views()
+
+    def dump_data(self):
+        data = []
+
+        for surface in self.data:
+            source_surface_data = surface.get_data()
+            surface_data = {'Type': surface.get_type()}
+            for key in source_surface_data.keys():
+                surface_data[key] = source_surface_data[key][1]
+
+            data.append(surface_data)
+
+        return data
+
+    def load_data(self, surfaces_data: list):
+        for surface in surfaces_data:
+            surface_index = surfaces_data.index(surface)
+            surface_type = surface['Type']
+            self.add_item(surface_index, surface_type)
+            self.select_item(surface_index)
+            surface_tuple = tuple(surface.items())
+            for surface_property in surface_tuple[1:]:
+                self.change_data(surface_property)

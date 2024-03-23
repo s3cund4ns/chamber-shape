@@ -63,3 +63,27 @@ class ModelUniversesTree(Model):
         name, item_value = value
         if name == 'Name':
             self.view_model.change_item_in_views(item_value)
+
+    def clear_data(self):
+        self.data.clear()
+        self.elements_amount = 0
+        self.view_model.clear_views()
+
+    def dump_data(self):
+        universes_data = []
+        print(self.data.get_values_from_nodes())
+        cells_data = []
+        pins_data = []
+
+        for item in self.data.get_values_from_nodes():
+            source_item_data = item.get_data()
+            item_data = {'Type': item.get_type()}
+            for key in source_item_data.keys():
+                item_data[key] = source_item_data[key][1]
+
+            universes_data.append(item_data)
+
+        return universes_data
+
+    def load_data(self):
+        pass

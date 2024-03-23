@@ -51,6 +51,9 @@ class ViewProperties(View):
     def delete_item(self, index):
         pass
 
+    def clear(self):
+        pass
+
 
 class ViewSurfaceProperties(ViewProperties):
     def __init__(self, properties_layout):

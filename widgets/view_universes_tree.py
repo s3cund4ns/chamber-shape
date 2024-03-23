@@ -54,6 +54,9 @@ class ViewUniversesTree(View):
         item = self.universes_tree_widget.takeTopLevelItem(index)
         del item
 
+    def clear(self, *args):
+        self.universes_tree_widget.clear()
+
     def show_context_menu(self, pos):
         context_menu = QMenu(self.universes_tree_widget)
         add = context_menu.addMenu('Add')

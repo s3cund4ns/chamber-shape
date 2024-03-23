@@ -8,7 +8,7 @@ class ModelMaterialsList(Model):
         self.data: list = []
         self.selected_item_index = -1
 
-    def add_item(self, index):
+    def add_item(self, index, type):
         item: Material = Material()
         self.data.insert(index, item)
         item_text = f'{item.get_name()}: {item.get_density()}'
@@ -28,3 +28,40 @@ class ModelMaterialsList(Model):
         self.view_model.change_item_in_views([self.data[self.selected_item_index].get_name(),
                                               self.data[self.selected_item_index].get_density()])
         # self.notify_view_models(self.selected_item_index, value, 'Change')
+
+    def clear_data(self):
+        self.data.clear()
+        self.view_model.clear_views()
+
+    def dump_data(self):
+        data = []
+
+        for material in self.data:
+            source_material_data = material.get_data()
+            material_data = {'Type': material.get_type()}
+            for key in source_material_data.keys():
+                if key == 'Mode':
+                    material_data[key] = source_material_data[key][1][1]
+                    print(material_data[key])
+                    continue
+                material_data[key] = source_material_data[key][1]
+
+            data.append(material_data)
+
+        return data
+
+    def load_data(self, materials_data: list):
+        for material in materials_data:
+            material_index = materials_data.index(material)
+            material_type = material['Type']
+            self.add_item(material_index, material_type)
+            self.select_item(material_index)
+            material_tuple = tuple(material.items())
+            for material_property in material_tuple[1:]:
+                if material_property[0] == 'Nuclides':
+                    if material_property[1] == []:
+                        continue
+                    for nuclide in material_property[1]:
+                        self.change_data(('Add', [material_property[1].index(nuclide), nuclide[0], nuclide[1]]))
+                    continue
+                self.change_data(material_property)

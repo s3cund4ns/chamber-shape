@@ -64,12 +64,15 @@ class MainWindow(QMainWindow):
         QFontDatabase.addApplicationFont('../resources/fonts/Inter-Medium.ttf')
         font = QFont("Inter-Medium.ttf", 14)
 
-        self.plot_widget = PlotWidget()
+        # self.plot_widget = PlotWidget()
 
         self.file_menu = self.ui.menubar.addMenu('File')
         new_project_action = self.file_menu.addAction('New project')
+        new_project_action.triggered.connect(self.new_project)
         open_action = self.file_menu.addAction('Open')
+        open_action.triggered.connect(self.load_file)
         save_action = self.file_menu.addAction('Save')
+        save_action.triggered.connect(self.save)
         save_as_action = self.file_menu.addAction('Save as')
         save_as_action.triggered.connect(self.save_as)
 
@@ -626,12 +629,18 @@ class MainWindow(QMainWindow):
         changed_fraction = item_text[delimiter_index + 1:]
         self.material_classes[self.selected_row].set_nuclide(item_index, float(changed_fraction))
 
+    def new_project(self):
+        self.project_data.set_new()
+
     def save_file(self):
         surfaces = ['Surfaces']
         for surface_class in self.surface_classes:
             surfaces.append(surface_class.get_properties())
         with open('Projects/Project.json', 'w') as file:
             json.dump(surfaces, file, indent=4)
+
+    def save(self):
+        self.project_data.save_data()
 
     def save_as(self):
         file_filter = 'JSON file (*.json)'
@@ -642,7 +651,18 @@ class MainWindow(QMainWindow):
         )
 
         saved_file_directory = response[0]
-        self.project_data.save_data(saved_file_directory)
+        self.project_data.save_data_as_file(saved_file_directory)
+
+    def load_file(self):
+        file_filter = 'JSON file (*.json)'
+        response = QFileDialog.getOpenFileName(
+            parent=self,
+            caption='Open a project file',
+            filter=file_filter
+        )
+
+        loaded_file_directory = response[0]
+        self.project_data.load_data(loaded_file_directory)
 
     def open_code_editor(self):
         code_editor = CodeEditor()

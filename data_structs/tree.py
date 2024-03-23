@@ -42,3 +42,13 @@ class Tree:
 
     def get_node_value(self, key: str):
         return self.adjacency_lists[key][0]
+
+    def get_values_from_nodes(self):
+        values = []
+        for key in self.adjacency_lists.keys():
+            values.append(self.get_node_value(key))
+
+        return values[1:]
+
+    def clear(self):
+        self.adjacency_lists: dict = {'root': [None, None, []]}

@@ -29,3 +29,7 @@ class View:
     @abstractmethod
     def delete_item(self, index):
         pass
+
+    @abstractmethod
+    def clear(self):
+        pass
