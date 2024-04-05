@@ -10,21 +10,14 @@ class ViewSurfacesList(View):
         super().__init__()
 
         self.surfaces_list_widget = QListWidget()
-
+        self.surfaces_list_widget.setDragEnabled(True)
         self.surfaces_list_widget.itemClicked.connect(self.notify_view_models_select)
         self.surfaces_list_widget.setContextMenuPolicy(Qt.CustomContextMenu)
         self.surfaces_list_widget.customContextMenuRequested.connect(self.show_context_menu)
 
-    # def start_operation(self, sender, sender_child_name):
-    #     self.notify_view_model(sender, [self.surfaces_list_widget.currentRow(), sender_child_name])
-
     def add_item(self, *args):
         index, item_text, item = args
         self.surfaces_list_widget.insertItem(index, item_text)
-
-    # def select_item_source(self):
-    #     sender = self.surfaces_list_widget.sender().currentRow()
-    #     self.notify_view_model('Select', [sender])
 
     def notify_view_models_select(self):
         sender = self.surfaces_list_widget.sender().currentRow()

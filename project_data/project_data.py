@@ -21,6 +21,9 @@ class ProjectData:
         self.materials_model: ModelMaterialsList = ModelMaterialsList()
         self.surfaces_model: ModelSurfacesList = ModelSurfacesList()
 
+        self.universes_model.materials_model = self.materials_model
+        self.universes_model.surfaces_model = self.surfaces_model
+
         self.universes_view_model: ViewModelUniversesTree = ViewModelUniversesTree()
         self.materials_view_model: ViewModelMaterialsList = ViewModelMaterialsList()
         self.surfaces_view_model: ViewModelSurfacesList = ViewModelSurfacesList()

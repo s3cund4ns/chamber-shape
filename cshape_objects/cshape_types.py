@@ -15,3 +15,5 @@ class CShapeTypes:
     Enum = "<class 'list'> 2 <class 'dict'>"
     List = "<class 'list'> <class 'list'>"
     Table = 'Table'
+    CompositeList = 'CompositeList'
+    Reference = 'Reference'

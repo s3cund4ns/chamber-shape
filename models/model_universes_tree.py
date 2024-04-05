@@ -13,6 +13,9 @@ class ModelUniversesTree(Model):
         self.selected_item_index = -1
         self.elements_amount = 0
 
+        self.materials_model = None
+        self.surfaces_model = None
+
     def add_item(self, item_type):
         universe_element, element_type = item_type
         match universe_element:
@@ -31,13 +34,23 @@ class ModelUniversesTree(Model):
         self.elements_amount += 1
         self.view_model.add_item_to_views('root', item_text, str(item))
 
+    def find_universes(self):
+        universes = []
+        for item_key in self.data.get():
+            item_value = self.data.get_node_value(item_key)
+            if type(item_value) is Universe:
+                universes.append(item_value)
+
+        return universes
+
+
     def add_cell(self):
         if type(self.data.get_node_value(self.key_of_selected_item)) != Universe:
             return
 
         item: Cell = Cell()
         self.data.insert_node(self.key_of_selected_item, str(item), item)
-        self.data.get_node_value(self.key_of_selected_item).add_element([item.get_type(), item.get_name()])
+        self.data.get_node_value(self.key_of_selected_item).add_element(item)
         item_text = (item.get_type(), item.get_name())
         self.view_model.add_item_to_views(self.key_of_selected_item, item_text, str(item))
 
@@ -48,7 +61,13 @@ class ModelUniversesTree(Model):
 
     def select_item(self, key):
         self.key_of_selected_item = key
-        print(self.key_of_selected_item)
+        selected_item = self.data.get_node_value(self.key_of_selected_item)
+        match type(selected_item):
+            case Cell:
+                selected_item.all_elements = self.surfaces_model.data
+                selected_item.all_materials = self.materials_model.data
+                selected_item.all_universes = self.find_universes()
+                print(self.find_universes())
         self.view_model.select_item_in_views(self.data.get_node(key)[0])
 
     def delete_item(self):

@@ -21,6 +21,8 @@ class ViewProperties(View):
         for name, value in item.items():
             property_type, values = value
             data = [name]
+            if values is None:
+                continue
             if type(values) is list:
                 for element in values:
                     data.append(element)
@@ -29,8 +31,8 @@ class ViewProperties(View):
 
             property_item: PropertyItem = create_property(str(property_type))
             property_item.set_properties_view(self)
-            property_item.set_data(data)
             property_item.set_default_values(default_values)
+            property_item.set_data(data)
             self.properties_layout.addWidget(property_item)
 
     def apply_values_changes(self, sender):
@@ -81,5 +83,5 @@ class ViewUniverseProperties(ViewProperties):
         if type(item) is Universe:
             self.generate_properties(['Element', 0.0], item.get_data())
         if type(item) is Cell:
-            self.generate_properties(['Type', 'Name', 'Side'], item.get_data())
+            self.generate_properties(['label', 'label', 'combo_box'], item.get_data())
 

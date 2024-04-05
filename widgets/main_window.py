@@ -8,7 +8,7 @@ from PySide6.QtWidgets import QMainWindow, QLabel, QListWidgetItem, QMenu, QLine
     QWidget, QFileDialog
 
 from project_data.project_data import ProjectData
-from cshape_objects.cell import Cell, SpecialEntires
+from cshape_objects.cell import Cell, Entire
 from preprocessor.input_data_writer import InputDataWriter
 from cshape_objects.lattices.lattice_square import LatticeSquare
 from cshape_objects.material import Material
