@@ -1,5 +1,6 @@
 from cshape_objects.cshape_types import CShapeTypes
 from widgets.property_items.property_combo_box import PropertyComboBox
+from widgets.property_items.property_composite_item_list import PropertyCompositeItemList
 from widgets.property_items.property_composite_widget_list import PropertyCompositeWidgetList
 from widgets.property_items.property_float import PropertyFloat
 from widgets.property_items.property_list import PropertyList
@@ -16,6 +17,7 @@ properties_types = {
     CShapeTypes.List: PropertyList,
     CShapeTypes.Table: PropertyTable,
     CShapeTypes.CompositeList: PropertyCompositeWidgetList,
+    CShapeTypes.CompositeItems: PropertyCompositeItemList,
     CShapeTypes.Reference: PropertyReferencedForm
 }
 

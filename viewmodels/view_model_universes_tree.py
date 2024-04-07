@@ -33,8 +33,6 @@ class ViewModelUniversesTree(ViewModel):
     def select_item_in_models(self, *args):
         item, = args
         for key, value in self.data.items():
-            print(key)
-            print(value)
             if value == item:
                 self.current_key = key
         for model in self.models:
@@ -42,7 +40,6 @@ class ViewModelUniversesTree(ViewModel):
 
     def select_item_in_views(self, *args):
         item = args
-        print(item)
         for view in self.views:
             view.select_item(0, item)
 

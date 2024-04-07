@@ -45,8 +45,6 @@ class PropertyCompositeWidgetList(PropertyItem):
             composite_widget_layout = QHBoxLayout(composite_widget)
             for info_element in composite_widget_info:
                 widget_component_index = composite_widget_info.index(info_element)
-                print(self.widget_components)
-                print(widget_component_index)
                 widget_component = self.create_widget_component(widget_component_index)
                 if type(widget_component) is QLabel:
                     widget_component.setText(info_element)

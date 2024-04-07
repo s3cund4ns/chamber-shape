@@ -16,4 +16,5 @@ class CShapeTypes:
     List = "<class 'list'> <class 'list'>"
     Table = 'Table'
     CompositeList = 'CompositeList'
+    CompositeItems = 'CompositeItems'
     Reference = 'Reference'

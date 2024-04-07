@@ -1,4 +1,6 @@
 from cshape_objects.cell import Cell
+from cshape_objects.material import Material
+from cshape_objects.pin import Pin
 from cshape_objects.universe import Universe
 from widgets.property_items.property_item import PropertyItem
 from widgets.property_items.property_item_creator import create_property
@@ -84,4 +86,6 @@ class ViewUniverseProperties(ViewProperties):
             self.generate_properties(['Element', 0.0], item.get_data())
         if type(item) is Cell:
             self.generate_properties(['label', 'label', 'combo_box'], item.get_data())
+        if type(item) is Pin:
+            self.generate_properties(['Material', 0.0], item.get_data())
 
