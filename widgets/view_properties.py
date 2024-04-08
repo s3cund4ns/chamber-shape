@@ -1,4 +1,6 @@
 from cshape_objects.cell import Cell
+from cshape_objects.lattices.finite_lattices_2d.lattice_square import LatticeSquare
+from cshape_objects.lattices.lattice import Lattice
 from cshape_objects.material import Material
 from cshape_objects.pin import Pin
 from cshape_objects.universe import Universe
@@ -88,4 +90,6 @@ class ViewUniverseProperties(ViewProperties):
             self.generate_properties(['label', 'label', 'combo_box'], item.get_data())
         if type(item) is Pin:
             self.generate_properties(['Material', 0.0], item.get_data())
+        if type(item) is LatticeSquare:
+            self.generate_properties([], item.get_data())
 

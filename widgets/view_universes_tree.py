@@ -76,6 +76,6 @@ class ViewUniversesTree(View):
             selected_item_name = selected_action.parent().objectName()
             select_action_name = selected_action.text()
             if selected_item_name == 'Lattice':
-                self.view_model.add_item_to_models((selected_item_name, select_action_name))
+                self.view_model.add_item_to_models(selected_item_name, select_action_name)
             else:
                 self.view_model.add_item_to_models(select_action_name, '')

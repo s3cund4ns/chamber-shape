@@ -12,6 +12,7 @@ class CShapeTypes:
     Vector3DInt = "<class 'list'> 3 int"
     Vector3DFloat = "<class 'list'> 3 <class 'numpy.float32'>"
     Vector3DString = "<class 'list'> 3 str"
+    Array2DInt = "Array2DInt"
     Enum = "<class 'list'> 2 <class 'dict'>"
     List = "<class 'list'> <class 'list'>"
     Table = 'Table'
