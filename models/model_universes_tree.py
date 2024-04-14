@@ -2,6 +2,7 @@ from cshape_objects.lattices.finite_lattices_2d.lattice_square import LatticeSqu
 from cshape_objects.lattices.lattice import Lattice
 from cshape_objects.lattices.lattice_creator import create_lattice
 from data_structs.tree import Tree
+from preprocessor.solver_dict import serpent_dict
 from project_data.model import Model
 from cshape_objects.cell import Cell
 from cshape_objects.pin import Pin
@@ -18,6 +19,8 @@ class ModelUniversesTree(Model):
 
         self.materials_model = None
         self.surfaces_model = None
+
+        self.input_data_model = None
 
     def add_item(self, item_type):
         print(item_type)
@@ -60,6 +63,7 @@ class ModelUniversesTree(Model):
         self.data.get_node_value(self.key_of_selected_item).add_element(item)
         item_text = (item.get_type(), item.get_name())
         self.view_model.add_item_to_views(self.key_of_selected_item, item_text, str(item))
+        self.input_data_model.add_item(self.get_input_data(), 2)
 
     def add_pin(self):
         if type(self.data.get_node_value(self.key_of_selected_item)) != Universe:
@@ -70,6 +74,7 @@ class ModelUniversesTree(Model):
         self.data.get_node_value(self.key_of_selected_item).add_element(item)
         item_text = (item.get_type(), item.get_name())
         self.view_model.add_item_to_views(self.key_of_selected_item, item_text, str(item))
+        self.input_data_model.add_item(self.get_input_data(), 2)
 
     def add_lattice(self, lattice):
         if type(self.data.get_node_value(self.key_of_selected_item)) != Universe:
@@ -80,11 +85,11 @@ class ModelUniversesTree(Model):
         self.data.get_node_value(self.key_of_selected_item).add_element(item)
         item_text = (item.get_type(), item.get_name())
         self.view_model.add_item_to_views(self.key_of_selected_item, item_text, str(item))
+        self.input_data_model.add_item(self.get_input_data(), 2)
 
     def select_item(self, key):
         self.key_of_selected_item = key
         selected_item = self.data.get_node_value(self.key_of_selected_item)
-        print(selected_item)
         if type(selected_item) is Cell:
             selected_item.all_elements = self.surfaces_model.data
             selected_item.all_materials = self.materials_model.data
@@ -107,6 +112,8 @@ class ModelUniversesTree(Model):
         name, item_value = value
         if name == 'Name':
             self.view_model.change_item_in_views(item_value)
+        self.input_data_model.add_item(self.get_input_data(), 2)
+
 
     def clear_data(self):
         self.data.clear()
@@ -120,14 +127,187 @@ class ModelUniversesTree(Model):
         pins_data = []
 
         for item in self.data.get_values_from_nodes():
-            source_item_data = item.get_data()
-            item_data = {'Type': item.get_type()}
-            for key in source_item_data.keys():
-                item_data[key] = source_item_data[key][1]
-
-            universes_data.append(item_data)
+            if (type(item) is Universe) or (type(item) is Cell):
+                universes_data.append(self.dump_universes_or_cells_data(item))
+                continue
+            if type(item) is Pin:
+                universes_data.append(self.dump_pins_data(item))
+                continue
+            if type(item) is LatticeSquare:
+                universes_data.append(self.dump_lattices_data(item))
+                continue
 
         return universes_data
 
+    def dump_universes_or_cells_data(self, item):
+        source_item_data = item.get_data()
+        item_data = {'Type': item.get_type()}
+        for key in source_item_data.keys():
+            if key == 'Fill':
+                item_data[key] = source_item_data[key][1][1]
+                continue
+            if (key == 'Material') or (key == 'Universe'):
+                if item.entire == 'Empty':
+                    item_data[key] = 'Empty'
+                    continue
+                item_data[key] = item.get_entire_index()
+                continue
+            if key == 'Surfaces':
+                item_data[key] = item.get_surfaces_indices()
+                continue
+            item_data[key] = source_item_data[key][1]
+
+        return item_data
+
+    def dump_pins_data(self, item):
+        source_item_data = item.get_data()
+        item_data = {'Type': item.get_type()}
+        for key in source_item_data.keys():
+            if key == 'Regions':
+                item_data[key] = item.get_materials_indices()
+                continue
+            item_data[key] = source_item_data[key][1]
+
+        return item_data
+
+    def dump_lattices_data(self, item):
+        source_item_data = item.get_data()
+        item_data = {'Type': item.get_type()}
+        for key in source_item_data.keys():
+            if key == 'Size':
+                size = []
+                for size_component in source_item_data[key][1]:
+                    size.append(int(size_component))
+                item_data[key] = size
+                continue
+            if key == 'Universe Matrix':
+                universes = []
+                universe_matrix = source_item_data[key][1][0]
+                for row in range(universe_matrix.shape[0]):
+                    row_in_matrix = []
+                    for column in range(universe_matrix.shape[1]):
+                        row_in_matrix.append(int(universe_matrix[row, column]))
+                    universes.append(row_in_matrix)
+                item_data[key] = universes
+                continue
+            item_data[key] = source_item_data[key][1]
+
+        return item_data
+
     def load_data(self):
         pass
+
+    def get_input_data(self):
+        dumped_data = self.dump_data()
+        input_data = []
+        for universe_data in dumped_data:
+            text = ''
+            if universe_data['Type'] == 'Cell':
+                text = self.get_input_data_of_cell(universe_data)
+            if universe_data['Type'] == 'Pin':
+                text = self.get_input_data_of_pin(universe_data)
+            if universe_data['Type'] == 'Lattice':
+                text = self.get_input_data_of_lattice(universe_data)
+            input_data.append(text)
+            input_data.append('\n')
+
+        return input_data
+
+    def get_input_data_of_cell(self, cell_data):
+        universe_info = []
+        surfaces_info = []
+        for key in cell_data:
+            value = cell_data[key]
+            if key == 'Surfaces':
+                surfaces_info = value
+                continue
+            if value not in serpent_dict:
+                universe_info.append(value)
+                continue
+            token = serpent_dict.get(value)
+            universe_info.append(token)
+
+        key_word, name, fill, entire = universe_info
+        if fill == 'Universe':
+            fill = serpent_dict.get(fill)
+        if fill == serpent_dict.get('Material'):
+            fill = ''
+            if entire != 'Empty':
+                entire = self.materials_model.data[int(entire)].get_name()
+        if fill == 'Void' or fill == 'Outside':
+            fill = serpent_dict.get(fill)
+            entire = ''
+        if entire is None:
+            entire = ''
+
+        universe_text = f'{key_word} {name} {fill} {entire}'
+        print(universe_text)
+
+        surfaces_text = ''
+        for surface_info in surfaces_info:
+            surface_index, surface_side = surface_info
+            surface_side = serpent_dict.get(surface_side)
+            surface_text = f'{surface_side}{surface_index}'
+            surfaces_text += f'{surface_text} '
+
+        text = f'{universe_text} {surfaces_text}'
+        return text
+
+    def get_input_data_of_pin(self, pin_data):
+        pin_info = []
+        regions_info = []
+        for key in pin_data:
+            value = pin_data[key]
+            if key == 'Regions':
+                regions_info = value
+                continue
+            if value not in serpent_dict:
+                pin_info.append(value)
+                continue
+            token = serpent_dict.get(value)
+            pin_info.append(token)
+
+        key_word, name = pin_info
+        pin_text = f'{key_word} {name}'
+
+        regions_text = ''
+        for region_info in regions_info:
+            region_index, region_radius = region_info
+            region_name = self.materials_model.data[int(region_index)].get_name()
+            region_text = f'{region_name} {region_radius}\n'
+            regions_text += region_text
+
+        text = f'{pin_text}\n{regions_text}'
+        return text
+
+    def get_input_data_of_lattice(self, lattice_data):
+        lattice_info = []
+        universes_text = ''
+        for key in lattice_data:
+            value = lattice_data[key]
+            if key == 'Universe Matrix':
+                for row in range(lattice_data['Size'][0]):
+                    for column in range(lattice_data['Size'][1]):
+                        universes_text += f' {value[row][column] }'
+                    universes_text += '\n'
+                continue
+            if type(value) is list:
+                token = self.list_to_str(value, ' ')
+                lattice_info.append(token)
+                continue
+            if value not in serpent_dict:
+                lattice_info.append(value)
+                continue
+            token = serpent_dict.get(value)
+            lattice_info.append(token)
+
+        print(lattice_info)
+        print(universes_text)
+        key_word, name, position, size, pitch = lattice_info[:5]
+        text = f'{key_word} {position} {size} {pitch}\n{universes_text}'
+        return text
+
+    @staticmethod
+    def list_to_str(list_item: list, delimiter: str) -> str:
+        str_item = delimiter.join(map(str, list_item))
+        return str_item

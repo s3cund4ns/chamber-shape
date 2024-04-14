@@ -4,13 +4,11 @@ from PySide6.QtGui import QFont, QFontDatabase
 from PySide6.QtWidgets import QMainWindow, QWidget, QFileDialog
 
 from project_data.project_data import ProjectData
-from preprocessor.input_data_writer import InputDataWriter
 from renderer.view_renderer import ViewRenderer
 from renderer.viewport import Viewport
-from widgets.code_editor import CodeEditor
+from widgets.input_data_editor import InputDataEditor
 from ui_files.ui_main import Ui_MainWindow
-
-import json
+from widgets.view_input_data import ViewInputData
 
 from widgets.view_materials_list import ViewMaterialsList
 from widgets.view_properties import ViewSurfaceProperties, ViewMaterialProperties, ViewUniverseProperties
@@ -22,10 +20,13 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.input_data_writer = InputDataWriter()
-
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        self.setWindowTitle('Chamber Shape')
+
+        with open('styles/dark.qss', 'r') as file:
+            self.setStyleSheet(file.read())
 
         QFontDatabase.addApplicationFont('../resources/fonts/Inter-Medium.ttf')
         font = QFont("Inter-Medium.ttf", 14)
@@ -55,6 +56,8 @@ class MainWindow(QMainWindow):
         open_plot = self.file_menu.addAction('Open plot')
         open_plot.triggered.connect(self.open_plot)
 
+        self.input_data_editor = InputDataEditor()
+
         self.viewport = Viewport()
         self.ui.view_container = QWidget.createWindowContainer(self.viewport.scene)
         self.ui.viewport_layout.addWidget(self.ui.view_container)
@@ -75,21 +78,16 @@ class MainWindow(QMainWindow):
         self.view_surfaces_renderer = ViewRenderer()
         self.view_surfaces_renderer.set_scene(self.viewport.root_entity)
 
+        self.view_input_data = ViewInputData(self.input_data_editor)
+
         self.project_data = ProjectData()
         self.project_data.load_views(self.view_universes_tree, self.view_materials_list, self.view_surfaces_list,
                                      self.view_material_properties, self.view_surface_properties,
                                      self.view_universe_properties,
-                                     self.view_surfaces_renderer)
+                                     self.view_surfaces_renderer, self.view_input_data)
 
     def new_project(self):
         self.project_data.set_new()
-
-    def save_file(self):
-        surfaces = ['Surfaces']
-        for surface_class in self.surface_classes:
-            surfaces.append(surface_class.get_properties())
-        with open('Projects/Project.json', 'w') as file:
-            json.dump(surfaces, file, indent=4)
 
     def save(self):
         self.project_data.save_data()
@@ -117,8 +115,8 @@ class MainWindow(QMainWindow):
         self.project_data.load_data(loaded_file_directory)
 
     def open_code_editor(self):
-        code_editor = CodeEditor()
-        self.ui.tab_main.addTab(code_editor, 'Code editor')
+        # self.project_data.write_input_data()
+        self.ui.tab_main.addTab(self.input_data_editor, 'Input data')
 
     def open_plot(self):
         self.plot_widget.show()

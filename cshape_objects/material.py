@@ -38,6 +38,7 @@ class SummaryDensityFlow(DensityFlow):
 
         return density
 
+
 class NotSummaryDensityFlow(DensityFlow):
     def set_density(self, nuclides: list[list[str | float]]):
         pass

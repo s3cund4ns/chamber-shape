@@ -100,7 +100,7 @@ class MaterialFillFlow(FillFlow):
         if current_material != 'Empty':
             current_material_info = f'{current_material.get_name()} {current_material.get_density()}'
 
-        return (entire_tuple[0], [current_material_info, materials_info])
+        return entire_tuple[0], [current_material_info, materials_info]
 
     def set_entire(self, index):
         return self.all_materials[index]
@@ -126,7 +126,7 @@ class UniverseFillFlow(FillFlow):
         if current_universe != 'Empty':
             current_universe_info = f'{self.all_universes.index(current_universe)}'
 
-        return (entire_tuple[0], [current_universe_info, universes_info])
+        return entire_tuple[0], [current_universe_info, universes_info]
 
     def set_entire(self, index):
         return self.all_universes[index]
@@ -175,6 +175,18 @@ class Cell(CShapeObject):
 
     def get_fill(self):
         return self.fill
+
+    def get_entire_index(self):
+        if type(self.entire) is Material:
+            return self.all_materials.index(self.entire)
+        else:
+            return self.all_universes.index(self.entire)
+
+    def get_surfaces_indices(self):
+        indices = []
+        for surface in self.surfaces:
+            indices.append([self.all_elements.index(surface[0]), surface[1]])
+        return indices
 
     def get_fill_name(self):
         if type(self.fill) is str:
@@ -225,11 +237,10 @@ class Cell(CShapeObject):
                 fill = value
                 self.fill = self.entires[fill]
                 self.fill_flow = self.__create_fill_flow()
-                self.entire = 'Empty'
+                # self.entire = 'Empty'
             case self.properties.Set:
                 index = value
                 self.entire = self.fill_flow.set_entire(index)
-                print(self.entire)
             case self.properties.Add:
                 surface_index, surface_side = value
                 print(surface_index, surface_side)

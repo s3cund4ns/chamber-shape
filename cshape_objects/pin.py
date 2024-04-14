@@ -42,6 +42,12 @@ class Pin(CShapeObject):
     def get_name(self):
         return self.name
 
+    def get_materials_indices(self):
+        indices = []
+        for region in self.material_regions:
+            indices.append([self.all_materials.index(region[0]), region[1]])
+        return indices
+
     def add_region(self, material):
         self.material_regions.append([material, None])
 
