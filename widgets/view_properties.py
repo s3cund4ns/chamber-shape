@@ -67,6 +67,11 @@ class ViewMaterialProperties(ViewProperties):
         self.generate_properties(['NewNuclide', 0.0], item)
 
 
+class ViewDetectorsProperties(ViewProperties):
+    def __init__(self, properties_layout):
+        super().__init__(properties_layout)
+
+
 class ViewUniverseProperties(ViewProperties):
     def __init__(self, properties_layout):
         super().__init__(properties_layout)

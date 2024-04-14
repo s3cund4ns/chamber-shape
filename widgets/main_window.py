@@ -20,14 +20,16 @@ from cshape_objects.surfaces.create_surface import create_surface
 from widgets.plot_widget import PlotWidget
 from widgets.property_item_widget import PropertyItemWidget
 from widgets.property_type_item_widget import PropertyTypeItemWidget
-from ui_files.ui_main import Ui_MainWindow
+from ui_files.main import Ui_MainWindow
 from widgets.property_widget import PropertyWidget
 from cshape_objects.surfaces.surface import SurfacesTypes
 
 import json
 
 from widgets.view_materials_list import ViewMaterialsList
-from widgets.view_properties import ViewSurfaceProperties, ViewMaterialProperties, ViewUniverseProperties
+from widgets.view_detectors_list import ViewDetectorsList
+from widgets.view_properties import (ViewSurfaceProperties, ViewMaterialProperties,
+                                     ViewDetectorsProperties, ViewUniverseProperties)
 from widgets.view_surfaces_list import ViewSurfacesList
 from widgets.view_universes_tree import ViewUniversesTree
 
@@ -51,6 +53,9 @@ class MainWindow(QMainWindow):
 
         self.material_classes = []
         self.material_property_classes = []
+
+        self.detectors_classes = []
+        self.detectors_property_classes = []
 
         self.lattice_classes = []
         self.lattice_property_classes = []
@@ -95,10 +100,14 @@ class MainWindow(QMainWindow):
         self.view_materials_list = ViewMaterialsList()
         self.ui.materials_layout.addWidget(self.view_materials_list.materials_list_widget)
 
+        self.view_detectors_list = ViewDetectorsList()
+        self.ui.detectors_layout.addWidget(self.view_detectors_list.detectors_list_widget)
+
         self.view_surfaces_list = ViewSurfacesList()
         self.ui.surfaces_layout.addWidget(self.view_surfaces_list.surfaces_list_widget)
 
         self.view_material_properties = ViewMaterialProperties(self.ui.properties_layout)
+        self.view_detectors_properties = ViewDetectorsProperties(self.ui.properties_layout)
         self.view_surface_properties = ViewSurfaceProperties(self.ui.properties_layout)
         self.view_universe_properties = ViewUniverseProperties(self.ui.properties_layout)
 
@@ -106,9 +115,10 @@ class MainWindow(QMainWindow):
         self.view_surfaces_renderer.set_scene(self.viewport.root_entity)
 
         self.project_data = ProjectData()
-        self.project_data.load_views(self.view_universes_tree, self.view_materials_list, self.view_surfaces_list,
-                                     self.view_material_properties, self.view_surface_properties,
-                                     self.view_universe_properties,
+        self.project_data.load_views(self.view_universes_tree, self.view_materials_list,
+                                     self.view_detectors_list, self.view_surfaces_list,
+                                     self.view_material_properties, self.view_detectors_properties,
+                                     self.view_surface_properties, self.view_universe_properties,
                                      self.view_surfaces_renderer)
 
         self.context_menu_universe_elements = QMenu(self)
@@ -173,6 +183,8 @@ class MainWindow(QMainWindow):
                 del self.cell_property_classes[0]
             elif len(self.material_property_classes) > 0:
                 del self.material_property_classes[0]
+            elif len(self.detectors_property_classes) > 0:
+                del self.detectors_property_classes[0]
             elif len(self.pin_property_classes) > 0:
                 del self.pin_property_classes[0]
             elif len(self.lattice_property_classes) > 0:

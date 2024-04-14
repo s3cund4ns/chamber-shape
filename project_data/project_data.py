@@ -1,10 +1,12 @@
 import json
 
 from models.model_materials_list import ModelMaterialsList
+from models.model_detectors_list import ModelDetectorsList
 from models.model_surfaces_list import ModelSurfacesList
 from models.model_universes_tree import ModelUniversesTree
 from project_data.view import View
 from viewmodels.view_model_materials_list import ViewModelMaterialsList
+from viewmodels.view_model_detectors_list import ViewModelDetectorsList
 from viewmodels.view_model_surfaces_list import ViewModelSurfacesList
 from viewmodels.view_model_universes_tree import ViewModelUniversesTree
 
@@ -18,23 +20,28 @@ class ProjectData:
 
         self.universes_model: ModelUniversesTree = ModelUniversesTree()
         self.materials_model: ModelMaterialsList = ModelMaterialsList()
+        self.detectors_model: ModelDetectorsList = ModelDetectorsList()
         self.surfaces_model: ModelSurfacesList = ModelSurfacesList()
 
         self.universes_view_model: ViewModelUniversesTree = ViewModelUniversesTree()
         self.materials_view_model: ViewModelMaterialsList = ViewModelMaterialsList()
+        self.detectors_view_model: ViewModelDetectorsList = ViewModelDetectorsList()
         self.surfaces_view_model: ViewModelSurfacesList = ViewModelSurfacesList()
 
         self.universes_view_model.add_model(self.universes_model)
         self.materials_view_model.add_model(self.materials_model)
+        self.detectors_view_model.add_model(self.detectors_model)
         self.surfaces_view_model.add_model(self.surfaces_model)
 
     def load_views(self, *args: View):
-        (universes_view, materials_view, surfaces_view, material_properties_view,
-         surface_properties_view, universe_properties_view, surfaces_renderer_view) = args
+        (universes_view, materials_view, detectors_view, surfaces_view, material_properties_view,
+         detectors_properties_view, surface_properties_view, universe_properties_view, surfaces_renderer_view) = args
         self.universes_view_model.add_view(universes_view)
         self.materials_view_model.add_view(materials_view)
+        self.detectors_view_model.add_view(detectors_view)
         self.surfaces_view_model.add_view(surfaces_view)
         self.materials_view_model.add_view(material_properties_view)
+        self.detectors_view_model.add_view(detectors_properties_view)
         self.surfaces_view_model.add_view(surface_properties_view)
         self.universes_view_model.add_view(universe_properties_view)
         self.surfaces_view_model.add_view(surfaces_renderer_view)
