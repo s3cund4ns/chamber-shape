@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 
-import numpy as np
-
 from cshape_objects.cshape_object import CShapeObjectProperties
 from cshape_objects.cshape_types import CShapeTypes
 from cshape_objects.surfaces.surface import SurfacesTypes, Surface
@@ -42,7 +40,7 @@ class Cone(Surface):
     def get_data(self):
         return {
             self.properties.Name: (CShapeTypes.String, self.name),
-            Properties.Position: (CShapeTypes.Vector3DFloat, list(np.array(self.position, dtype=float))),
+            Properties.Position: (CShapeTypes.Vector3DFloat, list(self.position)),
             Properties.Radius: (CShapeTypes.Float, self.radius),
             Properties.Height: (CShapeTypes.Float, self.height)
         }

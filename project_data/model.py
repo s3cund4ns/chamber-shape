@@ -25,15 +25,3 @@ class Model:
     def change_data(self, value):
         pass
 
-    @abstractmethod
-    def clear_data(self):
-        pass
-
-    @abstractmethod
-    def dump_data(self):
-        pass
-
-    @abstractmethod
-    def load_data(self, data):
-        pass
-

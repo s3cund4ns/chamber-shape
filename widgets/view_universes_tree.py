@@ -54,9 +54,6 @@ class ViewUniversesTree(View):
         item = self.universes_tree_widget.takeTopLevelItem(index)
         del item
 
-    def clear(self, *args):
-        self.universes_tree_widget.clear()
-
     def show_context_menu(self, pos):
         context_menu = QMenu(self.universes_tree_widget)
         add = context_menu.addMenu('Add')
@@ -76,6 +73,6 @@ class ViewUniversesTree(View):
             selected_item_name = selected_action.parent().objectName()
             select_action_name = selected_action.text()
             if selected_item_name == 'Lattice':
-                self.view_model.add_item_to_models(selected_item_name, select_action_name)
+                self.view_model.add_item_to_models((selected_item_name, select_action_name))
             else:
                 self.view_model.add_item_to_models(select_action_name, '')

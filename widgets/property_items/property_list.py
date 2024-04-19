@@ -1,7 +1,7 @@
 from PySide6 import QtCore
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit, QTableWidget, QListWidget, QMenu, \
-    QListWidgetItem, QAbstractItemView
+    QListWidgetItem
 
 from widgets.property_items.property_item import PropertyItem
 

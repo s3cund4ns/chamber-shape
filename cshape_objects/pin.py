@@ -3,18 +3,11 @@ from dataclasses import dataclass
 from PySide6.QtWidgets import QTreeWidgetItem
 
 from cshape_objects.cshape_object import CShapeObject, CShapeObjectTypes, CShapeObjectProperties
-from cshape_objects.cshape_types import CShapeTypes
-from cshape_objects.material import Material
 
 
 @dataclass
 class Properties(CShapeObjectProperties):
-    Name = 'Name'
-    Regions = 'Regions'
-    Add = 'Add'
-    Change = 'Change'
-    Set = 'Set'
-    Delete = 'Delete'
+    pass
 
 
 class Pin(CShapeObject):
@@ -24,8 +17,7 @@ class Pin(CShapeObject):
         self.properties = Properties()
         self.universe = None
         self.name: str = 'NewPin'
-        self.all_materials: list[Material] = []
-        self.material_regions: list = []
+        self.material_regions = []
 
     def get_type(self):
         return self.type
@@ -42,12 +34,6 @@ class Pin(CShapeObject):
     def get_name(self):
         return self.name
 
-    def get_materials_indices(self):
-        indices = []
-        for region in self.material_regions:
-            indices.append([self.all_materials.index(region[0]), region[1]])
-        return indices
-
     def add_region(self, material):
         self.material_regions.append([material, None])
 
@@ -62,38 +48,4 @@ class Pin(CShapeObject):
 
     def get_regions_count(self):
         return len(self.material_regions)
-
-    def get_data(self):
-        regions: list = []
-        for region in self.material_regions:
-            material_name = region[0].get_name()
-            radius = region[1]
-            regions.append([material_name, radius])
-
-        all_materials: list[str] = []
-        for material in self.all_materials:
-            all_materials.append(f'{material.get_name()}')
-
-        return {self.properties.Name: (CShapeTypes.String, self.name),
-                self.properties.Regions: (CShapeTypes.CompositeItems, [regions, all_materials])}
-
-    def set_data(self, properties: dict):
-        name, value = properties
-        match name:
-            case self.properties.Name:
-                name = value
-                self.name = name
-            case self.properties.Add:
-                index = value
-                self.material_regions.append([self.all_materials[index], 0.0])
-            case self.properties.Change:
-                region_index, index_in_all_materials = value
-                self.material_regions[region_index][0] = self.all_materials[index_in_all_materials]
-            case self.properties.Set:
-                region_index, radius = value
-                self.material_regions[region_index][1] = radius
-            case self.properties.Delete:
-                index = value
-                self.material_regions.pop(index)
-
 

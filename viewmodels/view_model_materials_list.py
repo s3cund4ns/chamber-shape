@@ -17,7 +17,7 @@ class ViewModelMaterialsList(ViewModel):
     def add_item_to_models(self, *args):
         index, = args
         for model in self.models:
-            model.add_item(index, None)
+            model.add_item(index)
 
     def add_item_to_views(self, *args):
         index, item_text, item = args
@@ -51,7 +51,3 @@ class ViewModelMaterialsList(ViewModel):
     def delete_item_in_views(self, index):
         for view in self.views:
             view.delete_item(index)
-
-    def clear_views(self):
-        for view in self.views:
-            view.clear()
