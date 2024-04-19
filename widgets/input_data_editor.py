@@ -15,3 +15,6 @@ class InputDataEditor(QWidget):
     def set_text(self, text: str):
         self.text_edit.setText(text)
 
+    def get_text(self):
+        return self.text_edit.document().toRawText()
+

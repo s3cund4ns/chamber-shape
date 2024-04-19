@@ -176,9 +176,9 @@ class Cell(CShapeObject):
     def get_fill(self):
         return self.fill
 
-    def get_entire_index(self):
+    def get_entire(self):
         if type(self.entire) is Material:
-            return self.all_materials.index(self.entire)
+            return self.entire.get_name()
         else:
             return self.all_universes.index(self.entire)
 
@@ -243,7 +243,6 @@ class Cell(CShapeObject):
                 self.entire = self.fill_flow.set_entire(index)
             case self.properties.Add:
                 surface_index, surface_side = value
-                print(surface_index, surface_side)
                 surface = self.all_elements[surface_index]
                 self.surfaces.append([surface, surface_side])
             case self.properties.SurfaceSide:

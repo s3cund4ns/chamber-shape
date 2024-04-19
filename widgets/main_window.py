@@ -1,13 +1,17 @@
 import os
 
-from PySide6.QtGui import QFont, QFontDatabase
+from PySide6.QtGui import QFont, QFontDatabase, QIcon
 from PySide6.QtWidgets import QMainWindow, QWidget, QFileDialog
 
 from project_data.project_data import ProjectData
+from project_data.project_state import ProjectState
 from renderer.view_renderer import ViewRenderer
 from renderer.viewport import Viewport
 from widgets.input_data_editor import InputDataEditor
 from ui_files.ui_main import Ui_MainWindow
+from widgets.new_project import NewProject
+from widgets.settings_window import SettingsWindow
+from widgets.start_window import StartWindow
 from widgets.view_input_data import ViewInputData
 
 from widgets.view_materials_list import ViewMaterialsList
@@ -24,8 +28,9 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
 
         self.setWindowTitle('Chamber Shape')
+        self.setWindowIcon(QIcon('favicon.ico'))
 
-        with open('styles/dark.qss', 'r') as file:
+        with open('styles/light.qss', 'r') as file:
             self.setStyleSheet(file.read())
 
         QFontDatabase.addApplicationFont('../resources/fonts/Inter-Medium.ttf')
@@ -35,13 +40,15 @@ class MainWindow(QMainWindow):
 
         self.file_menu = self.ui.menubar.addMenu('File')
         new_project_action = self.file_menu.addAction('New project')
-        new_project_action.triggered.connect(self.new_project)
+        new_project_action.triggered.connect(self.open_new_project_window)
         open_action = self.file_menu.addAction('Open')
-        open_action.triggered.connect(self.load_file)
+        open_action.triggered.connect(self.open_project)
         save_action = self.file_menu.addAction('Save')
-        save_action.triggered.connect(self.save)
+        save_action.triggered.connect(self.save_project)
         save_as_action = self.file_menu.addAction('Save as')
-        save_as_action.triggered.connect(self.save_as)
+        save_as_action.triggered.connect(self.save_project_to_new_directory)
+        settings_action = self.file_menu.addAction('Settings')
+        settings_action.triggered.connect(self.open_settings_window)
 
         self.file_menu = self.ui.menubar.addMenu('Edit')
         self.file_menu.addAction('Cut')
@@ -55,6 +62,10 @@ class MainWindow(QMainWindow):
         open_code.triggered.connect(self.open_code_editor)
         open_plot = self.file_menu.addAction('Open plot')
         open_plot.triggered.connect(self.open_plot)
+
+        self.start_window = StartWindow()
+        self.new_project_window = NewProject()
+        self.settings_window = SettingsWindow()
 
         self.input_data_editor = InputDataEditor()
 
@@ -86,33 +97,46 @@ class MainWindow(QMainWindow):
                                      self.view_universe_properties,
                                      self.view_surfaces_renderer, self.view_input_data)
 
-    def new_project(self):
-        self.project_data.set_new()
+        if self.project_data.state == ProjectState.NOT_EXISTING.value:
+            self.open_start_window()
 
-    def save(self):
-        self.project_data.save_data()
+    def open_start_window(self):
+        self.start_window.show()
+        self.start_window.button_create_project.clicked.connect(self.open_new_project_window)
+        self.start_window.button_open_project.clicked.connect(self.open_project)
 
-    def save_as(self):
-        file_filter = 'JSON file (*.json)'
-        response = QFileDialog.getSaveFileName(
+    def create_new_project(self):
+        project_settings = self.new_project_window.get_data()
+        self.new_project_window.close()
+        self.project_data.set_new(project_settings)
+        self.setWindowTitle(f'Chamber Shape - {self.project_data.settings.project_name}')
+
+    def open_new_project_window(self):
+        self.new_project_window.show()
+        self.new_project_window.button_create_project.clicked.connect(self.create_new_project)
+
+    def save_project(self):
+        self.project_data.save()
+
+    def save_project_to_new_directory(self):
+        response = QFileDialog.getExistingDirectory(
             parent=self,
-            caption='Select a data file',
-            filter=file_filter
+            caption='Save project to a new directory'
         )
 
-        saved_file_directory = response[0]
-        self.project_data.save_data_as_file(saved_file_directory)
+        self.project_data.save_to_new_directory(response)
 
-    def load_file(self):
-        file_filter = 'JSON file (*.json)'
-        response = QFileDialog.getOpenFileName(
+    def open_project(self):
+        response = QFileDialog.getExistingDirectory(
             parent=self,
-            caption='Open a project file',
-            filter=file_filter
+            caption='Open a project'
         )
 
-        loaded_file_directory = response[0]
-        self.project_data.load_data(loaded_file_directory)
+        self.project_data.load(response)
+        self.setWindowTitle(f'Chamber Shape - {self.project_data.settings.project_name}')
+
+    def open_settings_window(self):
+        self.settings_window.show()
 
     def open_code_editor(self):
         # self.project_data.write_input_data()
@@ -122,5 +146,4 @@ class MainWindow(QMainWindow):
         self.plot_widget.show()
 
     def run_simulation(self):
-        os.system("echo Hello, world!")
-        # os.system("gnome-terminal -e 'bash -c \"echo Hello, world!; exec bash\"'")
+        self.project_data.run_simulation()

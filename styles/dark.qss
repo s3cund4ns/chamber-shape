@@ -1,11 +1,7 @@
-
 QWidget {
     background-color: #292929;
-    /* font-family: "Gadugi Regular"; */
-    /* font-size: 12px; */
 }
 
-/* кнопочка */
 QPushButton:hover {
     background-color: #595959;
     border-radius: 10px;
@@ -25,23 +21,21 @@ QPushButton:pressed {
     color: #FFFFFF;
 }
 
-/* строка ввода */
 QLineEdit {
     text-align: center;
     padding: 6px;
     min-height: 14px;
     min-width: 100px;
+    background-color: #202020;
     color: #FFFFFF;
     border-radius: 10px;
     border: 1px solid #4A4A4A;
 }
 
-/* надпись */
 QLabel {
     color: #FFFFFF;
 }
 
-/* флажки-галочки */
 QRadioButton {
     color: #FFFFFF;
 }
@@ -49,7 +43,6 @@ QCheckBox {
     color: #FFFFFF;
 }
 
-/* горизонтальный слайдер */
 QSlider::groove:horizontal {
     border-radius: 1px;
     height: 7px;
@@ -89,7 +82,6 @@ QSlider::sub-page:horizontal {
     background: #FFFFFF;
 }
 
-/* вертикальный слайдер */
 QSlider::groove:vertical {
     border-radius: 1px;
     width: 7px;
@@ -129,7 +121,6 @@ QSlider::sub-page:vertical {
     background: #FFFFFF;
 }
 
-/* полосы прокрутки */
 QScrollBar:horizontal {
     border-radius: 7px;
     background: #252525;
@@ -200,7 +191,6 @@ QScrollBar:left-arrow:horizontal:pressed, QScrollBar::right-arrow:horizontal:pre
     background: #494949 ;
 }
 
-/* полосы прокрутки */
 QScrollBar:vertical {
     border-radius: 7px;
     background: #252525;
@@ -271,7 +261,6 @@ QScrollBar:up-arrow:vertical:pressed, QScrollBar::down-arrow:vertical:pressed {
     background: #494949 ;
 }
 
-/* список */
 QListView {
     background: #373737;
     padding: 5px;
@@ -294,11 +283,10 @@ QListView::item:selected {
     border-radius: 7px;
 }
 
-/* вкладочки */
 QTabWidget {
     min-height: 190px;
 }
-QTabWidget::pane { /* The tab widget frame */
+QTabWidget::pane {
     border: 1px solid #292929;
     border-radius: 3px;
 }
@@ -315,7 +303,6 @@ QTabBar::tab {
     font-size: 11px;
 }
 
-/* cчётчики */
 QSpinBox {
     padding: 5px;
 	padding-right: 25px;
@@ -340,7 +327,6 @@ QDoubleSpinBox {
 	font-size: 12px;
 }
 
-/* выпадающий список */
 QComboBox {
     border: 1px solid #4A4A4A;
     background: #292929;
@@ -387,20 +373,17 @@ QTreeWidget {
 QTreeWidget::item {
     margin: 2px;
     padding: 2px;
-/*    border-radius: 7px;*/
 }
 
 QTreeWidget::item:hover {
 
     background-clip: none;
     background: #595959;
-/*    border-radius: 7px;*/
 }
 
 QTreeWidget::item:selected {
     background-clip: none;
     background: #1572E0;
-/*    border-radius: 7px;*/
 }
 
 QTreeWidget::branch:has-children:!has-siblings:closed {
@@ -426,6 +409,7 @@ QMenu {
 }
 
 QDockWidget QWidget {
+    background-color: #303030;
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
 }
@@ -435,11 +419,9 @@ QDockWidget {
 }
 
 QDockWidget::title {
-    background-color: #373737;
+    background-color: #303030;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
-/*    border-top-left-radius: 7px;*/
-/*    border-top-right-radius: 7px;*/
 }
 
 QDockWidget::close-button {

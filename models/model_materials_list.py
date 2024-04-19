@@ -1,4 +1,4 @@
-from preprocessor.solver_dict import serpent_dict
+from solvers.solver_dict import serpent_dict
 from project_data.model import Model
 from cshape_objects.material import Material
 
@@ -16,7 +16,7 @@ class ModelMaterialsList(Model):
         self.data.insert(index, item)
         item_text = f'{item.get_name()}: {item.get_density()}'
         self.view_model.add_item_to_views(index, item_text, item)
-        self.input_data_model.add_item(self.get_input_data(), 0)
+        self.input_data_model.update_materials_data(self.dump_data())
 
     def select_item(self, index):
         self.selected_item_index = index
@@ -26,14 +26,14 @@ class ModelMaterialsList(Model):
     def delete_item(self):
         self.data.pop(self.selected_item_index)
         self.view_model.delete_item_in_views(self.selected_item_index)
-        self.input_data_model.add_item(self.get_input_data(), 1)
+        self.input_data_model.update_materials_data(self.dump_data())
 
     def change_data(self, value):
         self.data[self.selected_item_index].set_data(value)
         self.view_model.change_item_in_views([self.data[self.selected_item_index].get_name(),
                                               self.data[self.selected_item_index].get_density()])
         # self.notify_view_models(self.selected_item_index, value, 'Change')
-        self.input_data_model.add_item(self.get_input_data(), 1)
+        self.input_data_model.update_materials_data(self.dump_data())
 
     def clear_data(self):
         self.data.clear()

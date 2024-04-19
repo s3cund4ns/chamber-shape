@@ -2,7 +2,11 @@ from cshape_objects.lattices.finite_lattices_2d.lattice_square import LatticeSqu
 from cshape_objects.lattices.lattice import Lattice
 from cshape_objects.lattices.lattice_creator import create_lattice
 from data_structs.tree import Tree
-from preprocessor.solver_dict import serpent_dict
+from models.cell_data_dumper import CellDataDumper
+from models.lattice_data_dumper import LatticeDataDumper
+from models.pin_data_dumper import PinDataDumper
+from models.universe_data_dumper import UniverseDataDumper
+from solvers.solver_dict import serpent_dict
 from project_data.model import Model
 from cshape_objects.cell import Cell
 from cshape_objects.pin import Pin
@@ -19,8 +23,12 @@ class ModelUniversesTree(Model):
 
         self.materials_model = None
         self.surfaces_model = None
-
         self.input_data_model = None
+
+        self.universe_data_dumper: UniverseDataDumper = UniverseDataDumper()
+        self.cell_data_dumper: CellDataDumper = CellDataDumper()
+        self.pin_data_dumper: PinDataDumper = PinDataDumper()
+        self.lattice_data_dumper: LatticeDataDumper = LatticeDataDumper()
 
     def add_item(self, item_type):
         print(item_type)
@@ -53,39 +61,35 @@ class ModelUniversesTree(Model):
 
         return universes
 
+    def insert_universe_element_to_data(self, item: Cell | Pin | Lattice):
+        self.data.insert_node(self.key_of_selected_item, str(item), item)
+        self.data.get_node_value(self.key_of_selected_item).add_element(item)
+        item_text = (item.get_type(), item.get_name())
+        self.view_model.add_item_to_views(self.key_of_selected_item, item_text, str(item))
 
     def add_cell(self):
         if type(self.data.get_node_value(self.key_of_selected_item)) != Universe:
             return
 
         item: Cell = Cell()
-        self.data.insert_node(self.key_of_selected_item, str(item), item)
-        self.data.get_node_value(self.key_of_selected_item).add_element(item)
-        item_text = (item.get_type(), item.get_name())
-        self.view_model.add_item_to_views(self.key_of_selected_item, item_text, str(item))
-        self.input_data_model.add_item(self.get_input_data(), 2)
+        self.insert_universe_element_to_data(item)
+        self.input_data_model.update_cells_data(self.dump_data())
 
     def add_pin(self):
         if type(self.data.get_node_value(self.key_of_selected_item)) != Universe:
             return
 
         item: Pin = Pin()
-        self.data.insert_node(self.key_of_selected_item, str(item), item)
-        self.data.get_node_value(self.key_of_selected_item).add_element(item)
-        item_text = (item.get_type(), item.get_name())
-        self.view_model.add_item_to_views(self.key_of_selected_item, item_text, str(item))
-        self.input_data_model.add_item(self.get_input_data(), 2)
+        self.insert_universe_element_to_data(item)
+        self.input_data_model.update_pins_data(self.dump_data())
 
     def add_lattice(self, lattice):
         if type(self.data.get_node_value(self.key_of_selected_item)) != Universe:
             return
 
         item: Lattice = create_lattice(lattice)
-        self.data.insert_node(self.key_of_selected_item, str(item), item)
-        self.data.get_node_value(self.key_of_selected_item).add_element(item)
-        item_text = (item.get_type(), item.get_name())
-        self.view_model.add_item_to_views(self.key_of_selected_item, item_text, str(item))
-        self.input_data_model.add_item(self.get_input_data(), 2)
+        self.insert_universe_element_to_data(item)
+        self.input_data_model.update_lattices_data(self.dump_data())
 
     def select_item(self, key):
         self.key_of_selected_item = key
@@ -104,7 +108,6 @@ class ModelUniversesTree(Model):
         self.data.delete_node(self.key_of_selected_item)
         self.view_model.delete_item_in_views(self.key_of_selected_item)
         self.key_of_selected_item = ''
-        print(self.data.get())
 
     def change_data(self, value):
         item = self.data.get_node_value(self.key_of_selected_item)
@@ -112,8 +115,12 @@ class ModelUniversesTree(Model):
         name, item_value = value
         if name == 'Name':
             self.view_model.change_item_in_views(item_value)
-        self.input_data_model.add_item(self.get_input_data(), 2)
-
+        if type(item) is Cell:
+            self.input_data_model.update_cells_data(self.dump_data())
+        if type(item) is Pin:
+            self.input_data_model.update_pins_data(self.dump_data())
+        if type(item) is LatticeSquare:
+            self.input_data_model.update_lattices_data(self.dump_data())
 
     def clear_data(self):
         self.data.clear()
@@ -122,77 +129,18 @@ class ModelUniversesTree(Model):
 
     def dump_data(self):
         universes_data = []
-        print(self.data.get_values_from_nodes())
-        cells_data = []
-        pins_data = []
 
         for item in self.data.get_values_from_nodes():
-            if (type(item) is Universe) or (type(item) is Cell):
-                universes_data.append(self.dump_universes_or_cells_data(item))
-                continue
+            if type(item) is Universe:
+                universes_data.append(self.universe_data_dumper.dump(item))
+            if type(item) is Cell:
+                universes_data.append(self.cell_data_dumper.dump(item))
             if type(item) is Pin:
-                universes_data.append(self.dump_pins_data(item))
-                continue
+                universes_data.append(self.pin_data_dumper.dump(item))
             if type(item) is LatticeSquare:
-                universes_data.append(self.dump_lattices_data(item))
-                continue
+                universes_data.append(self.lattice_data_dumper.dump(item))
 
         return universes_data
-
-    def dump_universes_or_cells_data(self, item):
-        source_item_data = item.get_data()
-        item_data = {'Type': item.get_type()}
-        for key in source_item_data.keys():
-            if key == 'Fill':
-                item_data[key] = source_item_data[key][1][1]
-                continue
-            if (key == 'Material') or (key == 'Universe'):
-                if item.entire == 'Empty':
-                    item_data[key] = 'Empty'
-                    continue
-                item_data[key] = item.get_entire_index()
-                continue
-            if key == 'Surfaces':
-                item_data[key] = item.get_surfaces_indices()
-                continue
-            item_data[key] = source_item_data[key][1]
-
-        return item_data
-
-    def dump_pins_data(self, item):
-        source_item_data = item.get_data()
-        item_data = {'Type': item.get_type()}
-        for key in source_item_data.keys():
-            if key == 'Regions':
-                item_data[key] = item.get_materials_indices()
-                continue
-            item_data[key] = source_item_data[key][1]
-
-        return item_data
-
-    def dump_lattices_data(self, item):
-        source_item_data = item.get_data()
-        item_data = {'Type': item.get_type()}
-        for key in source_item_data.keys():
-            if key == 'Size':
-                size = []
-                for size_component in source_item_data[key][1]:
-                    size.append(int(size_component))
-                item_data[key] = size
-                continue
-            if key == 'Universe Matrix':
-                universes = []
-                universe_matrix = source_item_data[key][1][0]
-                for row in range(universe_matrix.shape[0]):
-                    row_in_matrix = []
-                    for column in range(universe_matrix.shape[1]):
-                        row_in_matrix.append(int(universe_matrix[row, column]))
-                    universes.append(row_in_matrix)
-                item_data[key] = universes
-                continue
-            item_data[key] = source_item_data[key][1]
-
-        return item_data
 
     def load_data(self):
         pass
@@ -288,7 +236,7 @@ class ModelUniversesTree(Model):
             if key == 'Universe Matrix':
                 for row in range(lattice_data['Size'][0]):
                     for column in range(lattice_data['Size'][1]):
-                        universes_text += f' {value[row][column] }'
+                        universes_text += f' {value[row][column]}'
                     universes_text += '\n'
                 continue
             if type(value) is list:

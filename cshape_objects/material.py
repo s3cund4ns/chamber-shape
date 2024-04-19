@@ -26,12 +26,12 @@ class Mode:
 class DensityFlow(ABC):
 
     @abstractmethod
-    def set_density(self, nuclides: list[list[str | float]]):
+    def set_density(self, density: float, nuclides: list[list[str | float]]):
         pass
 
 
 class SummaryDensityFlow(DensityFlow):
-    def set_density(self, nuclides: list[list[str | float]]):
+    def set_density(self, density: float, nuclides: list[list[str | float]]):
         density = 0.0
         for nuclide in nuclides:
             density += float(nuclide[1])
@@ -40,8 +40,8 @@ class SummaryDensityFlow(DensityFlow):
 
 
 class NotSummaryDensityFlow(DensityFlow):
-    def set_density(self, nuclides: list[list[str | float]]):
-        pass
+    def set_density(self, density: float, nuclides: list[list[str | float]]):
+        return density
 
 
 class Material(CShapeObject):
@@ -117,14 +117,13 @@ class Material(CShapeObject):
             case self.properties.Nuclides:
                 index, name, density = value
                 self.set_nuclide(index, name, density)
-                self.density = self.density_flow.set_density(self.nuclides)
-                print(self.density_flow)
+                self.density = self.density_flow.set_density(self.density, self.nuclides)
             case self.properties.Add:
                 index, name, density = value
                 self.add_nuclide()
                 self.set_nuclide(index, name, density)
-                self.density_flow.set_density(self.nuclides)
+                self.density_flow.set_density(self.density, self.nuclides)
             case self.properties.Delete:
                 index = value
                 self.delete_nuclide(index)
-                self.density_flow.set_density(self.nuclides)
+                self.density_flow.set_density(self.density, self.nuclides)

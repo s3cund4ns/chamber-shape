@@ -24,6 +24,9 @@ class FiniteLattice2D(Lattice):
         self.universes_matrix.resize(self.size[0], self.size[1])
         self.universes_matrix[:] = -1
 
+    def resize(self):
+        self.universes_matrix.resize(self.size[0], self.size[1], refcheck=False)
+
     def get_data(self):
         all_universes: list = []
         for universe in self.all_universes:
@@ -44,6 +47,7 @@ class FiniteLattice2D(Lattice):
                 self.position[0:3] = value
             case self.properties.Size:
                 self.size[0:2] = value
+                self.resize()
             case self.properties.Pitch:
                 self.pitch = value
             case self.properties.UniverseMatrix:

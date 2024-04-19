@@ -1,3 +1,5 @@
+import json
+
 serpent_dict: dict = {
     'Surface': 'surf',
     'Plane': 'plane',

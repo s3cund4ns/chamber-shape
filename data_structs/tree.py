@@ -7,7 +7,6 @@ class Tree:
 
     def insert_node(self, parent_key: any, key: str, value: any) -> None:
         self.adjacency_lists[key] = [value, parent_key, []]
-        print(self.adjacency_lists[parent_key])
         self.adjacency_lists[parent_key][2].append(key)
 
     def delete_node(self, key: str) -> None:

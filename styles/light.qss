@@ -30,6 +30,7 @@ text-align: center;
 padding: 6px;
 min-height: 14px;
 min-width: 100px;
+background-color: #202020;
 color: #000000;
 border-radius: 10px;
 border: 1px solid #C2C2C2;
@@ -304,7 +305,7 @@ QTabWidget::pane { /* The tab widget frame */
 QTabBar::tab:selected {
     background: #1572E0;
     border-radius: 4px;
-    color: #FFFFFF
+    color: #FFFFFF;
 }
 QTabBar::tab {
     background: #B3B3B3;
@@ -372,5 +373,81 @@ QComboBox:editable {
 QComboBox::drop-down {
     background-color: transparent;
     margin-right: 3px;
+}
+
+QTreeWidget {
+    color: #000000;
+    border-radius: 0px;
+    background-color: #E0E0E0;
+    header-color: #C4C4C4;
+}
+
+QTreeWidget::item {
+    margin: 2px;
+    padding: 2px;
+}
+
+QTreeWidget::item:hover {
+
+    background-clip: none;
+    background: #E0E0E0;
+}
+
+QTreeWidget::item:selected {
+    background-clip: none;
+    background: #1572E0;
+}
+
+QTreeWidget::branch:has-children:!has-siblings:closed {
+    color: #000000;
+}
+
+QHeaderView::section {
+    border-radius: 7px;
+    color: #000000;
+    background: #C4C4C4;
+    padding: 5px;
+}
+
+QMenuBar {
+    color: #000000;
+    padding: 5px;
+}
+
+QMenu {
+    border-radius: 7px;
+    padding: 5px;
+    color: #000000;
+}
+
+QDockWidget QWidget {
+    background-color: #C4C4C4;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+QDockWidget {
+    color: #000000;
+}
+
+QDockWidget::title {
+    background-color: #C4C4C4;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+QDockWidget::close-button {
+    color: #000000;
+}
+
+QScrollArea {
+    background-color: #E0E0E0;
+}
+
+QTextEdit {
+	font: 14pt "Consolas";
+	background-color: #1f1f1f;
+	color: #FFFFFF;
+	border: none;
 }
 
