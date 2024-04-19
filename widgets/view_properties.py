@@ -1,4 +1,8 @@
 from cshape_objects.cell import Cell
+from cshape_objects.lattices.finite_lattices_2d.lattice_square import LatticeSquare
+from cshape_objects.lattices.lattice import Lattice
+from cshape_objects.material import Material
+from cshape_objects.pin import Pin
 from cshape_objects.universe import Universe
 from widgets.property_items.property_item import PropertyItem
 from widgets.property_items.property_item_creator import create_property
@@ -21,6 +25,8 @@ class ViewProperties(View):
         for name, value in item.items():
             property_type, values = value
             data = [name]
+            if values is None:
+                continue
             if type(values) is list:
                 for element in values:
                     data.append(element)
@@ -29,8 +35,8 @@ class ViewProperties(View):
 
             property_item: PropertyItem = create_property(str(property_type))
             property_item.set_properties_view(self)
-            property_item.set_data(data)
             property_item.set_default_values(default_values)
+            property_item.set_data(data)
             self.properties_layout.addWidget(property_item)
 
     def apply_values_changes(self, sender):
@@ -51,6 +57,9 @@ class ViewProperties(View):
     def delete_item(self, index):
         pass
 
+    def clear(self):
+        pass
+
 
 class ViewSurfaceProperties(ViewProperties):
     def __init__(self, properties_layout):
@@ -67,11 +76,6 @@ class ViewMaterialProperties(ViewProperties):
         self.generate_properties(['NewNuclide', 0.0], item)
 
 
-class ViewDetectorsProperties(ViewProperties):
-    def __init__(self, properties_layout):
-        super().__init__(properties_layout)
-
-
 class ViewUniverseProperties(ViewProperties):
     def __init__(self, properties_layout):
         super().__init__(properties_layout)
@@ -83,5 +87,9 @@ class ViewUniverseProperties(ViewProperties):
         if type(item) is Universe:
             self.generate_properties(['Element', 0.0], item.get_data())
         if type(item) is Cell:
-            self.generate_properties(['Type', 'Name', 'Side'], item.get_data())
+            self.generate_properties(['label', 'label', 'combo_box'], item.get_data())
+        if type(item) is Pin:
+            self.generate_properties(['Material', 0.0], item.get_data())
+        if type(item) is LatticeSquare:
+            self.generate_properties([], item.get_data())
 

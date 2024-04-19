@@ -56,6 +56,10 @@ class ViewModel:
         pass
 
     @abstractmethod
+    def clear_views(self):
+        pass
+
+    @abstractmethod
     def notify_model(self, operation, parameter):
         pass
 

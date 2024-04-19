@@ -4,33 +4,39 @@ from dataclasses import dataclass
 import numpy as np
 from PySide6.QtWidgets import QTreeWidgetItem
 
+from cshape_objects.cshape_object import CShapeObject, CShapeObjectTypes
 from cshape_objects.universe import Universe
 
 
 @dataclass
 class LatticeTypes:
     NoneType = 0
-    Square = 1
-    XTypeHexagonal = 2
-    YTypeHexagonal = 3
+    FiniteLattice2D = 1
+    InfiniteLattice2D = 2
+    Finite2DLatticeCircularClusterArray = 3
+    InfiniteXYPlane = 4
+    Finite3DLattice = 5
 
 
-class Lattice(QTreeWidgetItem):
-    def __init__(self, name: str, position: list[float, float, float], x_number: int, y_number: int, pitch: float, parent=None):
-        super().__init__(parent)
-        self.type: LatticeTypes = LatticeTypes.NoneType
-        self.name: str = name
+@dataclass
+class Lattices:
+    LatticeSquare = 'Square'
+    LatticeXHexagonal = 'X Hexagonal'
+    LatticeYHexagonal = 'Y hexagonal'
+
+
+class Lattice(CShapeObject):
+    def __init__(self):
+        super().__init__()
+        self.type: str = CShapeObjectTypes.Lattice
+        self.lattice_type: int
+        self.name: str
         self.universe_number: int = 0
-        self.position = np.array(position, dtype=np.float32)
-        self.x_number: int = x_number
-        self.y_number: int = y_number
-        self.pitch: float = pitch
-        self.universes: list[Universe] = []
-        self.universes_matrix = np.array([[-1, -1]], dtype=np.int16)
-        self.universes_matrix.resize(self.y_number, self.x_number)
-        self.universes_matrix[:] = -1
+        self.position = np.array([0.0, 0.0, 0.0], dtype=np.float32)
+        self.all_universes: list[Universe] = []
 
-        self.setText(0, 'Lattice')
+    def get_type(self):
+        return self.type
 
     def get_name(self):
         return self.name
@@ -70,7 +76,6 @@ class Lattice(QTreeWidgetItem):
     def get_pitch(self):
         return self.pitch
 
-    @abstractmethod
     def get_universe_position(self, x_number: int, y_number: int):
         pass
 
@@ -79,3 +84,9 @@ class Lattice(QTreeWidgetItem):
 
     def set_universe_in_matrix(self, row, column, universe):
         self.universes_matrix[row][column] = universe
+
+    def set_data(self, data):
+        pass
+
+    def get_data(self):
+        pass

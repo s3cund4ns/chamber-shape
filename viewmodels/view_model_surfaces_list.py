@@ -54,6 +54,10 @@ class ViewModelSurfacesList(ViewModel):
         for view in self.views:
             view.delete_item(index)
 
+    def clear_views(self):
+        for view in self.views:
+            view.clear()
+
     # def notify_model(self, operation: Operations, parameters: list):
     #     match operation:
     #         case Operations.Add:

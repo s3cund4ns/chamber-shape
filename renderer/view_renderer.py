@@ -24,9 +24,17 @@ class ViewRenderer(View):
     def change_item(self, index, value, item_text):
         self.surface_renders[index].set_data(value)
 
-    def delete_item(self, index):
+    def delete_render_components(self, index):
         self.surface_renders[index].removeComponent(self.surface_renders[index].mesh)
         self.surface_renders[index].removeComponent(self.surface_renders[index].material)
         self.surface_renders[index].removeComponent(self.surface_renders[index].transform)
+
+    def delete_item(self, index):
+        self.delete_render_components(index)
         del self.surface_renders[index]
+
+    def clear(self):
+        for index in range(len(self.surface_renders)):
+            self.delete_render_components(index)
+        self.surface_renders.clear()
 

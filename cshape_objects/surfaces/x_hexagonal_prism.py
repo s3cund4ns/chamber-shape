@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+import numpy as np
+
 from cshape_objects.cshape_object import CShapeObjectProperties
 from cshape_objects.cshape_types import CShapeTypes
 from cshape_objects.surfaces.surface import SurfacesTypes, Surface
@@ -31,7 +33,7 @@ class XHexagonalPrism(Surface):
 
     def get_data(self):
         return {self.properties.Name: (CShapeTypes.String, self.name),
-            Properties.Position: (CShapeTypes.Vector3DFloat, list(self.position)),
+            Properties.Position: (CShapeTypes.Vector3DFloat, list(np.array(self.position, dtype=float))),
                 Properties.HalfWidth: (CShapeTypes.Float, self.half_width)}
 
     def set_data(self, properties: dict):

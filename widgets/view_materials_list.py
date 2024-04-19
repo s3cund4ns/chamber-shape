@@ -44,6 +44,9 @@ class ViewMaterialsList(View):
     def delete_item(self, item):
         self.materials_list_widget.takeItem(item)
 
+    def clear(self):
+        self.materials_list_widget.clear()
+
     def show_context_menu(self, pos):
         context_menu = QMenu(self.materials_list_widget)
         add = context_menu.addAction('Add')

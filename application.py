@@ -12,12 +12,12 @@ class Application:
     def __init__(self):
         self.app = QApplication(sys.argv)
         self.main_window = MainWindow()
-        self.main_window.setWindowTitle('Chamber Shape')
-        self.plot_widget = PlotWidget()
+        # self.main_window.setWindowTitle('Chamber Shape')
+        # self.plot_widget = PlotWidget()
         # self.main_window = StylingWidget()
-        with open('styles/dark.qss', 'r') as file:
-            self.main_window.setStyleSheet(file.read())
-            self.plot_widget.setStyleSheet(file.read())
+        # with open('styles/dark.qss', 'r') as file:
+        #     self.main_window.setStyleSheet(file.read())
+            # self.plot_widget.setStyleSheet(file.read())
         self.main_window.show()
         # self.plot_widget.show()
 

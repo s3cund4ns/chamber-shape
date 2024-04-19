@@ -29,10 +29,14 @@ class Universe(CShapeObject):
         self.properties = Properties()
         self.index: int = index
         self.position = np.array([0.0, 0.0, 0.0], dtype=np.float32)
-        self.elements: list[list] = []
+        self.elements: list = []
 
-    def add_element(self, element: list) -> None:
-        self.elements.append(element)
+    def get_type(self):
+        return self.type
+
+    def add_element(self, element) -> None:
+        current_element = element
+        self.elements.append(current_element)
 
     def delete_element(self, element_id):
         self.elements.pop(element_id)
@@ -45,8 +49,11 @@ class Universe(CShapeObject):
         return self.position, self.elements
 
     def get_data(self):
-        return {self.properties.Position: (CShapeTypes.Vector3DFloat, list(self.position)),
-                self.properties.Elements: (CShapeTypes.List, self.elements)}
+        elements = []
+        for element in self.elements:
+            elements.append([element.get_type(), element.get_name()])
+        return {self.properties.Position: (CShapeTypes.Vector3DFloat, list(np.array(self.position, dtype=float))),
+                self.properties.Elements: (CShapeTypes.List, elements)}
 
     def set_data(self, properties: dict):
         name, value = properties

@@ -70,7 +70,7 @@
      <x>0</x>
      <y>0</y>
      <width>1673</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
@@ -153,11 +153,7 @@
       <number>0</number>
      </property>
      <item>
-      <layout class="QVBoxLayout" name="materials_layout">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-      </layout>
+      <layout class="QVBoxLayout" name="materials_layout"/>
      </item>
     </layout>
    </widget>
@@ -215,7 +211,7 @@
           <x>0</x>
           <y>0</y>
           <width>298</width>
-          <height>648</height>
+          <height>641</height>
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
@@ -237,39 +233,6 @@
         </layout>
        </widget>
       </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="dock_detectors">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="windowTitle">
-    <string>Detectors</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dock_detectors_content">
-    <layout class="QVBoxLayout" name="detectors_layout_1">
-     <property name="spacing">
-      <number>7</number>
-     </property>
-     <property name="leftMargin">
-      <number>0</number>
-     </property>
-     <property name="topMargin">
-      <number>0</number>
-     </property>
-     <property name="rightMargin">
-      <number>0</number>
-     </property>
-     <property name="bottomMargin">
-      <number>0</number>
-     </property>
-     <item>
-      <layout class="QVBoxLayout" name="detectors_layout"/>
      </item>
     </layout>
    </widget>
