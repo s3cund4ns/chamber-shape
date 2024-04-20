@@ -23,10 +23,10 @@ class Mode:
     Spherical = 'Spherical'
 
 
-class Mesh(Detector):
+class MeshDetector(Detector):
     def __init__(self):
         super().__init__()
-        self.detector_type = DetectorsTypes.Mesh
+        self.detector_type = DetectorsTypes.MeshDetector
         self.properties = Properties()
         self.modes: dict = {'Cylindrical': 'Cylindrical', 'Spherical': 'Spherical'}
         self.mode = self.modes['Cylindrical']

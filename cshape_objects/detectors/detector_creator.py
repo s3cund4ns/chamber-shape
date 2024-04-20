@@ -1,14 +1,14 @@
-from cshape_objects.detectors.lattice import Lattice
-from cshape_objects.detectors.material import Material
-from cshape_objects.detectors.mesh import Mesh
+from cshape_objects.detectors.lattice_detector import LatticeDetector
+from cshape_objects.detectors.material_detector import MaterialDetector
+from cshape_objects.detectors.mesh_detector import MeshDetector
 
 from cshape_objects.detectors.detector import DetectorsTypes
 
 
 detectors_types = {
-    DetectorsTypes.Material: Material,
-    DetectorsTypes.Lattice: Lattice,
-    DetectorsTypes.Mesh: Mesh
+    DetectorsTypes.MaterialDetector: MaterialDetector,
+    DetectorsTypes.LatticeDetector: LatticeDetector,
+    DetectorsTypes.MeshDetector: MeshDetector
 }
 
 

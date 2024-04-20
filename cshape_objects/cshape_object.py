@@ -10,6 +10,7 @@ class CShapeObjectTypes:
     Cell = 'Cell'
     Pin = 'Pin'
     Lattice = 'Lattice'
+    Detector = 'Detector'
 
 
 @dataclass

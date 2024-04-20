@@ -135,6 +135,20 @@ class Ui_MainWindow(object):
 
         self.dock_properties.setWidget(self.dock_properties_contents)
         MainWindow.addDockWidget(Qt.RightDockWidgetArea, self.dock_properties)
+        self.dock_detectors = QDockWidget(MainWindow)
+        self.dock_detectors.setObjectName(u"dock_detectors")
+        self.dock_detectors_contents = QWidget()
+        self.dock_detectors_contents.setObjectName(u"dock_detectors_contents")
+        self.verticalLayout_8 = QVBoxLayout(self.dock_detectors_contents)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.detectors_layout = QVBoxLayout()
+        self.detectors_layout.setObjectName(u"detectors_layout")
+
+        self.verticalLayout_8.addLayout(self.detectors_layout)
+
+        self.dock_detectors.setWidget(self.dock_detectors_contents)
+        MainWindow.addDockWidget(Qt.LeftDockWidgetArea, self.dock_detectors)
 
         self.retranslateUi(MainWindow)
 
@@ -152,5 +166,6 @@ class Ui_MainWindow(object):
         self.dock_materials.setWindowTitle(QCoreApplication.translate("MainWindow", u"Materials", None))
         self.dock_console.setWindowTitle(QCoreApplication.translate("MainWindow", u"Console", None))
         self.dock_properties.setWindowTitle(QCoreApplication.translate("MainWindow", u"Properties", None))
+        self.dock_detectors.setWindowTitle(QCoreApplication.translate("MainWindow", u"Detectors", None))
     # retranslateUi
 

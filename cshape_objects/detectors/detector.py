@@ -13,14 +13,14 @@ class CShapeObjects:
 @dataclass
 class DetectorsTypes:
     NoneType = None
-    Material = 'Material'
-    Lattice = 'Lattice'
-    Mesh = 'Mesh'
+    MaterialDetector = 'MaterialDetector'
+    LatticeDetector = 'LatticeDetector'
+    MeshDetector = 'MeshDetector'
 
-    Default = Mesh
+    Default = MeshDetector
 
     def get(self) -> Sequence[str]:
-        return [self.Material, self.Lattice, self.Mesh]
+        return [self.MaterialDetector, self.LatticeDetector, self.MeshDetector]
 
     def get_field_name_by_value(self, value):
         for attr_name, attr_value in self.__dict__.items():

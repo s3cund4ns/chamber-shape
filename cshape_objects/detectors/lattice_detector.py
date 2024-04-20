@@ -9,26 +9,26 @@ from cshape_objects.detectors.detector import DetectorsTypes, Detector
 class Properties(CShapeObjectProperties):
     Object = 'Object'
     Name = 'Name'
-    Material = 'Material'
+    Lattice = 'Lattice'
 
 
-class Material(Detector):
+class LatticeDetector(Detector):
     def __init__(self):
         super().__init__()
-        self.detector_type = DetectorsTypes.Material
+        self.detector_type = DetectorsTypes.LatticeDetector
         self.properties = Properties()
-        self.material: str = 'name of material'
+        self.lattice: str = 'name of lattice'
 
-    def set_material(self, material: str):
-        self.material = material
+    def set_lattice(self, lattice: str):
+        self.lattice = lattice
 
-    def get_material(self) -> str:
-        return self.material
+    def get_lattice(self) -> str:
+        return self.lattice
 
     def get_data(self):
         return {
             self.properties.Name: (CShapeTypes.String, self.name),
-            Properties.Material: (CShapeTypes.String, self.material)
+            Properties.Lattice: (CShapeTypes.String, self.lattice)
         }
 
     def set_data(self, properties: dict):
@@ -37,8 +37,7 @@ class Material(Detector):
             case self.properties.Name:
                 name = value
                 self.name = name
-            case Properties.Material:
-                self.material = value
-
+            case Properties.Lattice:
+                self.lattice = value
 
 

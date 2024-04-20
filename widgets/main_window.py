@@ -12,10 +12,12 @@ from ui_files.ui_main import Ui_MainWindow
 from widgets.new_project import NewProject
 from widgets.settings_window import SettingsWindow
 from widgets.start_window import StartWindow
+from widgets.view_detectors_list import ViewDetectorsList
 from widgets.view_input_data import ViewInputData
 
 from widgets.view_materials_list import ViewMaterialsList
-from widgets.view_properties import ViewSurfaceProperties, ViewMaterialProperties, ViewUniverseProperties
+from widgets.view_properties import ViewSurfaceProperties, ViewMaterialProperties, ViewUniverseProperties, \
+    ViewDetectorProperties
 from widgets.view_surfaces_list import ViewSurfacesList
 from widgets.view_universes_tree import ViewUniversesTree
 
@@ -82,8 +84,12 @@ class MainWindow(QMainWindow):
         self.view_surfaces_list = ViewSurfacesList()
         self.ui.surfaces_layout.addWidget(self.view_surfaces_list.surfaces_list_widget)
 
+        self.view_detectors_list = ViewDetectorsList()
+        self.ui.detectors_layout.addWidget(self.view_detectors_list.detectors_list_widget)
+
         self.view_material_properties = ViewMaterialProperties(self.ui.properties_layout)
         self.view_surface_properties = ViewSurfaceProperties(self.ui.properties_layout)
+        self.view_detector_properties = ViewDetectorProperties(self.ui.properties_layout)
         self.view_universe_properties = ViewUniverseProperties(self.ui.properties_layout)
 
         self.view_surfaces_renderer = ViewRenderer()
@@ -93,7 +99,8 @@ class MainWindow(QMainWindow):
 
         self.project_data = ProjectData()
         self.project_data.load_views(self.view_universes_tree, self.view_materials_list, self.view_surfaces_list,
-                                     self.view_material_properties, self.view_surface_properties,
+                                     self.view_detectors_list,
+                                     self.view_material_properties, self.view_surface_properties, self.view_detector_properties,
                                      self.view_universe_properties,
                                      self.view_surfaces_renderer, self.view_input_data)
 
