@@ -1,5 +1,3 @@
-import os
-
 from PySide6.QtGui import QFont, QFontDatabase, QIcon
 from PySide6.QtWidgets import QMainWindow, QWidget, QFileDialog
 
@@ -32,7 +30,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Chamber Shape')
         self.setWindowIcon(QIcon('favicon.ico'))
 
-        with open('styles/light.qss', 'r') as file:
+        with open('styles/dark.qss', 'r') as file:
             self.setStyleSheet(file.read())
 
         QFontDatabase.addApplicationFont('../resources/fonts/Inter-Medium.ttf')
