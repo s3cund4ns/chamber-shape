@@ -8,6 +8,7 @@ class ModelDetectorsList(Model):
         super(ModelDetectorsList, self).__init__()
         self.data: list = []
         self.selected_item_index = -1
+        self.materials_model = None
 
     def add_item(self, index: int, detector_type):
         item: Detector = create_detector(detector_type)
@@ -18,6 +19,7 @@ class ModelDetectorsList(Model):
     def select_item(self, index):
         self.selected_item_index = index
         selected_item: Detector = self.data[self.selected_item_index]
+        selected_item.materials = self.materials_model.data
         self.view_model.select_item_in_views(index, selected_item.get_data())
 
     def delete_item(self):
