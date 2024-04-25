@@ -1,6 +1,7 @@
 import json
 import os
 
+from models.model_calculation_parameters import ModelCalculationParameters
 from models.model_detectors_list import ModelDetectorsList
 from models.model_materials_list import ModelMaterialsList
 from models.model_surfaces_list import ModelSurfacesList
@@ -12,6 +13,7 @@ from solvers.solver import Solver
 from solvers.solver_creator import create_solver
 from solvers.solver_loader import load_serpent
 from project_data.view import View
+from viewmodels.view_model_calculation_parameters import ViewModelCalculationParameters
 from viewmodels.view_model_detectors_list import ViewModelDetectorsList
 from viewmodels.view_model_input_data import ViewModelInputData
 from viewmodels.view_model_materials_list import ViewModelMaterialsList
@@ -33,6 +35,7 @@ class ProjectData:
         self.materials_model: ModelMaterialsList = ModelMaterialsList()
         self.surfaces_model: ModelSurfacesList = ModelSurfacesList()
         self.detectors_model: ModelDetectorsList = ModelDetectorsList()
+        self.calculation_parameters_model: ModelCalculationParameters = ModelCalculationParameters()
         self.input_data_model: ModelInputData = ModelInputData()
 
         self.universes_model.materials_model = self.materials_model
@@ -46,18 +49,20 @@ class ProjectData:
         self.materials_view_model: ViewModelMaterialsList = ViewModelMaterialsList()
         self.surfaces_view_model: ViewModelSurfacesList = ViewModelSurfacesList()
         self.detectors_view_model: ViewModelDetectorsList = ViewModelDetectorsList()
+        self.calculation_parameters_view_model: ViewModelCalculationParameters = ViewModelCalculationParameters()
         self.input_data_view_model: ViewModelInputData = ViewModelInputData()
 
         self.universes_view_model.add_model(self.universes_model)
         self.materials_view_model.add_model(self.materials_model)
         self.surfaces_view_model.add_model(self.surfaces_model)
         self.detectors_view_model.add_model(self.detectors_model)
+        self.calculation_parameters_view_model.add_model(self.calculation_parameters_model)
         self.input_data_view_model.add_model(self.input_data_model)
 
     def load_views(self, *args: View):
         (universes_view, materials_view, surfaces_view, detectors_view, material_properties_view,
          surface_properties_view, detector_properties_view,
-         universe_properties_view, surfaces_renderer_view, input_data_view) = args
+         universe_properties_view, calculation_parameters_properties_view, surfaces_renderer_view, input_data_view) = args
         self.universes_view_model.add_view(universes_view)
         self.materials_view_model.add_view(materials_view)
         self.surfaces_view_model.add_view(surfaces_view)
@@ -66,6 +71,7 @@ class ProjectData:
         self.surfaces_view_model.add_view(surface_properties_view)
         self.detectors_view_model.add_view(detector_properties_view)
         self.universes_view_model.add_view(universe_properties_view)
+        self.calculation_parameters_view_model.add_view(calculation_parameters_properties_view)
         self.surfaces_view_model.add_view(surfaces_renderer_view)
         self.input_data_view_model.add_view(input_data_view)
 
@@ -166,6 +172,9 @@ class ProjectData:
     def write_input_data(self):
         self.input_data_model.add_item(self.materials_model.get_input_data(), self.surfaces_model.get_input_data())
         self.input_data_model.write_to_file()
+
+    def open_calculation_parameters(self, parameter_type: str):
+        self.calculation_parameters_view_model.select_item_in_models(parameter_type)
 
     def run_simulation(self):
         self.save_input_data()

@@ -98,3 +98,12 @@ class ViewUniverseProperties(ViewProperties):
         if type(item) is LatticeSquare:
             self.generate_properties([], item.get_data())
 
+
+class ViewCalculationParametersProperties(ViewProperties):
+    def __init__(self, properties_layout):
+        super().__init__(properties_layout)
+
+    def select_item(self, item):
+        self.clear_properties()
+        self.generate_properties([], item)
+
