@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from cshape_objects.cshape_object import CShapeObjectProperties
 from cshape_objects.cshape_types import CShapeTypes
 from cshape_objects.detectors.detector import DetectorsTypes, Detector
+from cshape_objects.material import Material
 
 
 @dataclass
@@ -17,18 +18,22 @@ class MaterialDetector(Detector):
         super().__init__()
         self.detector_type = DetectorsTypes.MaterialDetector
         self.properties = Properties()
-        self.material: str = 'name of material'
-
-    def set_material(self, material: str):
-        self.material = material
-
-    def get_material(self) -> str:
-        return self.material
+        self.materials = []
+        self.material = None
 
     def get_data(self):
+        materials_info: list = []
+        for material in self.materials:
+            material = f'{material.get_name()} {material.get_density()}'
+            materials_info.append(material)
+        if self.material is None:
+            current_material_info = ''
+        else:
+            current_material_info = f'{self.material.get_name()} {self.material.get_density()}'
+
         return {
             self.properties.Name: (CShapeTypes.String, self.name),
-            Properties.Material: (CShapeTypes.String, self.material)
+            self.properties.Material: (CShapeTypes.Reference, [current_material_info, materials_info])
         }
 
     def set_data(self, properties: dict):
@@ -37,8 +42,9 @@ class MaterialDetector(Detector):
             case self.properties.Name:
                 name = value
                 self.name = name
-            case Properties.Material:
-                self.material = value
+            case self.properties.Material:
+                material = value
+                self.material = self.materials[material]
 
 
 
