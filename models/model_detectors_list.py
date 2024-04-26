@@ -25,7 +25,6 @@ class ModelDetectorsList(Model):
         selected_item: Detector = self.data[self.selected_item_index]
         selected_item.materials_list = self.materials_model.data
         selected_item.lattices_list = self.universes_model.find_elements_of_type(Lattice)
-        print('пошел на')
         self.view_model.select_item_in_views(index, selected_item.get_data())
 
     def delete_item(self):
