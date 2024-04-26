@@ -1,14 +1,18 @@
 from cshape_objects.detectors.detector_creator import create_detector
 from project_data.model import Model
 from cshape_objects.detectors.detector import Detector
+from models.model_universes_tree import ModelUniversesTree
+from cshape_objects.lattices.lattice import Lattice
 
 
 class ModelDetectorsList(Model):
+
     def __init__(self):
         super(ModelDetectorsList, self).__init__()
         self.data: list = []
         self.selected_item_index = -1
         self.materials_model = None
+        self.universes_model = None
 
     def add_item(self, index: int, detector_type):
         item: Detector = create_detector(detector_type)
@@ -19,7 +23,9 @@ class ModelDetectorsList(Model):
     def select_item(self, index):
         self.selected_item_index = index
         selected_item: Detector = self.data[self.selected_item_index]
-        selected_item.materials = self.materials_model.data
+        selected_item.materials_list = self.materials_model.data
+        selected_item.lattices_list = self.universes_model.find_elements_of_type(Lattice)
+        print('пошел на')
         self.view_model.select_item_in_views(index, selected_item.get_data())
 
     def delete_item(self):

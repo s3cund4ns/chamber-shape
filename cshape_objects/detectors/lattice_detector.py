@@ -17,18 +17,23 @@ class LatticeDetector(Detector):
         super().__init__()
         self.detector_type = DetectorsTypes.LatticeDetector
         self.properties = Properties()
-        self.lattice: str = 'name of lattice'
-
-    def set_lattice(self, lattice: str):
-        self.lattice = lattice
-
-    def get_lattice(self) -> str:
-        return self.lattice
+        self.lattices_list = []
+        self.lattice = None
 
     def get_data(self):
+        lattices_info: list = []
+        print(self.lattices_list)
+        for lattice in self.lattices_list:
+            lattice = f'{lattice.get_name()}'
+            lattices_info.append(lattice)
+        if self.lattice is None:
+            current_lattice_info = ''
+        else:
+            current_lattice_info = f'{self.lattice.get_name()}'
+
         return {
             self.properties.Name: (CShapeTypes.String, self.name),
-            Properties.Lattice: (CShapeTypes.String, self.lattice)
+            self.properties.Lattice: (CShapeTypes.Reference, [current_lattice_info, lattices_info])
         }
 
     def set_data(self, properties: dict):
@@ -38,6 +43,7 @@ class LatticeDetector(Detector):
                 name = value
                 self.name = name
             case Properties.Lattice:
-                self.lattice = value
+                lattice = value
+                self.lattice = self.lattices_list[lattice]
 
 

@@ -39,6 +39,7 @@ class ProjectData:
         self.universes_model.surfaces_model = self.surfaces_model
 
         self.detectors_model.materials_model = self.materials_model
+        self.detectors_model.universes_model = self.universes_model
 
         self.materials_model.input_data_model = self.input_data_model
         self.surfaces_model.input_data_model = self.input_data_model
