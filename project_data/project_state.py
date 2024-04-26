@@ -1,6 +1,6 @@
-from enum import Enum
+from enum import Enum, auto
 
 
 class ProjectState(Enum):
-    NOT_EXISTING = 0
-    EXISTING = 1
+    NOT_EXISTING = auto()
+    EXISTING = auto()

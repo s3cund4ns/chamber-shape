@@ -33,7 +33,7 @@ class Sphere(Surface):
 
     def get_data(self):
         return {self.properties.Name: (CShapeTypes.String, self.name),
-            Properties.Position: (CShapeTypes.Vector3DFloat, list(np.array(self.position, dtype=float))),
+                Properties.Position: (CShapeTypes.Vector3DFloat, list(np.array(self.position, dtype=float))),
                 Properties.Radius: (CShapeTypes.Float, self.radius)}
 
     def set_data(self, properties: dict):

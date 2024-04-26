@@ -4,6 +4,8 @@ from widgets.property_items.property_combo_box import PropertyComboBox
 from widgets.property_items.property_composite_item_list import PropertyCompositeItemList
 from widgets.property_items.property_composite_widget_list import PropertyCompositeWidgetList
 from widgets.property_items.property_float import PropertyFloat
+from widgets.property_items.property_int import PropertyInt
+from widgets.property_items.property_label import PropertyLabel
 from widgets.property_items.property_list import PropertyList
 from widgets.property_items.property_referenced_form import PropertyReferencedForm
 from widgets.property_items.property_string import PropertyString
@@ -13,7 +15,9 @@ from widgets.property_items.property_vector3d_float import PropertyVector3DFloat
 
 properties_types = {
     CShapeTypes.Float: PropertyFloat,
+    CShapeTypes.Label: PropertyLabel,
     CShapeTypes.String: PropertyString,
+    CShapeTypes.Int: PropertyInt,
     CShapeTypes.Vector2DInt: PropertyVector2DInt,
     CShapeTypes.Vector3DFloat: PropertyVector3DFloat,
     CShapeTypes.Array2DInt: PropertyArray2DInt,

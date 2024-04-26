@@ -15,7 +15,7 @@ from widgets.view_input_data import ViewInputData
 
 from widgets.view_materials_list import ViewMaterialsList
 from widgets.view_properties import ViewSurfaceProperties, ViewMaterialProperties, ViewUniverseProperties, \
-    ViewDetectorProperties
+    ViewDetectorProperties, ViewCalculationParametersProperties
 from widgets.view_surfaces_list import ViewSurfacesList
 from widgets.view_universes_tree import ViewUniversesTree
 
@@ -30,7 +30,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Chamber Shape')
         self.setWindowIcon(QIcon('favicon.ico'))
 
-        with open('styles/dark.qss', 'r') as file:
+        with open('styles/light.qss', 'r') as file:
             self.setStyleSheet(file.read())
 
         QFontDatabase.addApplicationFont('../resources/fonts/Inter-Medium.ttf')
@@ -63,6 +63,10 @@ class MainWindow(QMainWindow):
         open_plot = self.file_menu.addAction('Open plot')
         open_plot.triggered.connect(self.open_plot)
 
+        self.file_menu = self.ui.menubar.addMenu('Calculation')
+        neutron_population = self.file_menu.addAction('Neutron population')
+        neutron_population.triggered.connect(self.open_calculation_parameters)
+
         self.start_window = StartWindow()
         self.new_project_window = NewProject()
         self.settings_window = SettingsWindow()
@@ -89,6 +93,7 @@ class MainWindow(QMainWindow):
         self.view_surface_properties = ViewSurfaceProperties(self.ui.properties_layout)
         self.view_detector_properties = ViewDetectorProperties(self.ui.properties_layout)
         self.view_universe_properties = ViewUniverseProperties(self.ui.properties_layout)
+        self.view_calculation_parameters_properties = ViewCalculationParametersProperties(self.ui.properties_layout)
 
         self.view_surfaces_renderer = ViewRenderer()
         self.view_surfaces_renderer.set_scene(self.viewport.root_entity)
@@ -99,7 +104,7 @@ class MainWindow(QMainWindow):
         self.project_data.load_views(self.view_universes_tree, self.view_materials_list, self.view_surfaces_list,
                                      self.view_detectors_list,
                                      self.view_material_properties, self.view_surface_properties, self.view_detector_properties,
-                                     self.view_universe_properties,
+                                     self.view_universe_properties, self.view_calculation_parameters_properties,
                                      self.view_surfaces_renderer, self.view_input_data)
 
         if self.project_data.state == ProjectState.NOT_EXISTING.value:
@@ -149,6 +154,10 @@ class MainWindow(QMainWindow):
 
     def open_plot(self):
         self.plot_widget.show()
+
+    def open_calculation_parameters(self):
+        sender = self.sender().text()
+        self.project_data.open_calculation_parameters(sender)
 
     def run_simulation(self):
         self.project_data.run_simulation()

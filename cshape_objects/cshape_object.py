@@ -11,6 +11,7 @@ class CShapeObjectTypes:
     Pin = 'Pin'
     Lattice = 'Lattice'
     Detector = 'Detector'
+    CalculationParameter = 'CalculationParameter'
 
 
 @dataclass

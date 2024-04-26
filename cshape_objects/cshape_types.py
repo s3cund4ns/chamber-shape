@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 @dataclass
 class CShapeTypes:
+    Label = 'Label'
     Int = "<class 'int'>"
     Float = "<class 'float'>"
     String = "<class 'str'>"
