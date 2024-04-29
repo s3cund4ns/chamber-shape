@@ -42,9 +42,9 @@ class Cone(Surface):
     def get_data(self):
         return {
             self.properties.Name: (CShapeTypes.String, self.name),
-            Properties.Position: (CShapeTypes.Vector3DFloat, list(np.array(self.position, dtype=float))),
-            Properties.Radius: (CShapeTypes.Float, self.radius),
-            Properties.Height: (CShapeTypes.Float, self.height)
+            Properties.Position: (CShapeTypes.Vector3DFloat, [list(np.array(self.position, dtype=float)), (-99999.9999, 99999.9999)]),
+            Properties.Radius: (CShapeTypes.Float, [self.radius, (0.0001, 99999.9999)]),
+            Properties.Height: (CShapeTypes.Float, [self.height, (0.0001, 99999.9999)])
         }
 
     def set_data(self, properties: dict):

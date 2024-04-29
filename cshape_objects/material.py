@@ -97,7 +97,7 @@ class Material(CShapeObject):
 
     def get_data(self):
         return {self.properties.Name: (CShapeTypes.String, self.name),
-                self.properties.Density: (CShapeTypes.Float, self.density),
+                self.properties.Density: (CShapeTypes.Float, [self.density, (0.0001, 99999.9999)]),
                 self.properties.Mode: (CShapeTypes.Enum, [self.modes, self.mode]),
                 self.properties.Nuclides: (CShapeTypes.List, self.nuclides)}
 

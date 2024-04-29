@@ -7,6 +7,7 @@ from cshape_objects.cshape_object import CShapeObject, CShapeObjectTypes
 class CalculationParametersTypes:
     NoneType = None
     NeutronPopulation = 'Neutron population'
+    BoundaryConditions = 'Boundary conditions'
 
 
 class CalculationParameter(CShapeObject):

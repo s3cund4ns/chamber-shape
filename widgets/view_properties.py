@@ -1,3 +1,5 @@
+from PySide6.QtWidgets import QSpacerItem, QSizePolicy
+
 from cshape_objects.cell import Cell
 from cshape_objects.lattices.finite_lattices_2d.lattice_square import LatticeSquare
 from cshape_objects.lattices.lattice import Lattice
@@ -18,6 +20,7 @@ class ViewProperties(View):
         while self.properties_layout.count() > 0:
             current_property = self.properties_layout.takeAt(0)
             current_property.widget().deleteLater()
+
 
     def generate_properties(self, default_values, item):
         self.clear_properties()

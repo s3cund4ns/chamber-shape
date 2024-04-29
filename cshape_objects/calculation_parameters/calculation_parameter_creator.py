@@ -1,8 +1,10 @@
+from cshape_objects.calculation_parameters.boundary_conditions import BoundaryConditions
 from cshape_objects.calculation_parameters.calculation_parameter import CalculationParametersTypes
 from cshape_objects.calculation_parameters.neutron_population_parameters import NeutronPopulationParameters
 
 calculation_parameter_types: dict = {
-    CalculationParametersTypes.NeutronPopulation: NeutronPopulationParameters
+    CalculationParametersTypes.NeutronPopulation: NeutronPopulationParameters,
+    CalculationParametersTypes.BoundaryConditions: BoundaryConditions
 }
 
 

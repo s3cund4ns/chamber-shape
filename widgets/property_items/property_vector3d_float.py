@@ -30,8 +30,17 @@ class PropertyVector3DFloat(PropertyItem):
         self.double_spin_box_value_z.valueChanged.connect(self.get_values_changes)
 
     def set_data(self, data):
-        name, value_x, value_y, value_z = data
+        print(data)
+        name, values, values_range = data
+        value_x, value_y, value_z = values
+        min_value, max_value = values_range
         self.label_name.setText(name)
+        self.double_spin_box_value_x.setMinimum(min_value)
+        self.double_spin_box_value_x.setMaximum(max_value)
+        self.double_spin_box_value_y.setMinimum(min_value)
+        self.double_spin_box_value_y.setMaximum(max_value)
+        self.double_spin_box_value_z.setMinimum(min_value)
+        self.double_spin_box_value_z.setMaximum(max_value)
         self.double_spin_box_value_x.setValue(value_x)
         self.double_spin_box_value_y.setValue(value_y)
         self.double_spin_box_value_z.setValue(value_z)

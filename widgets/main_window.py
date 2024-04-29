@@ -66,6 +66,8 @@ class MainWindow(QMainWindow):
         self.file_menu = self.ui.menubar.addMenu('Calculation')
         neutron_population = self.file_menu.addAction('Neutron population')
         neutron_population.triggered.connect(self.open_calculation_parameters)
+        boundary_conditions = self.file_menu.addAction('Boundary conditions')
+        boundary_conditions.triggered.connect(self.open_calculation_parameters)
 
         self.start_window = StartWindow()
         self.new_project_window = NewProject()
