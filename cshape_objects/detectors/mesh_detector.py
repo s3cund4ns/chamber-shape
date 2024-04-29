@@ -35,6 +35,15 @@ class MeshDetector(Detector):
         self.coordinate3 = np.array([0.0, 0.0, 1.0], dtype=np.float32)
 
     def get_data(self):
+        if self.mode == self.modes['Cylindrical']:
+            self.properties.Coordinate1 = 'Radius'
+            self.properties.Coordinate2 = 'Angle'
+            self.properties.Coordinate3 = 'Height'
+        elif self.mode == self.modes['Spherical']:
+            self.properties.Coordinate1 = 'Radius'
+            self.properties.Coordinate2 = 'Angle 1'
+            self.properties.Coordinate3 = 'Angle 2'
+
         return {
             self.properties.Name: (CShapeTypes.String, self.name),
             self.properties.Mode: (CShapeTypes.Enum, [self.modes, self.mode]),
