@@ -11,6 +11,7 @@ from widgets.property_items.property_referenced_form import PropertyReferencedFo
 from widgets.property_items.property_slider import PropertySlider
 from widgets.property_items.property_string import PropertyString
 from widgets.property_items.property_table import PropertyTable
+from widgets.property_items.property_vector2d_float import PropertyVector2DFloat
 from widgets.property_items.property_vector2d_int import PropertyVector2DInt
 from widgets.property_items.property_vector3d_combo_box import PropertyVector3DComboBox
 from widgets.property_items.property_vector3d_float import PropertyVector3DFloat
@@ -22,6 +23,7 @@ properties_types = {
     CShapeTypes.String: PropertyString,
     CShapeTypes.Int: PropertyInt,
     CShapeTypes.Vector2DInt: PropertyVector2DInt,
+    CShapeTypes.Vector2DFloat: PropertyVector2DFloat,
     CShapeTypes.Vector3DFloat: PropertyVector3DFloat,
     CShapeTypes.Vector3DComboBox: PropertyVector3DComboBox,
     CShapeTypes.Array2DInt: PropertyArray2DInt,

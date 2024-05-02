@@ -2,7 +2,7 @@ from PySide6.Qt3DExtras import Qt3DExtras
 from PySide6.QtGui import QVector3D
 
 from renderer.entities.surface_entity import SurfaceEntity
-from cshape_objects.surfaces.z_plane import Properties
+from cshape_objects.surfaces.x_plane import Properties
 
 
 class XPlaneEntity(SurfaceEntity):
@@ -21,14 +21,12 @@ class XPlaneEntity(SurfaceEntity):
     def set_data(self, properties):
         name, value = properties
         match name:
-            case Properties.Position:
-                x, y, z = value
-                self.transform.setTranslation(QVector3D(x, y, z))
-            case Properties.RotationX:
-                self.transform.setRotationX(value)
-            case Properties.RotationY:
-                self.transform.setRotationY(value)
-            case Properties.RotationZ:
-                self.transform.setRotationZ(value)
+            case Properties.Distance:
+                self.transform.setTranslation(QVector3D(value, 0.0, 0.0))
+            case Properties.Size:
+                width, height = value
+                self.mesh.setWidth(width)
+                self.mesh.setHeight(height)
+
 
 

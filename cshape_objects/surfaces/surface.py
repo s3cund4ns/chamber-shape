@@ -19,22 +19,32 @@ class CShapeObjects:
 @dataclass
 class SurfacesTypes:
     NoneType = None
-    Infinity = 'Infinity'
     XPlane = 'XPlane'
     YPlane = 'YPlane'
     ZPlane = 'ZPlane'
-    Cylinder = 'Cylinder'
+    XCylinder = 'XCylinder'
+    YCylinder = 'YCylinder'
+    ZCylinder = 'ZCylinder'
     Sphere = 'Sphere'
     Cone = 'Cone'
-    XHexagonalPrism = 'XHexagonalPrism'
+    XTorus = 'XTorus'
+    YTorus = 'YTorus'
+    ZTorus = 'ZTorus'
+    TriangularPrism = 'TriangularPrism'
+    RectangularPrism = 'RectangularPrism'
     YHexagonalPrism = 'YHexagonalPrism'
+    OctagonalPrism = 'OctagonalPrism'
+    DodecagonalPrism = 'DodecagonalPrism'
 
     Default = ZPlane
 
     def get(self) -> Sequence[str]:
-        return [self.Infinity, self.XPlane, self.YPlane, self.ZPlane, self.Cylinder, self.Sphere, self.Cone,
-                self.XHexagonalPrism,
-                self.YHexagonalPrism]
+        return [self.XPlane, self.YPlane, self.ZPlane,
+                self.XCylinder, self.YCylinder, self.ZCylinder,
+                self.Sphere, self.Cone,
+                self.XTorus, self.YTorus, self.ZTorus,
+                self.TriangularPrism, self.RectangularPrism,
+                self.YHexagonalPrism, self.OctagonalPrism, self.DodecagonalPrism]
 
     def get_field_name_by_value(self, value):
         for attr_name, attr_value in self.__dict__.items():

@@ -11,10 +11,8 @@ import numpy as np
 class Properties(CShapeObjectProperties):
     Object = 'Object'
     Name = 'Name'
-    Position = 'Position'
-    RotationX = 'Rotation X'
-    RotationY = 'Rotation Y'
-    RotationZ = 'Rotation Z'
+    Distance = 'Distance (Y-axis)'
+    Size = 'Size'
 
 
 class YPlane(Surface):
@@ -22,32 +20,18 @@ class YPlane(Surface):
         super().__init__()
         self.surface_type = SurfacesTypes.YPlane
         self.properties = Properties()
-        self.rotation_x: float = 0.0
-        self.rotation_y: float = 0.0
-        self.rotation_z: float = 0.0
-
-        self.vertices = np.array((
-            np.array([-0.5, 0.5, 0.0], dtype=np.float32),
-            np.array([-0.5, -0.5, 0.0], dtype=np.float32),
-            np.array([0.5, -0.5, 0.0], dtype=np.float32),
-            np.array([0.5, 0.5, 0.0], dtype=np.float32)
-        ), dtype=np.float32)
-
-        self.indices = np.array((
-            0, 1, 2,
-            0, 2, 3
-        ), dtype=np.uint32)
+        self.distance = 0.0
+        self.size = np.array([100.0, 100.0], dtype=np.float32)
 
     def set_parameters(self, parameters: list):
         pass
 
     def get_data(self):
         return {self.properties.Name: (CShapeTypes.String, self.name),
-                self.properties.Position: (
-                CShapeTypes.Vector3DFloat, [list(np.array(self.position, dtype=float)), (-99999.9999, 99999.9999)]),
-                self.properties.RotationX: (CShapeTypes.Float, [self.rotation_x, (-360.0, 360.0)]),
-                self.properties.RotationY: (CShapeTypes.Float, [self.rotation_y, (-360.0, 360.0)]),
-                self.properties.RotationZ: (CShapeTypes.Float, [self.rotation_z, (-360.0, 360.0)])}
+                self.properties.Distance: (CShapeTypes.Float, [self.distance, (-99999.9999, 99999.9999)]),
+                self.properties.Size: (
+                CShapeTypes.Vector2DFloat, [list(np.array(self.size, dtype=float)), (1.0, 99999.9999)])
+                }
 
     def set_data(self, properties: tuple):
         print(properties)
@@ -56,11 +40,8 @@ class YPlane(Surface):
             case self.properties.Name:
                 name = value
                 self.name = name
-            case Properties.Position:
-                self.position[0:3] = value
-            case Properties.RotationX:
-                self.rotation_x = value
-            case Properties.RotationY:
-                self.rotation_y = value
-            case Properties.RotationZ:
-                self.rotation_z = value
+            case Properties.Distance:
+                self.distance = value
+                self.position[1] = value
+            case self.properties.Size:
+                self.size[0:2] = value

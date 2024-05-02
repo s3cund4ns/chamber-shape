@@ -2,7 +2,7 @@ from random import randint
 
 from cshape_objects.surfaces.surface import SurfacesTypes
 from cshape_objects.surfaces.z_plane import Plane
-from cshape_objects.surfaces.cylinder import Cylinder
+from cshape_objects.surfaces.x_cylinder import Cylinder
 from cshape_objects.surfaces.sphere import Sphere
 from cshape_objects.surfaces.cone import Cone
 from cshape_objects.surfaces.x_hexagonal_prism import XHexagonalPrism

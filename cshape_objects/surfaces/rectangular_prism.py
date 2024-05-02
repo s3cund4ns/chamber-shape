@@ -16,10 +16,10 @@ class Properties(CShapeObjectProperties):
     Length = 'Length'
 
 
-class YHexagonalPrism(Surface):
+class RectangularPrism(Surface):
     def __init__(self):
         super().__init__()
-        self.surface_type = SurfacesTypes.YHexagonalPrism
+        self.surface_type = SurfacesTypes.RectangularPrism
         self.properties = Properties()
         self.center_position = np.array([0.0, 0.0], dtype=np.float32)
         self.half_width: float = 5.0
