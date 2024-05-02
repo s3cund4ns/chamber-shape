@@ -1,13 +1,17 @@
 from cshape_objects.surfaces.cone import Cone
 from cshape_objects.surfaces.cylinder import Cylinder
-from cshape_objects.surfaces.plane import Plane
+from cshape_objects.surfaces.x_plane import XPlane
+from cshape_objects.surfaces.y_plane import YPlane
+from cshape_objects.surfaces.z_plane import ZPlane
 from cshape_objects.surfaces.sphere import Sphere
 from cshape_objects.surfaces.surface import SurfacesTypes
 from cshape_objects.surfaces.x_hexagonal_prism import XHexagonalPrism
 from cshape_objects.surfaces.y_hexagonal_prism import YHexagonalPrism
 
 surfaces_types = {
-    SurfacesTypes.Plane: Plane,
+    SurfacesTypes.XPlane: XPlane,
+    SurfacesTypes.YPlane: YPlane,
+    SurfacesTypes.ZPlane: ZPlane,
     SurfacesTypes.Cone: Cone,
     SurfacesTypes.Sphere: Sphere,
     SurfacesTypes.Cylinder: Cylinder,

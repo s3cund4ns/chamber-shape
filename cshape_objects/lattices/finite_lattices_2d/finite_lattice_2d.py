@@ -27,6 +27,12 @@ class FiniteLattice2D(Lattice):
     def resize(self):
         self.universes_matrix.resize(self.size[0], self.size[1], refcheck=False)
 
+    def get_size(self):
+        return list(np.array(self.size, dtype=int))
+
+    def get_pitch(self):
+        return self.pitch
+
     def get_data(self):
         all_universes: list = []
         for universe in self.all_universes:

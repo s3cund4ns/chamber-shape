@@ -20,17 +20,20 @@ class CShapeObjects:
 class SurfacesTypes:
     NoneType = None
     Infinity = 'Infinity'
-    Plane = 'Plane'
+    XPlane = 'XPlane'
+    YPlane = 'YPlane'
+    ZPlane = 'ZPlane'
     Cylinder = 'Cylinder'
     Sphere = 'Sphere'
     Cone = 'Cone'
     XHexagonalPrism = 'XHexagonalPrism'
     YHexagonalPrism = 'YHexagonalPrism'
 
-    Default = Plane
+    Default = ZPlane
 
     def get(self) -> Sequence[str]:
-        return [self.Infinity, self.Plane, self.Cylinder, self.Sphere, self.Cone, self.XHexagonalPrism,
+        return [self.Infinity, self.XPlane, self.YPlane, self.ZPlane, self.Cylinder, self.Sphere, self.Cone,
+                self.XHexagonalPrism,
                 self.YHexagonalPrism]
 
     def get_field_name_by_value(self, value):

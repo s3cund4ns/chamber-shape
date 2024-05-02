@@ -3,7 +3,7 @@ from renderer.mesh_creator import create_mesh
 from project_data.view import View
 
 
-class ViewRenderer(View):
+class ViewSurfaceRenderer(View):
     def __init__(self):
         super().__init__()
         self.scene = None

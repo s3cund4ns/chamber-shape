@@ -50,7 +50,7 @@ class ModelUniversesTree(Model):
         self.data.insert_node('root', str(item), item)
         item_text = ('Universe', str(self.elements_amount))
         self.elements_amount += 1
-        self.view_model.add_item_to_views('root', item_text, str(item))
+        self.view_model.add_item_to_views('root', item_text, str(item), item)
 
     def find_elements_of_type(self, element_type):
         elements = []
@@ -65,7 +65,7 @@ class ModelUniversesTree(Model):
         self.data.insert_node(self.key_of_selected_item, str(item), item)
         self.data.get_node_value(self.key_of_selected_item).add_element(item)
         item_text = (item.get_type(), item.get_name())
-        self.view_model.add_item_to_views(self.key_of_selected_item, item_text, str(item))
+        self.view_model.add_item_to_views(self.key_of_selected_item, item_text, str(item), item)
 
     def add_cell(self):
         if type(self.data.get_node_value(self.key_of_selected_item)) != Universe:

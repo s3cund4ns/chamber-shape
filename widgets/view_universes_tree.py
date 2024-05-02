@@ -30,7 +30,7 @@ class ViewUniversesTree(View):
         self.view_model.delete_item_in_models()
 
     def add_item(self, *args):
-        parent, item_text = args
+        parent, item_text, item = args
         parent_item = None
         if parent == 'root':
             parent_item = self.universes_tree_widget

@@ -3,7 +3,8 @@ from PySide6.QtWidgets import QMainWindow, QWidget, QFileDialog
 
 from project_data.project_data import ProjectData
 from project_data.project_state import ProjectState
-from renderer.view_renderer import ViewRenderer
+from renderer.view_lattice_renderer import ViewLatticeRenderer
+from renderer.view_surface_renderer import ViewSurfaceRenderer
 from renderer.viewport import Viewport
 from widgets.input_data_editor import InputDataEditor
 from ui_files.ui_main import Ui_MainWindow
@@ -30,7 +31,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Chamber Shape')
         self.setWindowIcon(QIcon('favicon.ico'))
 
-        with open('styles/light.qss', 'r') as file:
+        with open('styles/dark.qss', 'r') as file:
             self.setStyleSheet(file.read())
 
         QFontDatabase.addApplicationFont('../resources/fonts/Inter-Medium.ttf')
@@ -97,8 +98,11 @@ class MainWindow(QMainWindow):
         self.view_universe_properties = ViewUniverseProperties(self.ui.properties_layout)
         self.view_calculation_parameters_properties = ViewCalculationParametersProperties(self.ui.properties_layout)
 
-        self.view_surfaces_renderer = ViewRenderer()
+        self.view_surfaces_renderer = ViewSurfaceRenderer()
         self.view_surfaces_renderer.set_scene(self.viewport.root_entity)
+
+        self.view_lattice_renderer = ViewLatticeRenderer()
+        self.view_lattice_renderer.set_scene(self.viewport.root_entity)
 
         self.view_input_data = ViewInputData(self.input_data_editor)
 
@@ -107,7 +111,7 @@ class MainWindow(QMainWindow):
                                      self.view_detectors_list,
                                      self.view_material_properties, self.view_surface_properties, self.view_detector_properties,
                                      self.view_universe_properties, self.view_calculation_parameters_properties,
-                                     self.view_surfaces_renderer, self.view_input_data)
+                                     self.view_surfaces_renderer, self.view_lattice_renderer, self.view_input_data)
 
         if self.project_data.state == ProjectState.NOT_EXISTING.value:
             self.open_start_window()

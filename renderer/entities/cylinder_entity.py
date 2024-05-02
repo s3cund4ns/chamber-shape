@@ -1,4 +1,5 @@
 from PySide6.Qt3DExtras import Qt3DExtras
+from PySide6.Qt3DRender import Qt3DRender
 from PySide6.QtGui import QVector3D
 
 from renderer.entities.surface_entity import SurfaceEntity
