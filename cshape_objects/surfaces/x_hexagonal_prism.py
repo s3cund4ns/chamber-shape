@@ -33,8 +33,10 @@ class XHexagonalPrism(Surface):
 
     def get_data(self):
         return {self.properties.Name: (CShapeTypes.String, self.name),
-            Properties.Position: (CShapeTypes.Vector3DFloat, list(np.array(self.position, dtype=float))),
-                Properties.HalfWidth: (CShapeTypes.Float, self.half_width)}
+                Properties.Position: (
+                CShapeTypes.Vector3DFloat, [list(np.array(self.position, dtype=float)), (-99999.9999, 99999.9999)]),
+                Properties.HalfWidth: (CShapeTypes.Float, [self.half_width, (0.0001, 99999.9999)]),
+                }
 
     def set_data(self, properties: dict):
         name, value = properties
@@ -44,10 +46,3 @@ class XHexagonalPrism(Surface):
                 self.name = name
             case Properties.Position:
                 self.position[0:3] = value
-            case Properties.HalfWidth:
-                self.half_width = value
-
-
-
-
-

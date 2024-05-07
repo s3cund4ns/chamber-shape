@@ -27,15 +27,21 @@ class FiniteLattice2D(Lattice):
     def resize(self):
         self.universes_matrix.resize(self.size[0], self.size[1], refcheck=False)
 
+    def get_size(self):
+        return list(np.array(self.size, dtype=int))
+
+    def get_pitch(self):
+        return self.pitch
+
     def get_data(self):
         all_universes: list = []
         for universe in self.all_universes:
             all_universes.append(str(self.all_universes.index(universe)))
 
         return {self.properties.Name: (CShapeTypes.String, self.name),
-                self.properties.Position: (CShapeTypes.Vector3DFloat, list(np.array(self.position, dtype=float))),
+                self.properties.Position: (CShapeTypes.Vector3DFloat, [list(np.array(self.position, dtype=float)), (-99999.9999, 99999.9999)]),
                 self.properties.Size: (CShapeTypes.Vector2DInt, list(np.array(self.size, dtype=int))),
-                self.properties.Pitch: (CShapeTypes.Float, self.pitch),
+                self.properties.Pitch: (CShapeTypes.Float, [self.pitch, (0.0001, 99999.9999)]),
                 self.properties.UniverseMatrix: (CShapeTypes.Array2DInt, [self.universes_matrix, all_universes])}
 
     def set_data(self, properties: tuple):

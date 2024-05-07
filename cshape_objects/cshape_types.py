@@ -6,6 +6,7 @@ class CShapeTypes:
     Label = 'Label'
     Int = "<class 'int'>"
     Float = "<class 'float'>"
+    Range = 'Range'
     String = "<class 'str'>"
     Vector2DInt = "<class 'list'> 2 int"
     Vector2DFloat = "<class 'list'> 2 float"
@@ -13,6 +14,7 @@ class CShapeTypes:
     Vector3DInt = "<class 'list'> 3 int"
     Vector3DFloat = "<class 'list'> 3 <class 'numpy.float32'>"
     Vector3DString = "<class 'list'> 3 str"
+    Vector3DComboBox = 'Vector3DComboBox'
     Array2DInt = "Array2DInt"
     Enum = "<class 'list'> 2 <class 'dict'>"
     List = "<class 'list'> <class 'list'>"

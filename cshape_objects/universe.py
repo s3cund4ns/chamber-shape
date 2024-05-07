@@ -52,7 +52,7 @@ class Universe(CShapeObject):
         elements = []
         for element in self.elements:
             elements.append([element.get_type(), element.get_name()])
-        return {self.properties.Position: (CShapeTypes.Vector3DFloat, list(np.array(self.position, dtype=float))),
+        return {self.properties.Position: (CShapeTypes.Vector3DFloat, [list(np.array(self.position, dtype=float)), (-99999.9999, 99999.9999)]),
                 self.properties.Elements: (CShapeTypes.List, elements)}
 
     def set_data(self, properties: dict):

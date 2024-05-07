@@ -47,9 +47,9 @@ class MeshDetector(Detector):
         return {
             self.properties.Name: (CShapeTypes.String, self.name),
             self.properties.Mode: (CShapeTypes.Enum, [self.modes, self.mode]),
-            self.properties.Coordinate1: (CShapeTypes.Vector3DFloat, list(self.coordinate1)),
-            self.properties.Coordinate2: (CShapeTypes.Vector3DFloat, list(self.coordinate2)),
-            self.properties.Coordinate3: (CShapeTypes.Vector3DFloat, list(self.coordinate3))
+            self.properties.Coordinate1: (CShapeTypes.Vector3DFloat, [list(self.coordinate1), (-99999.9999, 99999.9999)]),
+            self.properties.Coordinate2: (CShapeTypes.Vector3DFloat, [list(self.coordinate2), (-99999.9999, 99999.9999)]),
+            self.properties.Coordinate3: (CShapeTypes.Vector3DFloat, [list(self.coordinate3), (-99999.9999, 99999.9999)])
         }
 
     def set_data(self, properties: dict):

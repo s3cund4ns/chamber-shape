@@ -65,7 +65,8 @@ class ProjectData:
     def load_views(self, *args: View):
         (universes_view, materials_view, surfaces_view, detectors_view, material_properties_view,
          surface_properties_view, detector_properties_view,
-         universe_properties_view, calculation_parameters_properties_view, surfaces_renderer_view, input_data_view) = args
+         universe_properties_view, calculation_parameters_properties_view, surfaces_renderer_view,
+         lattice_renderer_view, input_data_view) = args
         self.universes_view_model.add_view(universes_view)
         self.materials_view_model.add_view(materials_view)
         self.surfaces_view_model.add_view(surfaces_view)
@@ -76,6 +77,7 @@ class ProjectData:
         self.universes_view_model.add_view(universe_properties_view)
         self.calculation_parameters_view_model.add_view(calculation_parameters_properties_view)
         self.surfaces_view_model.add_view(surfaces_renderer_view)
+        self.universes_view_model.add_view(lattice_renderer_view)
         self.input_data_view_model.add_view(input_data_view)
 
     def create_project_directory(self):
