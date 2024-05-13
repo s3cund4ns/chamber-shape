@@ -10,7 +10,6 @@ class ViewSurfacesList(View):
         super().__init__()
 
         self.surfaces_list_widget = QListWidget()
-        self.surfaces_list_widget.setDragEnabled(True)
         self.surfaces_list_widget.itemClicked.connect(self.notify_view_models_select)
         self.surfaces_list_widget.setContextMenuPolicy(Qt.CustomContextMenu)
         self.surfaces_list_widget.customContextMenuRequested.connect(self.show_context_menu)

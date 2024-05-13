@@ -14,9 +14,6 @@ class ViewMaterialsList(View):
         self.materials_list_widget.setContextMenuPolicy(Qt.CustomContextMenu)
         self.materials_list_widget.customContextMenuRequested.connect(self.show_context_menu)
 
-    def start_operation(self, sender, sender_child_name):
-        self.notify_view_model(sender, [self.materials_list_widget.currentRow(), sender_child_name])
-
     def notify_view_model_add(self):
         self.view_model.add_item_to_models(self.materials_list_widget.count())
 
@@ -30,10 +27,6 @@ class ViewMaterialsList(View):
     def add_item(self, *args):
         index, item_text, item = args
         self.materials_list_widget.insertItem(index, item_text)
-
-    def select_item_source(self):
-        sender = self.materials_list_widget.sender().currentRow()
-        self.notify_view_model('Select', [sender])
 
     def select_item(self, item_index, item):
         self.materials_list_widget.setCurrentRow(item_index)

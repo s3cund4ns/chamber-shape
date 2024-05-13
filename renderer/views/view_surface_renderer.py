@@ -1,5 +1,5 @@
 from renderer.entities.surface_entity import SurfaceEntity
-from renderer.mesh_creator import create_mesh
+from renderer.entities.entity_creator import create_entity
 from project_data.view import View
 
 
@@ -15,7 +15,7 @@ class ViewSurfaceRenderer(View):
     def add_item(self, *args):
         index, item_text, item = args
         item_text = item_text.split()[0]
-        surface_render = create_mesh(item_text, self.scene)
+        surface_render = create_entity(item_text, self.scene)
         self.surface_renders.append(surface_render)
 
     def select_item(self, *args):

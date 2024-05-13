@@ -34,6 +34,12 @@ class Universe(CShapeObject):
     def get_type(self):
         return self.type
 
+    def set_index(self, index: int):
+        self.index = index
+
+    def get_index(self):
+        return self.index
+
     def add_element(self, element) -> None:
         current_element = element
         self.elements.append(current_element)

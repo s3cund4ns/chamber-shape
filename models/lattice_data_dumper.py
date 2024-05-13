@@ -1,5 +1,5 @@
-from cshape_objects.lattices.finite_lattices_2d.finite_lattice_2d import FiniteLattice2D
-from cshape_objects.lattices.finite_lattices_2d.lattice_square import LatticeSquare
+from cshape_objects.cshape_types import CShapeTypes
+from cshape_objects.lattices.square_lattice import LatticeSquare
 
 
 class LatticeDataDumper:
@@ -10,6 +10,15 @@ class LatticeDataDumper:
         source_item_data: dict = item.get_data()
         self.item_data = {'Type': item.get_type()}
         for key in source_item_data.keys():
+            if source_item_data[key][0] == CShapeTypes.Float:
+                self.item_data[key] = source_item_data[key][1][0]
+                continue
+            if source_item_data[key][0] == CShapeTypes.Vector2DFloat:
+                self.item_data[key] = source_item_data[key][1][0]
+                continue
+            if source_item_data[key][0] == CShapeTypes.Vector3DFloat:
+                self.item_data[key] = source_item_data[key][1][0]
+                continue
             if key == 'Size':
                 size = []
                 for size_component in source_item_data[key][1]:

@@ -14,6 +14,7 @@ class Properties(CShapeObjectProperties):
     Position = 'Position'
     Radius = 'Radius'
     Length = 'Length'
+    Color = 'Color'
 
 
 class YCylinder(Surface):
@@ -36,7 +37,8 @@ class YCylinder(Surface):
                 Properties.Position: (
                 CShapeTypes.Vector2DFloat, [list(np.array(self.center_position, dtype=float)), (-99999.9999, 99999.9999)]),
                 Properties.Radius: (CShapeTypes.Float, [self.radius, (0.0001, 99999.9999)]),
-                Properties.Length: (CShapeTypes.Float, [self.length, (0.0001, 99999.9999)])
+                Properties.Length: (CShapeTypes.Float, [self.length, (0.0001, 99999.9999)]),
+                self.properties.Color: (CShapeTypes.Color, self.color)
                 }
 
     def set_data(self, properties: dict):
@@ -53,3 +55,15 @@ class YCylinder(Surface):
                 self.radius = value
             case Properties.Length:
                 self.length = value
+            case Properties.Color:
+                self.color = value
+
+    def dump_data(self) -> dict:
+        return {
+            'Type': self.surface_type,
+            self.properties.Name: self.name,
+            self.properties.Position: list(np.array(self.center_position, dtype=float)),
+            self.properties.Radius: self.radius,
+            self.properties.Length: self.length,
+            self.properties.Color: self.color
+        }

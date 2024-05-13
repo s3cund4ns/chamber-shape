@@ -13,9 +13,6 @@ class ViewModelCalculationParameters(ViewModel):
 
     def select_item_in_models(self, parameter_type: str):
         for model in self.models:
-            if model.find_parameter(parameter_type) is None:
-                print(parameter_type)
-                model.add_item(parameter_type)
             model.select_item(parameter_type)
 
     def select_item_in_views(self, item_data):

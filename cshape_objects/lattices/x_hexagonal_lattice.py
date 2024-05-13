@@ -1,14 +1,12 @@
 import numpy as np
 
-from cshape_objects.lattices.finite_lattices_2d.finite_lattice_2d import FiniteLattice2D
-from cshape_objects.lattices.lattice import Lattice, LatticeTypes, Lattices
+from cshape_objects.lattices.lattice import Lattice
 
 
-class LatticeXHexagonal(FiniteLattice2D):
+class XHexagonalLattice(Lattice):
     def __init__(self):
         super().__init__()
         self.name: str = 'NewLatticeXHexagonal'
-        self.lattice_type: int = Lattices.LatticeXHexagonal
 
     def get_universe_position(self, x_number: int, y_number: int):
         x_position = self.position[0] + x_number * self.pitch

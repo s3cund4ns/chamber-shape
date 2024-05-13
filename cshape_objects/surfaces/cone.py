@@ -14,6 +14,7 @@ class Properties(CShapeObjectProperties):
     Position = 'Position'
     Radius = 'Radius'
     Height = 'Height'
+    Color = 'Color'
 
 
 class Cone(Surface):
@@ -44,7 +45,8 @@ class Cone(Surface):
             self.properties.Name: (CShapeTypes.String, self.name),
             Properties.Position: (CShapeTypes.Vector3DFloat, [list(np.array(self.position, dtype=float)), (-99999.9999, 99999.9999)]),
             Properties.Radius: (CShapeTypes.Float, [self.radius, (0.0001, 99999.9999)]),
-            Properties.Height: (CShapeTypes.Float, [self.height, (0.0001, 99999.9999)])
+            Properties.Height: (CShapeTypes.Float, [self.height, (0.0001, 99999.9999)]),
+            self.properties.Color: (CShapeTypes.Color, self.color)
         }
 
     def set_data(self, properties: dict):
@@ -59,4 +61,16 @@ class Cone(Surface):
                 self.radius = value
             case Properties.Height:
                 self.height = value
+            case Properties.Color:
+                self.color = value
+
+    def dump_data(self) -> dict:
+        return {
+            'Type': self.surface_type,
+            self.properties.Name: self.name,
+            self.properties.Position: list(np.array(self.position, dtype=float)),
+            self.properties.Radius: self.radius,
+            self.properties.Height: self.height,
+            self.properties.Color: self.color
+        }
 

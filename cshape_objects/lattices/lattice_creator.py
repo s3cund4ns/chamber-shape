@@ -1,10 +1,10 @@
-from cshape_objects.lattices.finite_lattices_2d.lattice_square import LatticeSquare
-from cshape_objects.lattices.finite_lattices_2d.lattice_x_hexagonal import LatticeXHexagonal
-from cshape_objects.lattices.lattice import Lattices
+from cshape_objects.lattices.square_lattice import SquareLattice
+from cshape_objects.lattices.lattice import LatticeTypes
+from cshape_objects.lattices.x_hexagonal_lattice import XHexagonalLattice
 
 lattices = {
-    Lattices.LatticeSquare: LatticeSquare,
-    Lattices.LatticeXHexagonal: LatticeXHexagonal
+    LatticeTypes.SquareLattice: SquareLattice,
+    LatticeTypes.XHexagonalLattice: XHexagonalLattice
 }
 
 

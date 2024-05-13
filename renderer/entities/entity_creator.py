@@ -1,5 +1,3 @@
-from PySide6.Qt3DExtras import Qt3DExtras
-
 from renderer.entities.cone_entity import ConeEntity
 from renderer.entities.dodecagonal_prism_entity import DodecagonalPrismEntity
 from renderer.entities.octagonal_prism_entity import OctagonalPrismEntity
@@ -18,7 +16,7 @@ from renderer.entities.sphere_entity import SphereEntity
 from cshape_objects.surfaces.surface import SurfacesTypes
 from renderer.entities.z_torus_entity import ZTorusEntity
 
-meshes = {
+entities = {
     SurfacesTypes.XPlane: XPlaneEntity,
     SurfacesTypes.YPlane: YPlaneEntity,
     SurfacesTypes.ZPlane: ZPlaneEntity,
@@ -38,5 +36,5 @@ meshes = {
 }
 
 
-def create_mesh(mesh_type, entity):
-    return meshes[mesh_type](entity)
+def create_entity(mesh_type, entity):
+    return entities[mesh_type](entity)

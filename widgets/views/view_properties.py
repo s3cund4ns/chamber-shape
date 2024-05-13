@@ -1,26 +1,24 @@
-from PySide6.QtWidgets import QSpacerItem, QSizePolicy
-
 from cshape_objects.cell import Cell
-from cshape_objects.lattices.finite_lattices_2d.lattice_square import LatticeSquare
-from cshape_objects.lattices.lattice import Lattice
-from cshape_objects.material import Material
 from cshape_objects.pin import Pin
 from cshape_objects.universe import Universe
+from data_structs.matrix import Matrix
 from widgets.property_items.property_item import PropertyItem
 from widgets.property_items.property_item_creator import create_property
 from project_data.view import View
 
 
 class ViewProperties(View):
-    def __init__(self, properties_layout):
+    def __init__(self):
         super().__init__()
+        self.properties_layout = None
+
+    def attach_to_layout(self, properties_layout):
         self.properties_layout = properties_layout
 
     def clear_properties(self):
         while self.properties_layout.count() > 0:
             current_property = self.properties_layout.takeAt(0)
             current_property.widget().deleteLater()
-
 
     def generate_properties(self, default_values, item):
         self.clear_properties()
@@ -61,17 +59,17 @@ class ViewProperties(View):
         pass
 
     def clear(self):
-        pass
+        self.clear_properties()
 
 
 class ViewSurfaceProperties(ViewProperties):
-    def __init__(self, properties_layout):
-        super().__init__(properties_layout)
+    def __init__(self):
+        super().__init__()
 
 
 class ViewMaterialProperties(ViewProperties):
-    def __init__(self, properties_layout):
-        super().__init__(properties_layout)
+    def __init__(self):
+        super().__init__()
 
     def select_item(self, *args):
         item_index, item = args
@@ -80,13 +78,44 @@ class ViewMaterialProperties(ViewProperties):
 
 
 class ViewDetectorProperties(ViewProperties):
-    def __init__(self, properties_layout):
-        super().__init__(properties_layout)
+    def __init__(self):
+        super().__init__()
+
+
+class ViewCellProperties(ViewProperties):
+    def __init__(self):
+        super().__init__()
+
+    def select_item(self, *args):
+        item_index, item = args
+        self.clear_properties()
+        self.generate_properties(['label', 'label', 'combo_box'], item)
+
+
+class ViewPinProperties(ViewProperties):
+    def __init__(self):
+        super().__init__()
+
+    def select_item(self, *args):
+        item_index, item = args
+        self.clear_properties()
+        self.generate_properties([], item)
+
+
+class ViewLatticeProperties(ViewProperties):
+    def __init__(self):
+        super().__init__()
+
+    def select_item(self, *args):
+        item_index, item = args
+        print(item)
+        self.clear_properties()
+        self.generate_properties([], item)
 
 
 class ViewUniverseProperties(ViewProperties):
-    def __init__(self, properties_layout):
-        super().__init__(properties_layout)
+    def __init__(self):
+        super().__init__()
 
     def select_item(self, *args):
         item_index, item = args
@@ -94,19 +123,12 @@ class ViewUniverseProperties(ViewProperties):
         self.clear_properties()
         if type(item) is Universe:
             self.generate_properties(['Element', 0.0], item.get_data())
-        if type(item) is Cell:
-            self.generate_properties(['label', 'label', 'combo_box'], item.get_data())
-        if type(item) is Pin:
-            self.generate_properties(['Material', 0.0], item.get_data())
-        if type(item) is LatticeSquare:
-            self.generate_properties([], item.get_data())
 
 
 class ViewCalculationParametersProperties(ViewProperties):
-    def __init__(self, properties_layout):
-        super().__init__(properties_layout)
+    def __init__(self):
+        super().__init__()
 
     def select_item(self, item):
         self.clear_properties()
         self.generate_properties([], item)
-

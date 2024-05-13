@@ -16,7 +16,7 @@ class ViewUniversesTree(View):
 
         self.universes_tree_widget.clear()
         self.universes_tree_widget.setColumnCount(2)
-        self.universes_tree_widget.setHeaderLabels(['Element', 'Name'])
+        self.universes_tree_widget.setHeaderLabels(['Element', 'ID'])
 
     def notify_view_model_add(self):
         sender = self.universes_tree_widget.sender()
@@ -30,7 +30,7 @@ class ViewUniversesTree(View):
         self.view_model.delete_item_in_models()
 
     def add_item(self, *args):
-        parent, item_text, item = args
+        parent, item_text, key = args
         parent_item = None
         if parent == 'root':
             parent_item = self.universes_tree_widget
@@ -59,23 +59,8 @@ class ViewUniversesTree(View):
 
     def show_context_menu(self, pos):
         context_menu = QMenu(self.universes_tree_widget)
-        add = context_menu.addMenu('Add')
-        add.setObjectName('Add')
-        for universe_element in ['Universe', 'Cell', 'Pin']:
-            add.addAction(universe_element)
-
-        add_lattice = add.addMenu('Lattice')
-        add_lattice.setObjectName('Lattice')
-        for lattice_type in ['Square', 'X Hexagonal', 'Y Hexagonal']:
-            add_lattice.addAction(lattice_type)
-
+        add = context_menu.addAction('Add')
         delete = context_menu.addAction("Delete")
+        add.triggered.connect(self.notify_view_model_add)
         delete.triggered.connect(self.notify_view_model_delete)
         selected_action = context_menu.exec_(self.universes_tree_widget.mapToGlobal(pos))
-        if selected_action and (selected_action.text() != 'Delete'):
-            selected_item_name = selected_action.parent().objectName()
-            select_action_name = selected_action.text()
-            if selected_item_name == 'Lattice':
-                self.view_model.add_item_to_models(selected_item_name, select_action_name)
-            else:
-                self.view_model.add_item_to_models(select_action_name, '')

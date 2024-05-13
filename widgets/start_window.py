@@ -16,7 +16,7 @@ class StartWindow(QWidget):
         self.vertical_layout.setContentsMargins(0, 0, 0, 0)
 
         self.label_header = QLabel(self)
-        self.label_header.setText('Start or continue the shape modeling')
+        self.label_header.setText('Start or continue the chamber shaping')
         self.label_header.setFont(QFont('MS Shell Dig 2', 16))
         self.vertical_layout.addWidget(self.label_header)
 

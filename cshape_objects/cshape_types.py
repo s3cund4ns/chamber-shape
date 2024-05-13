@@ -15,10 +15,12 @@ class CShapeTypes:
     Vector3DFloat = "<class 'list'> 3 <class 'numpy.float32'>"
     Vector3DString = "<class 'list'> 3 str"
     Vector3DComboBox = 'Vector3DComboBox'
+    Color = 'Color'
     Array2DInt = "Array2DInt"
     Enum = "<class 'list'> 2 <class 'dict'>"
     List = "<class 'list'> <class 'list'>"
     Table = 'Table'
     CompositeList = 'CompositeList'
     CompositeItems = 'CompositeItems'
+    CompositeEnums = 'CompositeEnums'
     Reference = 'Reference'

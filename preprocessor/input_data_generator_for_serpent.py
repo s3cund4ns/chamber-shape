@@ -8,12 +8,23 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
         super().__init__()
         self.tokens: dict = {
             'Surface': 'surf',
-            'Plane': 'plane',
+            'XPlane': 'px',
+            'YPlane': 'py',
+            'ZPlane': 'pz',
+            'XCylinder': 'cylx',
+            'YCylinder': 'cyly',
+            'ZCylinder': 'cylz',
             'Sphere': 'sph',
-            'Cylinder': 'cyl',
             'Cone': 'cone',
+            'XTorus': 'torx',
+            'YTorus': 'tory',
+            'ZTorus': 'torz',
+            'TriangularPrism': 'tric',
+            'RectangularPrism': 'rect',
             'XHexagonalPrism': 'hexxc',
             'YHexagonalPrism': 'hexyc',
+            'OctagonalPrism': 'octa',
+            'DodecagonalPrism': 'dode',
             'Material': 'mat',
             'Atomic': '',
             'Massive': '-',
@@ -25,7 +36,9 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
             'In': '-',
             'Out': '',
             'Pin': 'pin',
-            'Lattice': 'lat'
+            'Lattice': 'lat',
+            'SquareLattice': '1',
+            'Neutron population': 'pop'
         }
 
     def generate_basic_data(self, basic_data):
@@ -41,13 +54,15 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
 
         return input_data
 
-    def generate_materials_data(self, materials: dict):
+    def generate_materials_data(self, materials: list):
         input_data = []
         for material_data in materials:
             material_info = []
             nuclides_info = []
             for key in material_data:
                 value = material_data[key]
+                if key == 'Color':
+                    continue
                 if key == 'Nuclides':
                     nuclides_info = value
                     continue
@@ -57,8 +72,8 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
                 token = self.tokens.get(value)
                 material_info.append(token)
 
-            key_word, name, density, mode = material_info
-            material_text = f'{key_word} {name} {mode}{density}\n'
+            name, density, mode = material_info
+            material_text = f'mat {name} {mode}{density}\n'
 
             nuclides_text = ''
             for nuclide_info in nuclides_info:
@@ -71,12 +86,18 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
 
         return input_data
 
-    def generate_surfaces_data(self, surfaces: dict):
+    def generate_surfaces_data(self, surfaces: list):
         input_data = []
         for surface_data in surfaces:
             surface_info = []
             for key in surface_data:
                 value = surface_data[key]
+                if key == 'Color':
+                    continue
+                if key == 'Size':
+                    continue
+                if key == 'Length':
+                    continue
                 if type(value) is list:
                     token = self.list_to_str(value, ' ')
                     surface_info.append(token)
@@ -98,7 +119,7 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
 
         return input_data
 
-    def generate_cells_data(self, cells: list):
+    def generate_cells_data(self, cells: list, all_surfaces: list):
         input_data = []
         for cell_data in cells:
             cell_info = []
@@ -114,7 +135,7 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
                 token = self.tokens.get(value)
                 cell_info.append(token)
 
-            key_word, name, fill, entire = cell_info
+            name, universe, fill, entire = cell_info
             if fill == 'Universe':
                 fill = self.tokens.get(fill)
             if fill == self.tokens.get('Material'):
@@ -122,16 +143,17 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
             if fill == 'Void' or fill == 'Outside':
                 fill = self.tokens.get(fill)
                 entire = ''
-            if entire is None:
+            if entire == 'Empty':
                 entire = ''
 
-            universe_text = f'{key_word} {name} {fill} {entire}'
+            universe_text = f'cell {name} {universe} {fill} {entire}'
 
             surfaces_text = ''
             for surface_info in surfaces_info:
                 surface_index, surface_side = surface_info
+                surface_name = all_surfaces[surface_index].get_name()
                 surface_side = self.tokens.get(surface_side)
-                surface_text = f'{surface_side}{surface_index}'
+                surface_text = f'{surface_side}{surface_name}'
                 surfaces_text += f'{surface_text} '
 
             text = f'{universe_text} {surfaces_text}'
@@ -141,7 +163,7 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
 
         return input_data
 
-    def generate_pins_data(self, pins):
+    def generate_pins_data(self, pins, all_materials: list):
         input_data = []
         for pin_data in pins:
             pin_info = []
@@ -157,13 +179,18 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
                 token = self.tokens.get(value)
                 pin_info.append(token)
 
-            key_word, name = pin_info
-            pin_text = f'{key_word} {name}'
+            name, universe = pin_info
+            pin_text = f'pin {universe}'
 
             regions_text = ''
             for region_info in regions_info:
-                region_name, region_radius = region_info
-                region_text = f'{region_name} {region_radius}\n'
+                region_index, region_radius = region_info
+                material_name = all_materials[region_index].get_name()
+                if region_info in regions_info[-1:]:
+                    region_text = f'{material_name}\n'
+                    regions_text += region_text
+                    continue
+                region_text = f'{material_name} {region_radius}\n'
                 regions_text += region_text
 
             text = f'{pin_text}\n{regions_text}'
@@ -195,8 +222,27 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
                 token = self.tokens.get(value)
                 lattice_info.append(token)
 
-            key_word, name, position, size, pitch = lattice_info[:5]
-            text = f'{key_word} {position} {size} {pitch}\n{universes_text}'
+            print(lattice_info)
+            print(lattice_info[:5])
+            lattice_type, name, universe, position, size, pitch = lattice_info
+            text = f'lat {universe} {lattice_type} {position} {size} {pitch}\n{universes_text}'
+            input_data.append(text)
+            input_data.append('\n')
+
+        return input_data
+
+    def generate_calculation_parameters_data(self, calculation_parameters: list):
+        input_data = []
+        for calculation_parameters_data in calculation_parameters:
+            parameter_name = ''
+            parameter_values_text = ''
+            for key in calculation_parameters_data:
+                value = calculation_parameters_data[key]
+                if value not in self.tokens:
+                    parameter_values_text += f'{value} '
+                    continue
+                parameter_name = self.tokens.get(value)
+            text = f'set {parameter_name} {parameter_values_text}'
             input_data.append(text)
             input_data.append('\n')
 

@@ -1,5 +1,5 @@
 from PySide6.Qt3DExtras import Qt3DExtras
-from PySide6.QtGui import QVector3D
+from PySide6.QtGui import QVector3D, QRgba64
 
 from renderer.entities.surface_entity import SurfaceEntity
 from cshape_objects.surfaces.sphere import Properties
@@ -23,3 +23,6 @@ class SphereEntity(SurfaceEntity):
                 self.transform.setTranslation(QVector3D(x, y, z))
             case Properties.Radius:
                 self.mesh.setRadius(value)
+            case Properties.Color:
+                red, green, blue = value
+                self.material.setAmbient(QRgba64.fromRgba(red, green, blue, 255))

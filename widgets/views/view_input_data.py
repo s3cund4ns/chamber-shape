@@ -3,10 +3,13 @@ from widgets.input_data_editor import InputDataEditor
 
 
 class ViewInputData(View):
-    def __init__(self, input_data_editor: InputDataEditor):
+    def __init__(self):
         super().__init__()
-        self.input_data_editor = input_data_editor
+        self.input_data_editor = None
         self.input_data_text: str = ''
+
+    def attach_to_editor(self, input_data_editor: InputDataEditor):
+        self.input_data_editor = input_data_editor
 
     def add_item(self, input_data: list):
         text = ''

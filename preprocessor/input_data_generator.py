@@ -10,23 +10,27 @@ class InputDataGenerator(ABC):
         pass
 
     @abstractmethod
-    def generate_materials_data(self, materials: dict):
+    def generate_materials_data(self, materials: list):
         pass
 
     @abstractmethod
-    def generate_surfaces_data(self, surfaces: dict):
+    def generate_surfaces_data(self, surfaces: list):
         pass
 
     @abstractmethod
-    def generate_cells_data(self, cells: dict):
+    def generate_cells_data(self, cells: list, all_surfaces: list):
         pass
 
     @abstractmethod
-    def generate_pins_data(self, pins):
+    def generate_pins_data(self, pins: list, all_materials: list):
         pass
 
     @abstractmethod
     def generate_lattices_data(self, lattices):
+        pass
+
+    @abstractmethod
+    def generate_calculation_parameters_data(self, calculation_parameters: list):
         pass
 
     @staticmethod
