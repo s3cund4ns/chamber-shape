@@ -6,7 +6,8 @@ from PySide6.QtGui import QVector3D, QRgba64
 
 from renderer.entities.surface_entity import SurfaceEntity
 
-BACKGROUND_COLOR = QRgba64.fromRgba(31, 31, 31, 255)
+# BACKGROUND_COLOR = QRgba64.fromRgba(31, 31, 31, 255)
+BACKGROUND_COLOR = QRgba64.fromRgba(130, 130, 130, 255)
 CAMERA_FOV = 60.0
 CAMERA_NEAR_PLANE = 0.1
 CAMERA_FAR_PLANE = 1000.0
