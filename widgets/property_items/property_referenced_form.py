@@ -36,7 +36,7 @@ class PropertyReferencedForm(PropertyItem):
         self.line_edit_value.setText(value)
 
     def set_reference(self):
-        self.properties_view.apply_values_changes(('Set', self.context_menu.actions().index(self.sender())))
+        self.properties_view.apply_values_changes((self.label_name.text(), self.context_menu.actions().index(self.sender())))
         self.line_edit_value.setText(self.sender().text())
 
     def add_items_to_menu(self):

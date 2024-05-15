@@ -9,7 +9,7 @@ class NewProject(QWidget):
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
         self.setWindowTitle('Create new project')
         self.setWindowIcon(QIcon('favicon.ico'))
-        with open('styles/dark.qss', 'r') as file:
+        with open('styles/light.qss', 'r') as file:
             self.setStyleSheet(file.read())
 
         self.verticalLayout = QVBoxLayout(self)

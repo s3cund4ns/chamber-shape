@@ -18,12 +18,12 @@ class MaterialDetector(Detector):
         super().__init__()
         self.detector_type = DetectorsTypes.MaterialDetector
         self.properties = Properties()
-        self.materials_list = []
+        self.all_materials: list[Material] = []
         self.material = None
 
     def get_data(self):
         materials_info: list = []
-        for material in self.materials_list:
+        for material in self.all_materials:
             material = f'{material.get_name()} {material.get_density()}'
             materials_info.append(material)
         if self.material is None:
@@ -44,4 +44,4 @@ class MaterialDetector(Detector):
                 self.name = name
             case self.properties.Material:
                 material = value
-                self.material = self.materials_list[material]
+                self.material = self.all_materials[material]

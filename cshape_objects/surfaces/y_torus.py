@@ -14,6 +14,7 @@ class Properties(CShapeObjectProperties):
     Position = 'Position'
     MinorRadius = 'Minor radius'
     MajorRadius = 'Major radius'
+    Color = 'Color'
 
 
 class YTorus(Surface):
@@ -29,7 +30,8 @@ class YTorus(Surface):
             self.properties.Name: (CShapeTypes.String, self.name),
             self.properties.Position: (CShapeTypes.Vector3DFloat, [list(np.array(self.position, dtype=float)), (-99999.9999, 99999.9999)]),
             self.properties.MinorRadius: (CShapeTypes.Float, [self.minor_radius, (0.0001, 99999.9999)]),
-            self.properties.MajorRadius: (CShapeTypes.Float, [self.major_radius, (0.0001, 99999.9999)])
+            self.properties.MajorRadius: (CShapeTypes.Float, [self.major_radius, (0.0001, 99999.9999)]),
+            self.properties.Color: (CShapeTypes.Color, self.color)
         }
 
     def set_data(self, properties: tuple):
@@ -44,3 +46,15 @@ class YTorus(Surface):
                 self.minor_radius = value
             case self.properties.MajorRadius:
                 self.major_radius = value
+            case self.properties.Color:
+                self.color = value
+
+    def dump_data(self) -> dict:
+        return {
+            'Type': self.surface_type,
+            self.properties.Name: self.name,
+            self.properties.Position: list(np.array(self.position, dtype=float)),
+            self.properties.MinorRadius: self.minor_radius,
+            self.properties.MajorRadius: self.major_radius,
+            self.properties.Color: self.color
+        }

@@ -14,6 +14,7 @@ class Properties(CShapeObjectProperties):
     Position = 'Position'
     HalfWidth = 'HalfWidth'
     Length = 'Length'
+    Color = 'Color'
 
 
 class OctagonalPrism(Surface):
@@ -39,7 +40,8 @@ class OctagonalPrism(Surface):
                 Properties.Position: (
                 CShapeTypes.Vector2DFloat, [list(np.array(self.center_position, dtype=float)), (-99999.9999, 99999.9999)]),
                 Properties.HalfWidth: (CShapeTypes.Float, [self.half_width, (0.0001, 99999.9999)]),
-                Properties.Length: (CShapeTypes.Float, [self.length, (0.0001, 99999.9999)])
+                Properties.Length: (CShapeTypes.Float, [self.length, (0.0001, 99999.9999)]),
+                self.properties.Color: (CShapeTypes.Color, self.color)
                 }
 
     def set_data(self, properties: dict):
@@ -56,3 +58,15 @@ class OctagonalPrism(Surface):
                 self.half_width = value
             case Properties.Length:
                 self.length = value
+            case Properties.Color:
+                self.color = value
+
+    def dump_data(self) -> dict:
+        return {
+            'Type': self.surface_type,
+            self.properties.Name: self.name,
+            self.properties.Position: list(np.array(self.center_position, dtype=float)),
+            self.properties.HalfWidth: self.half_width,
+            self.properties.Length: self.length,
+            self.properties.Color: self.color
+        }

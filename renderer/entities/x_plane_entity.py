@@ -1,5 +1,5 @@
 from PySide6.Qt3DExtras import Qt3DExtras
-from PySide6.QtGui import QVector3D
+from PySide6.QtGui import QVector3D, QRgba64
 
 from renderer.entities.surface_entity import SurfaceEntity
 from cshape_objects.surfaces.x_plane import Properties
@@ -27,6 +27,9 @@ class XPlaneEntity(SurfaceEntity):
                 width, height = value
                 self.mesh.setWidth(width)
                 self.mesh.setHeight(height)
+            case Properties.Color:
+                red, green, blue = value
+                self.material.setAmbient(QRgba64.fromRgba(red, green, blue, 255))
 
 
 

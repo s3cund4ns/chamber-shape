@@ -30,5 +30,5 @@ class CShapeObject(ABC):
         pass
 
     @abstractmethod
-    def set_data(self, data):
+    def set_data(self, properties):
         pass

@@ -20,15 +20,14 @@ class ViewModelUniversesTree(ViewModel):
         self.data[self.current_key] = value
 
     def add_item_to_models(self, *args):
-        item_type = args
         for model in self.models:
-            model.add_item(item_type)
+            model.add_item()
 
     def add_item_to_views(self, *args):
-        index, item_text, key, item = args
+        index, item_text, key = args
         self.current_key = key
         for view in self.views:
-            view.add_item(index, item_text, item)
+            view.add_item(index, item_text, key)
 
     def select_item_in_models(self, *args):
         item, = args

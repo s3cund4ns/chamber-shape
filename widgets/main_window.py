@@ -3,22 +3,12 @@ from PySide6.QtWidgets import QMainWindow, QWidget, QFileDialog
 
 from project_data.project_data import ProjectData
 from project_data.project_state import ProjectState
-from renderer.view_lattice_renderer import ViewLatticeRenderer
-from renderer.view_surface_renderer import ViewSurfaceRenderer
 from renderer.viewport import Viewport
 from widgets.input_data_editor import InputDataEditor
 from ui_files.ui_main import Ui_MainWindow
 from widgets.new_project import NewProject
 from widgets.settings_window import SettingsWindow
 from widgets.start_window import StartWindow
-from widgets.view_detectors_list import ViewDetectorsList
-from widgets.view_input_data import ViewInputData
-
-from widgets.view_materials_list import ViewMaterialsList
-from widgets.view_properties import ViewSurfaceProperties, ViewMaterialProperties, ViewUniverseProperties, \
-    ViewDetectorProperties, ViewCalculationParametersProperties
-from widgets.view_surfaces_list import ViewSurfacesList
-from widgets.view_universes_tree import ViewUniversesTree
 
 
 class MainWindow(QMainWindow):
@@ -31,7 +21,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Chamber Shape')
         self.setWindowIcon(QIcon('favicon.ico'))
 
-        with open('styles/dark.qss', 'r') as file:
+        with open('styles/light.qss', 'r') as file:
             self.setStyleSheet(file.read())
 
         QFontDatabase.addApplicationFont('../resources/fonts/Inter-Medium.ttf')
@@ -51,10 +41,10 @@ class MainWindow(QMainWindow):
         settings_action = self.file_menu.addAction('Settings')
         settings_action.triggered.connect(self.open_settings_window)
 
-        self.file_menu = self.ui.menubar.addMenu('Edit')
-        self.file_menu.addAction('Cut')
-        self.file_menu.addAction('Copy')
-        self.file_menu.addAction('Paste')
+        self.edit_menu = self.ui.menubar.addMenu('Edit')
+        self.edit_menu.addAction('Cut')
+        self.edit_menu.addAction('Copy')
+        self.edit_menu.addAction('Paste')
 
         self.file_menu = self.ui.menubar.addMenu('Project')
         run_simulation = self.file_menu.addAction('Run simulation')
@@ -70,48 +60,47 @@ class MainWindow(QMainWindow):
         boundary_conditions = self.file_menu.addAction('Boundary conditions')
         boundary_conditions.triggered.connect(self.open_calculation_parameters)
 
+        self.file_menu = self.ui.menubar.addMenu('Viewport')
+        general_view = self.file_menu.addAction('General view')
+        general_view.triggered.connect(self.open_general_viewport)
+        pin_view = self.file_menu.addAction('Pin view')
+        pin_view.triggered.connect(self.open_pin_viewport)
+
         self.start_window = StartWindow()
         self.new_project_window = NewProject()
         self.settings_window = SettingsWindow()
-
         self.input_data_editor = InputDataEditor()
 
         self.viewport = Viewport()
         self.ui.view_container = QWidget.createWindowContainer(self.viewport.scene)
         self.ui.viewport_layout.addWidget(self.ui.view_container)
-
-        self.view_universes_tree = ViewUniversesTree()
-        self.ui.universes_layout.addWidget(self.view_universes_tree.universes_tree_widget)
-
-        self.view_materials_list = ViewMaterialsList()
-        self.ui.materials_layout.addWidget(self.view_materials_list.materials_list_widget)
-
-        self.view_surfaces_list = ViewSurfacesList()
-        self.ui.surfaces_layout.addWidget(self.view_surfaces_list.surfaces_list_widget)
-
-        self.view_detectors_list = ViewDetectorsList()
-        self.ui.detectors_layout.addWidget(self.view_detectors_list.detectors_list_widget)
-
-        self.view_material_properties = ViewMaterialProperties(self.ui.properties_layout)
-        self.view_surface_properties = ViewSurfaceProperties(self.ui.properties_layout)
-        self.view_detector_properties = ViewDetectorProperties(self.ui.properties_layout)
-        self.view_universe_properties = ViewUniverseProperties(self.ui.properties_layout)
-        self.view_calculation_parameters_properties = ViewCalculationParametersProperties(self.ui.properties_layout)
-
-        self.view_surfaces_renderer = ViewSurfaceRenderer()
-        self.view_surfaces_renderer.set_scene(self.viewport.root_entity)
-
-        self.view_lattice_renderer = ViewLatticeRenderer()
-        self.view_lattice_renderer.set_scene(self.viewport.root_entity)
-
-        self.view_input_data = ViewInputData(self.input_data_editor)
+        self.viewport.scene.show()
 
         self.project_data = ProjectData()
-        self.project_data.load_views(self.view_universes_tree, self.view_materials_list, self.view_surfaces_list,
-                                     self.view_detectors_list,
-                                     self.view_material_properties, self.view_surface_properties, self.view_detector_properties,
-                                     self.view_universe_properties, self.view_calculation_parameters_properties,
-                                     self.view_surfaces_renderer, self.view_lattice_renderer, self.view_input_data)
+        self.project_data.connect_models()
+        self.project_data.connect_views()
+
+        self.ui.universes_layout.addWidget(self.project_data.views_data.universes_list_view.universes_list_widget)
+        self.ui.materials_layout.addWidget(self.project_data.views_data.materials_list_view.materials_list_widget)
+        self.ui.surfaces_layout.addWidget(self.project_data.views_data.surfaces_list_view.surfaces_list_widget)
+        self.ui.cells_layout.addWidget(self.project_data.views_data.cells_list_view.cells_list_widget)
+        self.ui.pins_layout.addWidget(self.project_data.views_data.pins_list_view.pins_list_widget)
+        self.ui.lattices_layout.addWidget(self.project_data.views_data.lattices_list_view.lattices_list_widget)
+        self.ui.detectors_layout.addWidget(self.project_data.views_data.detectors_list_view.detectors_list_widget)
+
+        self.project_data.views_data.material_properties_view.attach_to_layout(self.ui.properties_layout)
+        self.project_data.views_data.surface_properties_view.attach_to_layout(self.ui.properties_layout)
+        self.project_data.views_data.cell_properties_view.attach_to_layout(self.ui.properties_layout)
+        self.project_data.views_data.pin_properties_view.attach_to_layout(self.ui.properties_layout)
+        self.project_data.views_data.lattice_properties_view.attach_to_layout(self.ui.properties_layout)
+        self.project_data.views_data.detector_properties_view.attach_to_layout(self.ui.properties_layout)
+        self.project_data.views_data.universe_properties_view.attach_to_layout(self.ui.properties_layout)
+        self.project_data.views_data.calculation_parameters_properties_view.attach_to_layout(self.ui.properties_layout)
+
+        self.project_data.views_data.surfaces_renderer_view.set_scene(self.viewport.root_entity)
+        self.project_data.views_data.pin_renderer_view.set_scene(self.viewport.root_entity)
+
+        self.project_data.views_data.input_data_view.attach_to_editor(self.input_data_editor)
 
         if self.project_data.state == ProjectState.NOT_EXISTING.value:
             self.open_start_window()
@@ -164,6 +153,12 @@ class MainWindow(QMainWindow):
     def open_calculation_parameters(self):
         sender = self.sender().text()
         self.project_data.open_calculation_parameters(sender)
+
+    def open_general_viewport(self):
+        pass
+
+    def open_pin_viewport(self):
+        pass
 
     def run_simulation(self):
         self.project_data.run_simulation()

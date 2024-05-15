@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from cshape_objects import nuclide
 from cshape_objects.cshape_object import CShapeObject, CShapeObjectTypes, CShapeObjectProperties
 from cshape_objects.cshape_types import CShapeTypes
 
@@ -12,6 +11,7 @@ class Properties(CShapeObjectProperties):
     Density = 'Density'
     Mode = 'Mode'
     Nuclides = 'Nuclides'
+    Color = 'Color'
     Add = 'Add'
     Delete = 'Delete'
 
@@ -51,6 +51,7 @@ class Material(CShapeObject):
         self.name: str = 'NewMaterial'
         self.properties = Properties()
         self.density: float = 0.0
+        self.color: list = [255, 255, 255]
         self.modes: dict = {'Atomic': 'Atomic', 'Massive': 'Massive', 'Summary': 'Summary'}
         self.density_flows_by_modes: dict = {Mode.Atomic: NotSummaryDensityFlow,
                                              Mode.Massive: NotSummaryDensityFlow,
@@ -99,7 +100,8 @@ class Material(CShapeObject):
         return {self.properties.Name: (CShapeTypes.String, self.name),
                 self.properties.Density: (CShapeTypes.Float, [self.density, (0.0001, 99999.9999)]),
                 self.properties.Mode: (CShapeTypes.Enum, [self.modes, self.mode]),
-                self.properties.Nuclides: (CShapeTypes.List, self.nuclides)}
+                self.properties.Nuclides: (CShapeTypes.List, self.nuclides),
+                self.properties.Color: (CShapeTypes.Color, self.color)}
 
     def set_data(self, properties: dict):
         name, value = properties
@@ -118,6 +120,8 @@ class Material(CShapeObject):
                 index, name, density = value
                 self.set_nuclide(index, name, density)
                 self.density = self.density_flow.set_density(self.density, self.nuclides)
+            case self.properties.Color:
+                self.color = value
             case self.properties.Add:
                 index, name, density = value
                 self.add_nuclide()
@@ -127,3 +131,12 @@ class Material(CShapeObject):
                 index = value
                 self.delete_nuclide(index)
                 self.density_flow.set_density(self.density, self.nuclides)
+
+    def dump_data(self) -> dict:
+        return {
+            self.properties.Name: self.name,
+            self.properties.Density: self.density,
+            self.properties.Mode: self.mode,
+            self.properties.Nuclides: self.nuclides,
+            self.properties.Color: self.color
+        }

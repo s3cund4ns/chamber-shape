@@ -7,8 +7,8 @@ from project_data.model import Model
 class ModelInputData(Model):
     def __init__(self):
         super().__init__()
-        self.generator = None
-        self.data = [[], [], [], [], [], []]
+        self.generator: InputDataGenerator | None = None
+        self.data = [[], [], [], [], [], [], []]
 
     def create_input_data_generator(self, generator):
         self.generator: InputDataGenerator = create_input_data_generator(generator)
@@ -34,31 +34,24 @@ class ModelInputData(Model):
         self.data[2] = translated_surfaces_data
         self.view_model.add_item_to_views(self.data)
 
-    def update_cells_data(self, data: list):
-        cells_data = []
-        for item in data:
-            if item['Type'] == 'Cell':
-                cells_data.append(item)
-        translated_cells_data = self.generator.generate_cells_data(cells_data)
+    def update_cells_data(self, cells_data: list, all_surfaces_data: list):
+        translated_cells_data = self.generator.generate_cells_data(cells_data, all_surfaces_data)
         self.data[3] = translated_cells_data
         self.view_model.add_item_to_views(self.data)
 
-    def update_pins_data(self, data: list):
-        pins_data = []
-        for item in data:
-            if item['Type'] == 'Pin':
-                pins_data.append(item)
-        translated_pins_data = self.generator.generate_pins_data(pins_data)
+    def update_pins_data(self, pins_data: list, all_pins_data: list):
+        translated_pins_data = self.generator.generate_pins_data(pins_data, all_pins_data)
         self.data[4] = translated_pins_data
         self.view_model.add_item_to_views(self.data)
 
-    def update_lattices_data(self, data: list):
-        lattices_data = []
-        for item in data:
-            if item['Type'] == 'Lattice':
-                lattices_data.append(item)
+    def update_lattices_data(self, lattices_data: list):
         translated_lattices_data = self.generator.generate_lattices_data(lattices_data)
         self.data[5] = translated_lattices_data
+        self.view_model.add_item_to_views(self.data)
+
+    def update_calculation_parameters_data(self, calculation_parameters_data: list):
+        translated_calculation_parameters_data = self.generator.generate_calculation_parameters_data(calculation_parameters_data)
+        self.data[6] = translated_calculation_parameters_data
         self.view_model.add_item_to_views(self.data)
 
     def write_to_file(self):

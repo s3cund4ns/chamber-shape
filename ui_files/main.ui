@@ -158,7 +158,7 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="dock_console">
+  <widget class="QDockWidget" name="dock_cells">
    <property name="minimumSize">
     <size>
      <width>95</width>
@@ -166,12 +166,30 @@
     </size>
    </property>
    <property name="windowTitle">
-    <string>Console</string>
+    <string>Cells</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>
    </attribute>
-   <widget class="QWidget" name="dock_console_contents"/>
+   <widget class="QWidget" name="dock_cells_contents">
+    <layout class="QVBoxLayout" name="verticalLayout_12">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="cells_layout"/>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QDockWidget" name="dock_properties">
    <property name="minimumSize">
@@ -211,7 +229,7 @@
           <x>0</x>
           <y>0</y>
           <width>298</width>
-          <height>641</height>
+          <height>328</height>
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
@@ -242,10 +260,10 @@
     <string>Detectors</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>1</number>
+    <number>2</number>
    </attribute>
    <widget class="QWidget" name="dock_detectors_contents">
-    <layout class="QVBoxLayout" name="verticalLayout_8">
+    <layout class="QVBoxLayout" name="verticalLayout_11">
      <property name="leftMargin">
       <number>0</number>
      </property>
@@ -260,6 +278,60 @@
      </property>
      <item>
       <layout class="QVBoxLayout" name="detectors_layout"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dock_pins">
+   <property name="windowTitle">
+    <string>Pins</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dock_pins_contents">
+    <layout class="QVBoxLayout" name="verticalLayout_13">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="pins_layout"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dock_lattices">
+   <property name="windowTitle">
+    <string>Lattices</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dock_lattices_contents">
+    <layout class="QVBoxLayout" name="verticalLayout_14">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="lattices_layout"/>
      </item>
     </layout>
    </widget>

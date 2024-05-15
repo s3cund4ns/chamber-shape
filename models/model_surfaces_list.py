@@ -1,5 +1,4 @@
 from cshape_objects.surfaces.surface_creator import create_surface
-from solvers.solver_dict import serpent_dict
 from project_data.model import Model
 from cshape_objects.surfaces.surface import Surface
 
@@ -34,7 +33,6 @@ class ModelSurfacesList(Model):
         self.view_model.change_item_in_views(self.selected_item_index, value,
                                              [self.data[self.selected_item_index].get_type(),
                                               self.data[self.selected_item_index].get_name()])
-        # self.notify_view_models(self.selected_item_index, value, 'Change')
         self.input_data_model.update_surfaces_data(self.dump_data())
 
     def clear_data(self):
@@ -43,15 +41,8 @@ class ModelSurfacesList(Model):
 
     def dump_data(self):
         data = []
-
         for surface in self.data:
-            source_surface_data = surface.get_data()
-            surface_data = {'Type': surface.get_type()}
-            for key in source_surface_data.keys():
-                surface_data[key] = source_surface_data[key][1]
-
-            data.append(surface_data)
-
+            data.append(surface.dump_data())
         return data
 
     def load_data(self, surfaces_data: list):
@@ -63,34 +54,6 @@ class ModelSurfacesList(Model):
             surface_tuple = tuple(surface.items())
             for surface_property in surface_tuple[1:]:
                 self.change_data(surface_property)
-
-    def get_input_data(self):
-        dumped_data = self.dump_data()
-        input_data = []
-        for surface_data in dumped_data:
-            surface_info = []
-            for key in surface_data:
-                value = surface_data[key]
-                if type(value) is list:
-                    token = self.list_to_str(value, ' ')
-                    surface_info.append(token)
-                    continue
-                if value not in serpent_dict:
-                    surface_info.append(value)
-                    continue
-                token = serpent_dict.get(value)
-                surface_info.append(token)
-
-            surface_info[0], surface_info[1] = surface_info[1], surface_info[0]
-
-            surface_text = f"{serpent_dict.get('Surface')} "
-            for token in surface_info:
-                surface_text += f'{token} '
-
-            input_data.append(surface_text)
-            input_data.append('\n')
-
-        return input_data
 
     @staticmethod
     def list_to_str(list_item: list, delimiter: str) -> str:

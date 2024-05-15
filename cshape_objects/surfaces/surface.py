@@ -15,7 +15,6 @@ class CShapeObjects:
     Surface = 'Surface'
 
 
-
 @dataclass
 class SurfacesTypes:
     NoneType = None
@@ -70,7 +69,7 @@ class Surface(CShapeObject):
         self.surface_type: SurfacesTypes = SurfacesTypes.NoneType
         self.name: str = 'NewSurface'
         self.position = np.array([0.0, 0.0, 0.0], dtype=np.float32)
-        self.color = np.array([randint(100, 255), randint(100, 255), randint(100, 255), 255], dtype=np.float16)
+        self.color: list = [139, 0, 255]
         self.parameters_names: list = []
         self.parameters_values: list = []
 
@@ -103,7 +102,5 @@ class Surface(CShapeObject):
     def set_data(self, properties):
         pass
 
-
-
-
-
+    def dump_data(self) -> dict:
+        pass

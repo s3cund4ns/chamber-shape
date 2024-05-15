@@ -13,6 +13,7 @@ class Properties(CShapeObjectProperties):
     Name = 'Name'
     Distance = 'Distance (X-axis)'
     Size = 'Size'
+    Color = 'Color'
 
 
 class XPlane(Surface):
@@ -29,7 +30,8 @@ class XPlane(Surface):
     def get_data(self):
         return {self.properties.Name: (CShapeTypes.String, self.name),
                 self.properties.Distance: (CShapeTypes.Float, [self.distance, (-99999.9999, 99999.9999)]),
-                self.properties.Size: (CShapeTypes.Vector2DFloat, [list(np.array(self.size, dtype=float)), (1.0, 99999.9999)])
+                self.properties.Size: (CShapeTypes.Vector2DFloat, [list(np.array(self.size, dtype=float)), (1.0, 99999.9999)]),
+                self.properties.Color: (CShapeTypes.Color, self.color)
                 }
 
     def set_data(self, properties: tuple):
@@ -43,3 +45,14 @@ class XPlane(Surface):
                 self.position[0] = value
             case self.properties.Size:
                 self.size[0:2] = value
+            case Properties.Color:
+                self.color = value
+
+    def dump_data(self) -> dict:
+        return {
+            'Type': self.surface_type,
+            self.properties.Name: self.name,
+            self.properties.Distance: self.distance,
+            self.properties.Size: list(np.array(self.size, dtype=float)),
+            self.properties.Color: self.color
+        }

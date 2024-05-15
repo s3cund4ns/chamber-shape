@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from cshape_objects.cshape_object import CShapeObjectProperties
 from cshape_objects.cshape_types import CShapeTypes
 from cshape_objects.detectors.detector import DetectorsTypes, Detector
+from cshape_objects.lattices.lattice import Lattice
 
 
 @dataclass
@@ -17,13 +18,13 @@ class LatticeDetector(Detector):
         super().__init__()
         self.detector_type = DetectorsTypes.LatticeDetector
         self.properties = Properties()
-        self.lattices_list = []
+        self.all_lattices: list[Lattice] = []
         self.lattice = None
 
     def get_data(self):
         lattices_info: list = []
-        print(self.lattices_list)
-        for lattice in self.lattices_list:
+        print(self.all_lattices)
+        for lattice in self.all_lattices:
             lattice = f'{lattice.get_name()}'
             lattices_info.append(lattice)
         if self.lattice is None:
@@ -44,6 +45,6 @@ class LatticeDetector(Detector):
                 self.name = name
             case Properties.Lattice:
                 lattice = value
-                self.lattice = self.lattices_list[lattice]
+                self.lattice = self.all_lattices[lattice]
 
 
