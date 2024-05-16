@@ -1,7 +1,6 @@
 from cshape_objects.cell import Cell
 from cshape_objects.pin import Pin
 from cshape_objects.universe import Universe
-from data_structs.matrix import Matrix
 from widgets.property_items.property_item import PropertyItem
 from widgets.property_items.property_item_creator import create_property
 from project_data.view import View
