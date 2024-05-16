@@ -67,6 +67,4 @@ class BoundaryConditions(CalculationParameter):
                 self.condition_type = self.setting_behaviour.set_condition_type(self.condition_type)
                 self.albedo = self.setting_behaviour.set_albedo(self.albedo)
             case self.properties.ConditionType:
-                print(value)
                 self.condition_type = self.setting_behaviour.set_condition_type(value)
-                print(self.condition_type)

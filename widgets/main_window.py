@@ -7,6 +7,7 @@ from renderer.viewport import Viewport
 from widgets.input_data_editor import InputDataEditor
 from ui_files.ui_main import Ui_MainWindow
 from widgets.new_project import NewProject
+from widgets.plot_widget import PlotWidget
 from widgets.settings_window import SettingsWindow
 from widgets.start_window import StartWindow
 
@@ -26,8 +27,6 @@ class MainWindow(QMainWindow):
 
         QFontDatabase.addApplicationFont('../resources/fonts/Inter-Medium.ttf')
         font = QFont("Inter-Medium.ttf", 14)
-
-        # self.plot_widget = PlotWidget()
 
         self.file_menu = self.ui.menubar.addMenu('File')
         new_project_action = self.file_menu.addAction('New project')
@@ -70,6 +69,7 @@ class MainWindow(QMainWindow):
         self.new_project_window = NewProject()
         self.settings_window = SettingsWindow()
         self.input_data_editor = InputDataEditor()
+        # self.plot_widget = PlotWidget()
 
         self.viewport = Viewport()
         self.ui.view_container = QWidget.createWindowContainer(self.viewport.scene)
@@ -148,7 +148,7 @@ class MainWindow(QMainWindow):
         self.ui.tab_main.addTab(self.input_data_editor, 'Input data')
 
     def open_plot(self):
-        self.plot_widget.show()
+        self.ui.tab_main.addTab(self.plot_widget, 'Plot')
 
     def open_calculation_parameters(self):
         sender = self.sender().text()
