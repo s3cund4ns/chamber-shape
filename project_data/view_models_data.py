@@ -4,10 +4,10 @@ from viewmodels.view_model_detectors_list import ViewModelDetectorsList
 from viewmodels.view_model_input_data import ViewModelInputData
 from viewmodels.view_model_lattices_list import ViewModelLatticesList
 from viewmodels.view_model_materials_list import ViewModelMaterialsList
+from viewmodels.view_model_output_data import ViewModelOutputData
 from viewmodels.view_model_pins_list import ViewModelPinsList
 from viewmodels.view_model_surfaces_list import ViewModelSurfacesList
 from viewmodels.view_model_universes_list import ViewModelUniversesList
-from viewmodels.view_model_universes_tree import ViewModelUniversesTree
 
 
 class ViewModelsData:
@@ -21,3 +21,4 @@ class ViewModelsData:
         self.detectors_view_model = ViewModelDetectorsList()
         self.calculation_parameters_view_model = ViewModelCalculationParameters()
         self.input_data_view_model = ViewModelInputData()
+        self.output_data_view_model = ViewModelOutputData()

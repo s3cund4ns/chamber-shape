@@ -9,7 +9,7 @@ class StartWindow(QWidget):
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
         self.setWindowTitle('Starter Shape')
         self.setWindowIcon(QIcon('favicon.ico'))
-        with open('styles/light.qss', 'r') as file:
+        with open('styles/dark.qss', 'r') as file:
             self.setStyleSheet(file.read())
 
         self.vertical_layout = QVBoxLayout(self)

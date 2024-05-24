@@ -32,6 +32,9 @@ class ViewDetectorsList(View):
     def notify_view_models_delete(self):
         self.view_model.delete_item_in_models()
 
+    def notify_view_models_show_plot(self):
+        self.view_model.show_plot()
+
     def delete_item(self, index):
         self.detectors_list_widget.takeItem(index)
 
@@ -45,10 +48,12 @@ class ViewDetectorsList(View):
         for detector_type in DetectorsTypes.get(DetectorsTypes):
             add.addAction(detector_type)
 
+        show_plot = context_menu.addAction("Show Plot")
+        show_plot.triggered.connect(self.notify_view_models_show_plot)
         delete = context_menu.addAction("Delete")
         delete.triggered.connect(self.notify_view_models_delete)
         selected_action = context_menu.exec_(self.detectors_list_widget.mapToGlobal(pos))
-        if selected_action and (selected_action.text() != 'Delete'):
+        if selected_action and (selected_action.text() != 'Delete') and (selected_action.text() != 'Show Plot'):
             selected_item_name = selected_action.parent().objectName()
             select_action_name = selected_action.text()
             self.view_model.add_item_to_models(self.detectors_list_widget.count(), select_action_name)

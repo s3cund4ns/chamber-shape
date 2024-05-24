@@ -33,6 +33,10 @@ class InputDataGenerator(ABC):
     def generate_calculation_parameters_data(self, calculation_parameters: list):
         pass
 
+    @abstractmethod
+    def generate_detectors_data(self, detectors: list, all_elements: list):
+        pass
+
     @staticmethod
     def list_to_str(list_item: list, delimiter: str) -> str:
         str_item = delimiter.join(map(str, list_item))

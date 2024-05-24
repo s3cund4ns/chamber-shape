@@ -7,9 +7,10 @@ from widgets.views.view_input_data import ViewInputData
 from widgets.views.view_lattices_list import ViewLatticesList
 from widgets.views.view_materials_list import ViewMaterialsList
 from widgets.views.view_pins_list import ViewPinsList
+from widgets.views.view_plot import ViewPlot
 from widgets.views.view_properties import ViewMaterialProperties, ViewSurfaceProperties, ViewDetectorProperties, \
     ViewUniverseProperties, ViewCalculationParametersProperties, ViewCellProperties, ViewPinProperties, \
-    ViewLatticeProperties
+    ViewLatticeProperties, ViewOutputDataProperties
 from widgets.views.view_surfaces_list import ViewSurfacesList
 from widgets.views.view_universes_list import ViewUniversesList
 from widgets.views.view_universes_tree import ViewUniversesTree
@@ -32,9 +33,11 @@ class ViewsData:
         self.detector_properties_view = ViewDetectorProperties()
         self.universe_properties_view = ViewUniverseProperties()
         self.calculation_parameters_properties_view = ViewCalculationParametersProperties()
+        self.output_data_properties_view = ViewOutputDataProperties()
         self.surfaces_renderer_view = ViewSurfaceRenderer()
         self.pin_renderer_view = ViewPinRenderer()
         self.lattice_renderer_view = ViewLatticeRenderer()
         self.input_data_view = ViewInputData()
+        self.plot_view = ViewPlot()
 
         self.lattice_renderer_view.pin_renderer_view = self.pin_renderer_view

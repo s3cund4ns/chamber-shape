@@ -3,7 +3,6 @@ import numpy as np
 from cshape_objects.cshape_object import CShapeObjectProperties
 from cshape_objects.cshape_types import CShapeTypes
 from cshape_objects.lattices.lattice import Lattice, LatticeTypes
-from data_structs.matrix import Matrix
 
 
 class Properties(CShapeObjectProperties):
@@ -48,7 +47,7 @@ class SquareLattice(Lattice):
             for j in range(min(len(self.universes_matrix[0]), columns)):
                 new_matrix[i][j] = self.universes_matrix[i][j]
 
-        self.matrix = new_matrix
+        self.universes_matrix = new_matrix
 
     def set_universe(self, row: int, column: int, value: int | float) -> None:
         self.universes_matrix[row][column] = value

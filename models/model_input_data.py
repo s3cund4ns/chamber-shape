@@ -8,7 +8,7 @@ class ModelInputData(Model):
     def __init__(self):
         super().__init__()
         self.generator: InputDataGenerator | None = None
-        self.data = [[], [], [], [], [], [], []]
+        self.data = [[], [], [], [], [], [], [], []]
 
     def create_input_data_generator(self, generator):
         self.generator: InputDataGenerator = create_input_data_generator(generator)
@@ -52,6 +52,11 @@ class ModelInputData(Model):
     def update_calculation_parameters_data(self, calculation_parameters_data: list):
         translated_calculation_parameters_data = self.generator.generate_calculation_parameters_data(calculation_parameters_data)
         self.data[6] = translated_calculation_parameters_data
+        self.view_model.add_item_to_views(self.data)
+
+    def update_detectors_data(self, detectors_data: list, all_elements_data: list):
+        translated_detectors_data = self.generator.generate_detectors_data(detectors_data, all_elements_data)
+        self.data[7] = translated_detectors_data
         self.view_model.add_item_to_views(self.data)
 
     def write_to_file(self):

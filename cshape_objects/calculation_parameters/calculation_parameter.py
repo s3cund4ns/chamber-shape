@@ -8,6 +8,7 @@ class CalculationParametersTypes:
     NoneType = None
     NeutronPopulation = 'Neutron population'
     BoundaryConditions = 'Boundary conditions'
+    EnergyGrid = 'Energy grid'
 
 
 class CalculationParameter(CShapeObject):

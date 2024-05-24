@@ -12,6 +12,8 @@ class CShapeObjectTypes:
     Lattice = 'Lattice'
     Detector = 'Detector'
     CalculationParameter = 'CalculationParameter'
+    CalculationOutput = 'CalculationOutput'
+    PlotInfo = 'PlotInfo'
 
 
 @dataclass
@@ -24,6 +26,12 @@ class CShapeObject(ABC):
         super().__init__()
         self.type: str
         self.properties: CShapeObjectProperties
+
+    def get_type(self):
+        pass
+
+    def get_name(self):
+        pass
 
     @abstractmethod
     def get_data(self):

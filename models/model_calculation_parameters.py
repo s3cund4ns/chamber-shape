@@ -1,6 +1,6 @@
 from cshape_objects.calculation_parameters.boundary_conditions import BoundaryConditions
 from cshape_objects.calculation_parameters.calculation_parameter import CalculationParameter
-from cshape_objects.calculation_parameters.calculation_parameter_creator import create_calculation_parameter
+from cshape_objects.calculation_parameters.energy_grid import EnergyGrid
 from cshape_objects.calculation_parameters.neutron_population_parameters import NeutronPopulationParameters
 from models.model_input_data import ModelInputData
 from project_data.model import Model
@@ -23,9 +23,11 @@ class ModelCalculationParameters(Model):
 
     def add_item(self, *args):
         neutron_population: NeutronPopulationParameters = NeutronPopulationParameters()
-        # boundary_conditions: BoundaryConditions = BoundaryConditions()
+        boundary_conditions: BoundaryConditions = BoundaryConditions()
+        energy_grid: EnergyGrid = EnergyGrid()
         self.data.append(neutron_population)
-        # self.data.append(boundary_conditions)
+        self.data.append(boundary_conditions)
+        self.data.append(energy_grid)
 
     def select_item(self, parameter_type: str):
         self.selected_parameter_type = parameter_type

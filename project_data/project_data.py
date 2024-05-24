@@ -33,6 +33,7 @@ class ProjectData:
         self.view_models_data.detectors_view_model.add_model(self.models_data.detectors_model)
         self.view_models_data.calculation_parameters_view_model.add_model(self.models_data.calculation_parameters_model)
         self.view_models_data.input_data_view_model.add_model(self.models_data.input_data_model)
+        self.view_models_data.output_data_view_model.add_model(self.models_data.output_data_model)
 
     def connect_views(self):
         self.view_models_data.universes_view_model.add_view(self.views_data.universes_list_view)
@@ -52,6 +53,8 @@ class ProjectData:
         self.view_models_data.calculation_parameters_view_model.add_view(
             self.views_data.calculation_parameters_properties_view
         )
+        self.view_models_data.output_data_view_model.add_view(self.views_data.output_data_properties_view)
+        self.view_models_data.output_data_view_model.add_view(self.views_data.plot_view)
         self.view_models_data.surfaces_view_model.add_view(self.views_data.surfaces_renderer_view)
         self.view_models_data.pins_view_model.add_view(self.views_data.pin_renderer_view)
         self.view_models_data.lattices_view_model.add_view(self.views_data.lattice_renderer_view)
@@ -95,6 +98,7 @@ class ProjectData:
         pins_data = self.models_data.pins_model.dump_data()
         lattices_data = self.models_data.lattices_model.dump_data()
         calculation_parameters_data = self.models_data.calculation_parameters_model.dump_data()
+        detectors_data = self.models_data.detectors_model.dump_data()
         data = {
             'Universes': universes_data,
             'Materials': materials_data,
@@ -102,7 +106,8 @@ class ProjectData:
             'Cells': cells_data,
             'Pins': pins_data,
             'Lattices': lattices_data,
-            'Calculation parameters': calculation_parameters_data
+            'Calculation parameters': calculation_parameters_data,
+            'Detectors': detectors_data
                 }
 
         with open(f'{self.settings.project_directory}/ObjectsConfig.json', 'w') as objects_file:
@@ -118,6 +123,8 @@ class ProjectData:
         self.initialize_solver()
         self.clear_data_in_models()
         self.models_data.input_data_model.create_input_data_generator(self.settings.solver)
+        self.models_data.output_data_model.create_output_data_writer(self.settings.solver,
+                                                                     self.settings.calculation_data_directory)
         self.set_basic_input_data()
         self.save_settings()
         self.save_objects()
@@ -151,12 +158,15 @@ class ProjectData:
             self.models_data.pins_model.load_data(data['Pins'])
             self.models_data.lattices_model.load_data(data['Lattices'])
             self.models_data.calculation_parameters_model.load_data(data['Calculation parameters'])
+            self.models_data.detectors_model.load_data(data['Detectors'])
 
     def load(self, path: str):
         self.load_settings(path)
         self.initialize_solver()
         self.clear_data_in_models()
         self.models_data.input_data_model.create_input_data_generator(self.settings.solver)
+        self.models_data.output_data_model.create_output_data_writer(self.settings.solver,
+                                                                     self.settings.calculation_data_directory)
         self.set_basic_input_data()
         self.load_objects(path)
         self.state = ProjectState.EXISTING.value
@@ -176,9 +186,15 @@ class ProjectData:
     def open_calculation_parameters(self, parameter_type: str):
         self.view_models_data.calculation_parameters_view_model.select_item_in_models(parameter_type)
 
+    def open_calculation_output(self):
+        self.view_models_data.output_data_view_model.select_calculation_output_in_model()
+
     def run_simulation(self):
         self.save_input_data()
         self.solver.start_calculation(self.settings.project_name)
+
+    def open_plot(self):
+        self.view_models_data.output_data_view_model.get_plot_info_from_model()
 
     @staticmethod
     def replace_disk_letter_with_mnt(file_path):

@@ -11,7 +11,7 @@ from cshape_objects.cshape_types import CShapeTypes
 
 @dataclass
 class Properties(CShapeObjectProperties):
-    Name = 'Boundary conditions'
+    Name = 'Parameter'
     Setting = 'Setting'
     ConditionType = 'Condition type'
     Albedo = 'Albedo'
@@ -68,3 +68,11 @@ class BoundaryConditions(CalculationParameter):
                 self.albedo = self.setting_behaviour.set_albedo(self.albedo)
             case self.properties.ConditionType:
                 self.condition_type = self.setting_behaviour.set_condition_type(value)
+            case self.properties.Albedo:
+                self.albedo = self.setting_behaviour.set_albedo(self.albedo)
+
+    def dump_data(self) -> dict:
+        return {
+            self.properties.Name: self.name,
+            self.properties.ConditionType: self.condition_type,
+        }
