@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QTabWidget
+from matplotlib import pyplot as plt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
@@ -21,6 +22,7 @@ class ViewPlot(View):
 
     def change_item(self, *plot_property):
         name, energy_mid_grid, sp_flux, sp_errors = plot_property
+        plt.style.use('dark_background')
         fig = Figure(figsize=(5, 4), dpi=100)
         axes = fig.add_subplot(111)
         canvas = FigureCanvasQTAgg(fig)
