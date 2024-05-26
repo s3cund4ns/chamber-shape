@@ -23,7 +23,6 @@ class LatticeDetector(Detector):
 
     def get_data(self):
         lattices_info: list = []
-        print(self.all_lattices)
         for lattice in self.all_lattices:
             lattice = f'{lattice.get_name()}'
             lattices_info.append(lattice)
@@ -46,5 +45,16 @@ class LatticeDetector(Detector):
             case Properties.Lattice:
                 lattice = value
                 self.lattice = self.all_lattices[lattice]
+
+    def dump_data(self) -> dict:
+        lattice_index: int | None = None
+        if self.lattice is not None:
+            lattice_index = self.all_lattices.index(self.lattice)
+
+        return {
+            'Type': self.detector_type,
+            self.properties.Name: self.name,
+            self.properties.Lattice: lattice_index
+        }
 
 

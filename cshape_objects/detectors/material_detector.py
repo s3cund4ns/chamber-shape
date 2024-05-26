@@ -45,3 +45,14 @@ class MaterialDetector(Detector):
             case self.properties.Material:
                 material = value
                 self.material = self.all_materials[material]
+
+    def dump_data(self) -> dict:
+        material_index: int | None = None
+        if self.material is not None:
+            material_index = self.all_materials.index(self.material)
+
+        return {
+            'Type': self.detector_type,
+            self.properties.Name: self.name,
+            self.properties.Material: material_index
+        }

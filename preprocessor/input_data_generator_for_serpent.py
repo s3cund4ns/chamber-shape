@@ -38,7 +38,17 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
             'Pin': 'pin',
             'Lattice': 'lat',
             'SquareLattice': '1',
-            'Neutron population': 'pop'
+            'Neutron population': 'set pop',
+            'Boundary conditions': 'set bc',
+            'Energy grid': 'ene',
+            'Arbitrary Defined': '1',
+            'Equal Energy Width Bins': '2',
+            'Equal Lethargy Width Bins': '3',
+            'Black': '1',
+            'Reflective': '2',
+            'Periodic': '3',
+            'MaterialDetector': 'dm',
+            'LatticeDetector': 'dl'
         }
 
     def generate_basic_data(self, basic_data):
@@ -222,8 +232,6 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
                 token = self.tokens.get(value)
                 lattice_info.append(token)
 
-            print(lattice_info)
-            print(lattice_info[:5])
             lattice_type, name, universe, position, size, pitch = lattice_info
             text = f'lat {universe} {lattice_type} {position} {size} {pitch}\n{universes_text}'
             input_data.append(text)
@@ -234,15 +242,36 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
     def generate_calculation_parameters_data(self, calculation_parameters: list):
         input_data = []
         for calculation_parameters_data in calculation_parameters:
-            parameter_name = ''
-            parameter_values_text = ''
+            parameters_text = ''
             for key in calculation_parameters_data:
                 value = calculation_parameters_data[key]
                 if value not in self.tokens:
-                    parameter_values_text += f'{value} '
+                    parameters_text += f'{value} '
                     continue
-                parameter_name = self.tokens.get(value)
-            text = f'set {parameter_name} {parameter_values_text}'
+                token = self.tokens.get(value)
+                parameters_text += f'{token} '
+            input_data.append(parameters_text)
+            input_data.append('\n')
+
+        return input_data
+
+    def generate_detectors_data(self, detectors: list, all_elements: list):
+        input_data = []
+        for detector_data in detectors:
+            detector_info = []
+            for key in detector_data:
+                value = detector_data[key]
+                if value not in self.tokens:
+                    detector_info.append(value)
+                    continue
+                token = self.tokens.get(value)
+                detector_info.append(token)
+
+            detector_type, name, element_index = detector_info
+            element_name = ''
+            if element_index is not None:
+                element_name = all_elements[element_index].get_name()
+            text = f'det {name} {detector_type} {element_name}'
             input_data.append(text)
             input_data.append('\n')
 

@@ -1,7 +1,6 @@
 from dataclasses import dataclass
-from abc import ABC, abstractmethod
-from cshape_objects.cshape_object import CShapeObject, CShapeObjectTypes, CShapeObjectProperties
-from cshape_objects.cshape_types import CShapeTypes
+from abc import abstractmethod
+from cshape_objects.cshape_object import CShapeObject, CShapeObjectTypes
 from typing import Sequence
 
 
@@ -35,6 +34,9 @@ class Detector(CShapeObject):
         self.type = CShapeObjectTypes.Detector
         self.detector_type: DetectorsTypes = DetectorsTypes.NoneType
         self.name: str = 'NewDetector'
+        self.energy_mid_grid: tuple | None = None
+        self.sp_flux: tuple | None = None
+        self.sp_errors: tuple | None = None
 
     def get_type(self):
         return self.detector_type
@@ -46,7 +48,18 @@ class Detector(CShapeObject):
     def get_data(self):
         pass
 
+    def is_output_data_empty(self) -> bool:
+        return self.energy_mid_grid is None and self.sp_flux is None and self.sp_errors is None
+
+    def get_output_data(self) -> tuple:
+        return self.energy_mid_grid, self.sp_flux, self.sp_errors
+
     @abstractmethod
     def set_data(self, properties):
         pass
 
+    def set_output_data(self, data: tuple) -> None:
+        self.energy_mid_grid, self.sp_flux, self.sp_errors = data
+
+    def dump_data(self) -> dict:
+        pass

@@ -53,3 +53,7 @@ class ViewModelDetectorsList(ViewModel):
     def delete_item_in_views(self, index):
         for view in self.views:
             view.delete_item(index)
+
+    def show_plot(self):
+        for model in self.models:
+            model.show_plot()

@@ -22,7 +22,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Chamber Shape')
         self.setWindowIcon(QIcon('favicon.ico'))
 
-        with open('styles/light.qss', 'r') as file:
+        with open('styles/dark.qss', 'r') as file:
             self.setStyleSheet(file.read())
 
         QFontDatabase.addApplicationFont('../resources/fonts/Inter-Medium.ttf')
@@ -51,13 +51,17 @@ class MainWindow(QMainWindow):
         open_code = self.file_menu.addAction('Open code')
         open_code.triggered.connect(self.open_code_editor)
         open_plot = self.file_menu.addAction('Open plot')
-        open_plot.triggered.connect(self.open_plot)
+        # open_plot.triggered.connect(self.open_plot)
 
         self.file_menu = self.ui.menubar.addMenu('Calculation')
         neutron_population = self.file_menu.addAction('Neutron population')
         neutron_population.triggered.connect(self.open_calculation_parameters)
         boundary_conditions = self.file_menu.addAction('Boundary conditions')
         boundary_conditions.triggered.connect(self.open_calculation_parameters)
+        energy_grid = self.file_menu.addAction('Energy grid')
+        energy_grid.triggered.connect(self.open_calculation_parameters)
+        output = self.file_menu.addAction('Output')
+        output.triggered.connect(self.open_calculation_output)
 
         self.file_menu = self.ui.menubar.addMenu('Viewport')
         general_view = self.file_menu.addAction('General view')
@@ -69,7 +73,6 @@ class MainWindow(QMainWindow):
         self.new_project_window = NewProject()
         self.settings_window = SettingsWindow()
         self.input_data_editor = InputDataEditor()
-        # self.plot_widget = PlotWidget()
 
         self.viewport = Viewport()
         self.ui.view_container = QWidget.createWindowContainer(self.viewport.scene)
@@ -96,11 +99,14 @@ class MainWindow(QMainWindow):
         self.project_data.views_data.detector_properties_view.attach_to_layout(self.ui.properties_layout)
         self.project_data.views_data.universe_properties_view.attach_to_layout(self.ui.properties_layout)
         self.project_data.views_data.calculation_parameters_properties_view.attach_to_layout(self.ui.properties_layout)
+        self.project_data.views_data.output_data_properties_view.attach_to_layout(self.ui.properties_layout)
 
         self.project_data.views_data.surfaces_renderer_view.set_scene(self.viewport.root_entity)
         self.project_data.views_data.pin_renderer_view.set_scene(self.viewport.root_entity)
 
         self.project_data.views_data.input_data_view.attach_to_editor(self.input_data_editor)
+
+        self.project_data.views_data.plot_view.set_tab_widget(self.ui.tab_main)
 
         if self.project_data.state == ProjectState.NOT_EXISTING.value:
             self.open_start_window()
@@ -144,15 +150,19 @@ class MainWindow(QMainWindow):
         self.settings_window.show()
 
     def open_code_editor(self):
-        # self.project_data.write_input_data()
         self.ui.tab_main.addTab(self.input_data_editor, 'Input data')
 
     def open_plot(self):
-        self.ui.tab_main.addTab(self.plot_widget, 'Plot')
+        plot_canvas = self.project_data.views_data.plot_view.plot_canvas
+        self.ui.tab_main.addTab(plot_canvas, 'Plot')
+        self.project_data.open_plot()
 
     def open_calculation_parameters(self):
         sender = self.sender().text()
         self.project_data.open_calculation_parameters(sender)
+
+    def open_calculation_output(self):
+        self.project_data.open_calculation_output()
 
     def open_general_viewport(self):
         pass

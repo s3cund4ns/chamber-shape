@@ -24,3 +24,4 @@ class CShapeTypes:
     CompositeItems = 'CompositeItems'
     CompositeEnums = 'CompositeEnums'
     Reference = 'Reference'
+    Info = 'Info'

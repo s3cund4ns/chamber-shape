@@ -107,7 +107,6 @@ class ViewLatticeProperties(ViewProperties):
 
     def select_item(self, *args):
         item_index, item = args
-        print(item)
         self.clear_properties()
         self.generate_properties([], item)
 
@@ -130,4 +129,9 @@ class ViewCalculationParametersProperties(ViewProperties):
 
     def select_item(self, item):
         self.clear_properties()
-        self.generate_properties([], item)
+        self.generate_properties([0.0, 'MeV'], item)
+
+
+class ViewOutputDataProperties(ViewProperties):
+    def __init__(self):
+        super().__init__()
