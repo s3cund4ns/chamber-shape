@@ -23,7 +23,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1280, 720)
+        MainWindow.resize(1253, 675)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
@@ -55,7 +55,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1673, 26))
+        self.menubar.setGeometry(QRect(0, 0, 1253, 26))
         MainWindow.setMenuBar(self.menubar)
         self.dock_universes = QDockWidget(MainWindow)
         self.dock_universes.setObjectName(u"dock_universes")
@@ -128,7 +128,7 @@ class Ui_MainWindow(object):
         self.scrollarea_properties.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 298, 328))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 298, 302))
         self.horizontalLayout = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -196,14 +196,14 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.tab_main.setTabText(self.tab_main.indexOf(self.tab_viewport), QCoreApplication.translate("MainWindow", u"Viewport", None))
-        self.dock_universes.setWindowTitle(QCoreApplication.translate("MainWindow", u"Universes", None))
-        self.dock_surfaces.setWindowTitle(QCoreApplication.translate("MainWindow", u"Surfaces", None))
-        self.dock_materials.setWindowTitle(QCoreApplication.translate("MainWindow", u"Materials", None))
-        self.dock_cells.setWindowTitle(QCoreApplication.translate("MainWindow", u"Cells", None))
-        self.dock_properties.setWindowTitle(QCoreApplication.translate("MainWindow", u"Properties", None))
-        self.dock_detectors.setWindowTitle(QCoreApplication.translate("MainWindow", u"Detectors", None))
-        self.dock_pins.setWindowTitle(QCoreApplication.translate("MainWindow", u"Pins", None))
-        self.dock_lattices.setWindowTitle(QCoreApplication.translate("MainWindow", u"Lattices", None))
+        self.tab_main.setTabText(self.tab_main.indexOf(self.tab_viewport), QCoreApplication.translate("MainWindow", u"\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440", None))
+        self.dock_universes.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u041e\u0431\u043b\u0430\u0441\u0442\u0438", None))
+        self.dock_surfaces.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u0432\u0435\u0440\u0445\u043d\u043e\u0441\u0442\u0438", None))
+        self.dock_materials.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u041c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u044b", None))
+        self.dock_cells.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u042f\u0447\u0435\u0439\u043a\u0438", None))
+        self.dock_properties.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u0421\u0432\u043e\u0439\u0441\u0442\u0432\u0430", None))
+        self.dock_detectors.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u0414\u0435\u0442\u0435\u043a\u0442\u043e\u0440\u044b", None))
+        self.dock_pins.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u0421\u0442\u0435\u0440\u0436\u043d\u0438", None))
+        self.dock_lattices.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0433\u0443\u043b\u044f\u0440\u043d\u044b\u0435 \u0420\u0435\u0448\u0435\u0442\u043a\u0438", None))
     # retranslateUi
 

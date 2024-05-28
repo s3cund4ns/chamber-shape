@@ -7,22 +7,22 @@ class NewProject(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
-        self.setWindowTitle('Create new project')
+        self.setWindowTitle('Создать Новый Проект')
         self.setWindowIcon(QIcon('favicon.ico'))
-        with open('styles/dark.qss', 'r') as file:
+        with open('styles/light.qss', 'r') as file:
             self.setStyleSheet(file.read())
 
         self.verticalLayout = QVBoxLayout(self)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
 
         self.label_header = QLabel(self)
-        self.label_header.setText('Create new project')
+        self.label_header.setText('Создать Новый Проект')
         self.label_header.setFont(QFont('MS Shell Dig 2', 16))
         self.verticalLayout.addWidget(self.label_header)
 
         self.layout_project_name = QHBoxLayout()
         self.label_project_name = QLabel(self)
-        self.label_project_name.setText('Name:')
+        self.label_project_name.setText('Название:')
         self.line_edit_project_name = QLineEdit(self)
         self.layout_project_name.addWidget(self.label_project_name)
         self.layout_project_name.addWidget(self.line_edit_project_name)
@@ -30,7 +30,7 @@ class NewProject(QWidget):
 
         self.layout_project_directory = QHBoxLayout()
         self.label_project_directory = QLabel(self)
-        self.label_project_directory.setText('Directory:')
+        self.label_project_directory.setText('Путь:')
         self.line_edit_project_directory = QLineEdit(self)
         self.button_choose_project_directory = QPushButton(self)
         self.button_choose_project_directory.setText('...')
@@ -42,7 +42,7 @@ class NewProject(QWidget):
 
         self.layout_precision_code = QHBoxLayout()
         self.label_precision_code = QLabel(self)
-        self.label_precision_code.setText('Precision code:')
+        self.label_precision_code.setText('Прецизионный Код:')
         self.combo_box_precision_code = QComboBox(self)
         self.combo_box_precision_code.addItems(['Serpent', 'OpenMC'])
         self.combo_box_precision_code.setCurrentIndex(0)
@@ -52,7 +52,7 @@ class NewProject(QWidget):
 
         self.layout_precision_code_directory = QHBoxLayout()
         self.label_precision_code_directory = QLabel(self)
-        self.label_precision_code_directory.setText('Precision code directory:')
+        self.label_precision_code_directory.setText('Путь к Директории Кода:')
         self.line_edit_precision_code_directory = QLineEdit(self)
         self.button_choose_precision_code_directory = QPushButton(self)
         self.button_choose_precision_code_directory.setText('...')
@@ -64,7 +64,7 @@ class NewProject(QWidget):
 
         self.layout_nuclear_data_library = QHBoxLayout()
         self.label_nuclear_data_library = QLabel(self)
-        self.label_nuclear_data_library.setText('Nuclear data library:')
+        self.label_nuclear_data_library.setText('Библиотека Данных:')
         self.combo_box_nuclear_data_library = QComboBox(self)
         self.combo_box_nuclear_data_library.addItems(['JEFF'])
         self.combo_box_nuclear_data_library.setCurrentIndex(0)
@@ -74,7 +74,7 @@ class NewProject(QWidget):
 
         self.layout_nuclear_data_library_directory = QHBoxLayout()
         self.label_nuclear_data_library_directory = QLabel(self)
-        self.label_nuclear_data_library_directory.setText('Nuclear data directory:')
+        self.label_nuclear_data_library_directory.setText('Путь к Библиотеке Данных:')
         self.line_edit_nuclear_data_library_directory = QLineEdit(self)
         self.button_choose_nuclear_data_library_directory = QPushButton(self)
         self.button_choose_nuclear_data_library_directory.setText('...')
@@ -86,9 +86,9 @@ class NewProject(QWidget):
 
         self.layout_create_or_cancel = QHBoxLayout()
         self.button_create_project = QPushButton(self)
-        self.button_create_project.setText('Create')
+        self.button_create_project.setText('Создать')
         self.button_cancel = QPushButton(self)
-        self.button_cancel.setText('Cancel')
+        self.button_cancel.setText('Отмена')
         self.button_cancel.clicked.connect(self.close)
         self.layout_create_or_cancel.addWidget(self.button_create_project)
         self.layout_create_or_cancel.addWidget(self.button_cancel)
@@ -102,15 +102,15 @@ class NewProject(QWidget):
         return response
 
     def open_project_directory(self):
-        directory: str = self.open_choose_directory_window('Choose a project directory')
+        directory: str = self.open_choose_directory_window('Выбрать Директорию Проекта')
         self.line_edit_project_directory.setText(directory)
 
     def open_precision_code_directory(self):
-        directory: str = self.open_choose_directory_window('Choose a precision code directory')
+        directory: str = self.open_choose_directory_window('Выбрать Директорию Прецизионного Кода')
         self.line_edit_precision_code_directory.setText(directory)
 
     def open_nuclear_data_library_directory(self):
-        directory: str = self.open_choose_directory_window('Choose a nuclear data library directory')
+        directory: str = self.open_choose_directory_window('Выбрать Директорию Библиотеки Данных')
         self.line_edit_nuclear_data_library_directory.setText(directory)
 
     def get_data(self):

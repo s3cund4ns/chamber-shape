@@ -7,7 +7,6 @@ from renderer.viewport import Viewport
 from widgets.input_data_editor import InputDataEditor
 from ui_files.ui_main import Ui_MainWindow
 from widgets.new_project import NewProject
-from widgets.plot_widget import PlotWidget
 from widgets.settings_window import SettingsWindow
 from widgets.start_window import StartWindow
 
@@ -22,52 +21,44 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Chamber Shape')
         self.setWindowIcon(QIcon('favicon.ico'))
 
-        with open('styles/dark.qss', 'r') as file:
+        with open('styles/light.qss', 'r') as file:
             self.setStyleSheet(file.read())
 
-        QFontDatabase.addApplicationFont('../resources/fonts/Inter-Medium.ttf')
+        QFontDatabase.addApplicationFont('D:/Projects/chamber-shape/resources/fonts/Inter-Medium.ttf')
         font = QFont("Inter-Medium.ttf", 14)
 
-        self.file_menu = self.ui.menubar.addMenu('File')
-        new_project_action = self.file_menu.addAction('New project')
+        self.file_menu = self.ui.menubar.addMenu('Файл')
+        new_project_action = self.file_menu.addAction('Новый Проект')
         new_project_action.triggered.connect(self.open_new_project_window)
-        open_action = self.file_menu.addAction('Open')
+        open_action = self.file_menu.addAction('Открыть')
         open_action.triggered.connect(self.open_project)
-        save_action = self.file_menu.addAction('Save')
+        save_action = self.file_menu.addAction('Сохранить')
         save_action.triggered.connect(self.save_project)
-        save_as_action = self.file_menu.addAction('Save as')
+        save_as_action = self.file_menu.addAction('Сохранить Как')
         save_as_action.triggered.connect(self.save_project_to_new_directory)
-        settings_action = self.file_menu.addAction('Settings')
+        settings_action = self.file_menu.addAction('Параметры')
         settings_action.triggered.connect(self.open_settings_window)
 
-        self.edit_menu = self.ui.menubar.addMenu('Edit')
-        self.edit_menu.addAction('Cut')
-        self.edit_menu.addAction('Copy')
-        self.edit_menu.addAction('Paste')
+        self.edit_menu = self.ui.menubar.addMenu('Редактировать')
+        self.edit_menu.addAction('Вырезать')
+        self.edit_menu.addAction('Копировать')
+        self.edit_menu.addAction('Вставить')
 
-        self.file_menu = self.ui.menubar.addMenu('Project')
-        run_simulation = self.file_menu.addAction('Run simulation')
+        self.file_menu = self.ui.menubar.addMenu('Проект')
+        run_simulation = self.file_menu.addAction('Запустить Расчет')
         run_simulation.triggered.connect(self.run_simulation)
-        open_code = self.file_menu.addAction('Open code')
+        open_code = self.file_menu.addAction('Открыть Входные Данные')
         open_code.triggered.connect(self.open_code_editor)
-        open_plot = self.file_menu.addAction('Open plot')
-        # open_plot.triggered.connect(self.open_plot)
 
-        self.file_menu = self.ui.menubar.addMenu('Calculation')
-        neutron_population = self.file_menu.addAction('Neutron population')
+        self.file_menu = self.ui.menubar.addMenu('Расчет')
+        neutron_population = self.file_menu.addAction('Размножение Нейтронов')
         neutron_population.triggered.connect(self.open_calculation_parameters)
-        boundary_conditions = self.file_menu.addAction('Boundary conditions')
+        boundary_conditions = self.file_menu.addAction('Граничные Условия')
         boundary_conditions.triggered.connect(self.open_calculation_parameters)
-        energy_grid = self.file_menu.addAction('Energy grid')
+        energy_grid = self.file_menu.addAction('Энергетическая Сетка')
         energy_grid.triggered.connect(self.open_calculation_parameters)
-        output = self.file_menu.addAction('Output')
+        output = self.file_menu.addAction('Результаты')
         output.triggered.connect(self.open_calculation_output)
-
-        self.file_menu = self.ui.menubar.addMenu('Viewport')
-        general_view = self.file_menu.addAction('General view')
-        general_view.triggered.connect(self.open_general_viewport)
-        pin_view = self.file_menu.addAction('Pin view')
-        pin_view.triggered.connect(self.open_pin_viewport)
 
         self.start_window = StartWindow()
         self.new_project_window = NewProject()
@@ -132,7 +123,7 @@ class MainWindow(QMainWindow):
     def save_project_to_new_directory(self):
         response = QFileDialog.getExistingDirectory(
             parent=self,
-            caption='Save project to a new directory'
+            caption='Сохранить Проект в Новую Директорию'
         )
 
         self.project_data.save_to_new_directory(response)
@@ -140,7 +131,7 @@ class MainWindow(QMainWindow):
     def open_project(self):
         response = QFileDialog.getExistingDirectory(
             parent=self,
-            caption='Open a project'
+            caption='Открыть Проект'
         )
 
         self.project_data.load(response)
@@ -150,12 +141,7 @@ class MainWindow(QMainWindow):
         self.settings_window.show()
 
     def open_code_editor(self):
-        self.ui.tab_main.addTab(self.input_data_editor, 'Input data')
-
-    def open_plot(self):
-        plot_canvas = self.project_data.views_data.plot_view.plot_canvas
-        self.ui.tab_main.addTab(plot_canvas, 'Plot')
-        self.project_data.open_plot()
+        self.ui.tab_main.addTab(self.input_data_editor, 'Входные Данные')
 
     def open_calculation_parameters(self):
         sender = self.sender().text()
@@ -163,12 +149,6 @@ class MainWindow(QMainWindow):
 
     def open_calculation_output(self):
         self.project_data.open_calculation_output()
-
-    def open_general_viewport(self):
-        pass
-
-    def open_pin_viewport(self):
-        pass
 
     def run_simulation(self):
         self.project_data.run_simulation()

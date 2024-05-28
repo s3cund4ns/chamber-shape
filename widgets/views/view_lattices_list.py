@@ -40,15 +40,15 @@ class ViewLatticesList(View):
 
     def show_context_menu(self, pos):
         context_menu = QMenu(self.lattices_list_widget)
-        add = context_menu.addMenu('Add')
-        add.setObjectName('Add')
+        add = context_menu.addMenu('Добавить')
+        add.setObjectName('Добавить')
         for surface_type in LatticeTypes.get(LatticeTypes):
             add.addAction(surface_type)
 
-        delete = context_menu.addAction("Delete")
+        delete = context_menu.addAction("Удалить")
         delete.triggered.connect(self.notify_view_models_delete)
         selected_action = context_menu.exec_(self.lattices_list_widget.mapToGlobal(pos))
-        if selected_action and (selected_action.text() != 'Delete'):
+        if selected_action and (selected_action.text() != 'Удалить'):
             selected_item_name = selected_action.parent().objectName()
             select_action_name = selected_action.text()
             self.view_model.add_item_to_models(self.lattices_list_widget.count(), select_action_name)
