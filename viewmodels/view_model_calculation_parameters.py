@@ -4,6 +4,11 @@ from project_data.view_model import ViewModel
 class ViewModelCalculationParameters(ViewModel):
     def __init__(self):
         super().__init__()
+        self.parameter_type_map: dict = {
+            'Размножение Нейтронов': 'Neutron population',
+            'Граничные Условия': 'Boundary conditions',
+            'Энергетическая Сетка': 'Energy grid'
+        }
 
     def add_item_to_models(self, *args):
         pass
@@ -12,8 +17,9 @@ class ViewModelCalculationParameters(ViewModel):
         pass
 
     def select_item_in_models(self, parameter_type: str):
+        mapped_parameter_type = self.parameter_type_map[parameter_type]
         for model in self.models:
-            model.select_item(parameter_type)
+            model.select_item(mapped_parameter_type)
 
     def select_item_in_views(self, item_data):
         for view in self.views:

@@ -42,8 +42,8 @@ class ViewCellsList(View):
 
     def show_context_menu(self, pos):
         context_menu = QMenu(self.cells_list_widget)
-        add = context_menu.addAction('Add')
-        delete = context_menu.addAction("Delete")
+        add = context_menu.addAction('Добавить')
+        delete = context_menu.addAction("Удалить")
         add.triggered.connect(self.notify_view_model_add)
         delete.triggered.connect(self.notify_view_model_delete)
         selected_action = context_menu.exec_(self.cells_list_widget.mapToGlobal(pos))

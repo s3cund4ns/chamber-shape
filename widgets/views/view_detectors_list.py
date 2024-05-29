@@ -43,17 +43,17 @@ class ViewDetectorsList(View):
 
     def show_context_menu(self, pos):
         context_menu = QMenu(self.detectors_list_widget)
-        add = context_menu.addMenu('Add')
-        add.setObjectName('Add')
+        add = context_menu.addMenu('Добавить')
+        add.setObjectName('Добавить')
         for detector_type in DetectorsTypes.get(DetectorsTypes):
             add.addAction(detector_type)
 
-        show_plot = context_menu.addAction("Show Plot")
+        show_plot = context_menu.addAction("Показать Диаграмму")
         show_plot.triggered.connect(self.notify_view_models_show_plot)
-        delete = context_menu.addAction("Delete")
+        delete = context_menu.addAction("Удалить")
         delete.triggered.connect(self.notify_view_models_delete)
         selected_action = context_menu.exec_(self.detectors_list_widget.mapToGlobal(pos))
-        if selected_action and (selected_action.text() != 'Delete') and (selected_action.text() != 'Show Plot'):
+        if selected_action and (selected_action.text() != 'Удалить') and (selected_action.text() != 'Показать Диаграмму'):
             selected_item_name = selected_action.parent().objectName()
             select_action_name = selected_action.text()
             self.view_model.add_item_to_models(self.detectors_list_widget.count(), select_action_name)
