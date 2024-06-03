@@ -39,6 +39,7 @@ class ModelsData:
         self.detectors_model.materials_model = self.materials_model
         self.detectors_model.lattices_model = self.lattices_model
         self.detectors_model.input_data_model = self.input_data_model
+        self.detectors_model.calculation_parameters_model = self.calculation_parameters_model
         self.detectors_model.output_data_model = self.output_data_model
 
         self.calculation_parameters_model.input_data_model = self.input_data_model

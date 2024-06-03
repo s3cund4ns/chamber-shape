@@ -10,6 +10,7 @@ from cshape_objects.lattices.lattice import Lattice
 class Properties(CShapeObjectProperties):
     Object = 'Object'
     Name = 'Name'
+    EnergyGrid = 'EnergyGrid'
     Lattice = 'Lattice'
 
 
@@ -54,6 +55,7 @@ class LatticeDetector(Detector):
         return {
             'Type': self.detector_type,
             self.properties.Name: self.name,
+            self.properties.EnergyGrid: self.energy_grid.get_name(),
             self.properties.Lattice: lattice_index
         }
 

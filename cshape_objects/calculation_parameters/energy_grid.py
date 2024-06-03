@@ -31,11 +31,14 @@ class EnergyGrid(CalculationParameter):
         self.properties = Properties()
         self.name: str = 'Energy grid'
         self.grid_name: str = 'EnergyGrid'
-        self.grid_type: str = EnergyGridType.arbitrary_defined
+        self.grid_type: str = EnergyGridType.equal_energy_width_bins
         self.energy_bins: list[float] = []
         self.min_energy: float = 0.0
         self.max_energy: float = 0.0
         self.bins_number: int = 0
+
+    def get_name(self):
+        return self.grid_name
 
     def get_data(self):
         if self.grid_type == EnergyGridType.arbitrary_defined:
@@ -54,7 +57,7 @@ class EnergyGrid(CalculationParameter):
                                                         EnergyGridType.equal_energy_width_bins: 'Equal Energy Width Bins',
                                                         EnergyGridType.equal_lethargy_width_bins: 'Equal Lethargy Width Bins'},
                                                           self.grid_type]),
-                self.properties.BinsNumber: (CShapeTypes.Int, self.bins_number),
+                self.properties.BinsNumber: (CShapeTypes.Int, [self.bins_number, (0, 99999999)]),
                 self.properties.MinEnergy: (CShapeTypes.Float, [self.min_energy, (0.0001, 99999.9999)]),
                 self.properties.MaxEnergy: (CShapeTypes.Float, [self.max_energy, (0.0001, 99999.9999)])
             }

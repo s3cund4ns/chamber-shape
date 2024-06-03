@@ -12,8 +12,12 @@ class Operations:
 
 class ViewModel:
     def __init__(self):
+        self.project_data = None
         self.models: list[Model] = []
         self.views: list[View] = []
+
+    def set_project_data(self, project_data):
+        self.project_data = project_data
 
     def add_model(self, model: Model):
         self.models.append(model)

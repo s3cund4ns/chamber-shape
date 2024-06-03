@@ -9,7 +9,11 @@ from project_data.view import View
 class ViewPlot(View):
     def __init__(self):
         super().__init__()
+        self.dark_style: bool | None = None
         self.tab_widget: QTabWidget | None = None
+
+    def set_dark_style(self, dark_style: bool):
+        self.dark_style = dark_style
 
     def set_tab_widget(self, tab_widget: QTabWidget):
         self.tab_widget = tab_widget
@@ -22,7 +26,8 @@ class ViewPlot(View):
 
     def change_item(self, *plot_property):
         name, energy_mid_grid, sp_flux, sp_errors = plot_property
-        # plt.style.use('dark_background')
+        if self.dark_style:
+            plt.style.use('dark_background')
         fig = Figure(figsize=(5, 4), dpi=100)
         axes = fig.add_subplot(111)
         canvas = FigureCanvasQTAgg(fig)

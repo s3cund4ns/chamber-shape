@@ -14,6 +14,7 @@ PROJECTS_DIRECTORY = 'Projects/'
 
 class ProjectData:
     def __init__(self):
+        self.main_window = None
         self.state: int = ProjectState.NOT_EXISTING.value
         self.settings: ProjectSettings = ProjectSettings()
         self.solver = None
@@ -22,6 +23,9 @@ class ProjectData:
         self.views_data: ViewsData = ViewsData()
         self.projects_directory: str = PROJECTS_DIRECTORY
         self.project_name: str = ''
+
+    def set_main_window(self, main_window):
+        self.main_window = main_window
 
     def connect_models(self):
         self.view_models_data.universes_view_model.add_model(self.models_data.universes_model)
@@ -60,6 +64,18 @@ class ProjectData:
         self.view_models_data.lattices_view_model.add_view(self.views_data.lattice_renderer_view)
         self.view_models_data.input_data_view_model.add_view(self.views_data.input_data_view)
 
+    def connect_view_models(self):
+        self.view_models_data.universes_view_model.set_project_data(self)
+        self.view_models_data.materials_view_model.set_project_data(self)
+        self.view_models_data.surfaces_view_model.set_project_data(self)
+        self.view_models_data.cells_view_model.set_project_data(self)
+        self.view_models_data.pins_view_model.set_project_data(self)
+        self.view_models_data.lattices_view_model.set_project_data(self)
+        self.view_models_data.detectors_view_model.set_project_data(self)
+        self.view_models_data.calculation_parameters_view_model.set_project_data(self)
+        self.view_models_data.input_data_view_model.set_project_data(self)
+        self.view_models_data.output_data_view_model.set_project_data(self)
+
     def create_project_directory(self):
         name = self.settings.project_name
         directory = self.settings.project_directory
@@ -75,8 +91,7 @@ class ProjectData:
     def initialize_solver(self):
         self.solver: Solver = create_solver(self.settings.solver, self.settings.solver_directory,
                                             self.settings.calculation_data_directory)
-        self.solver.load_tokens()
-        self.solver.load_nuclear_data(f'D:/Projects/chamber-shape/nuclear_data/'
+        self.solver.load_nuclear_data(f'nuclear_data/'
                                       f'{self.settings.nuclear_data_library}.json')
         self.solver.create_input_data_file(self.settings.project_name)
 
@@ -128,12 +143,13 @@ class ProjectData:
         self.set_basic_input_data()
         self.save_settings()
         self.save_objects()
-        self.state = ProjectState.EXISTING.value
+        self.state = ProjectState.SAVED.value
 
     def save(self):
         self.save_settings()
         self.save_objects()
         self.save_input_data()
+        self.state = ProjectState.SAVED.value
 
     def save_to_new_directory(self, path: str):
         temp_directory = self.settings.project_directory
@@ -143,6 +159,7 @@ class ProjectData:
         self.initialize_solver()
         self.save()
         self.settings.project_directory = temp_directory
+        self.state = ProjectState.SAVED.value
 
     def load_settings(self, path: str):
         with open(f'{path}/SettingsConfig.json', 'r') as settings_file:
@@ -169,12 +186,17 @@ class ProjectData:
                                                                      self.settings.calculation_data_directory)
         self.set_basic_input_data()
         self.load_objects(path)
-        self.state = ProjectState.EXISTING.value
+        self.state = ProjectState.SAVED.value
 
     def clear_data_in_models(self):
         self.models_data.universes_model.clear_data()
         self.models_data.materials_model.clear_data()
         self.models_data.surfaces_model.clear_data()
+        self.models_data.cells_model.clear_data()
+        self.models_data.pins_model.clear_data()
+        self.models_data.lattices_model.clear_data()
+        self.models_data.detectors_model.clear_data()
+        self.models_data.calculation_parameters_model.clear_data()
 
     def write_input_data(self):
         self.models_data.input_data_model.add_item(
@@ -195,6 +217,10 @@ class ProjectData:
 
     def open_plot(self):
         self.view_models_data.output_data_view_model.get_plot_info_from_model()
+
+    def set_not_saved_state(self):
+        self.state = ProjectState.NOT_SAVED.value
+        self.main_window.set_not_saved_title()
 
     @staticmethod
     def replace_disk_letter_with_mnt(file_path):

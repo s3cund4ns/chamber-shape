@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 from abc import abstractmethod
+
+from cshape_objects.calculation_parameters.energy_grid import EnergyGrid
 from cshape_objects.cshape_object import CShapeObject, CShapeObjectTypes
 from typing import Sequence
 
@@ -37,6 +39,7 @@ class Detector(CShapeObject):
         self.energy_mid_grid: tuple | None = None
         self.sp_flux: tuple | None = None
         self.sp_errors: tuple | None = None
+        self.energy_grid: EnergyGrid | None = None
 
     def get_type(self):
         return self.detector_type

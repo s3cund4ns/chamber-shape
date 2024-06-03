@@ -106,6 +106,8 @@ class Pin(CShapeObject):
                 self.name = name
             case self.properties.Universe:
                 index = value
+                if index == '':
+                    return
                 self.universe = self.all_universes[index]
             case self.properties.Add:
                 index = value

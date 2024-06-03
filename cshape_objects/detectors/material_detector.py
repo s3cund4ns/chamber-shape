@@ -10,6 +10,7 @@ from cshape_objects.material import Material
 class Properties(CShapeObjectProperties):
     Object = 'Object'
     Name = 'Name'
+    EnergyGrid = 'EnergyGrid'
     Material = 'Material'
 
 
@@ -54,5 +55,6 @@ class MaterialDetector(Detector):
         return {
             'Type': self.detector_type,
             self.properties.Name: self.name,
+            self.properties.EnergyGrid: self.energy_grid.get_name(),
             self.properties.Material: material_index
         }

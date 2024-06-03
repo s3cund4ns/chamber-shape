@@ -29,6 +29,7 @@ class ViewModelCalculationParameters(ViewModel):
         value, = args
         for model in self.models:
             model.change_data(value)
+        self.project_data.set_not_saved_state()
 
     def change_item_in_views(self, *args):
         pass

@@ -25,9 +25,9 @@ class NeutronPopulationParameters(CalculationParameter):
 
     def get_data(self):
         return {
-            self.properties.NeutronsPerCycle: (CShapeTypes.Int, self.neutrons_per_cycle),
-            self.properties.ActiveCycles: (CShapeTypes.Int, self.active_cycles),
-            self.properties.InactiveCycles: (CShapeTypes.Int, self.inactive_cycles)
+            self.properties.NeutronsPerCycle: (CShapeTypes.Int, [self.neutrons_per_cycle, (0, 99999999)]),
+            self.properties.ActiveCycles: (CShapeTypes.Int, [self.active_cycles, (0, 99999999)]),
+            self.properties.InactiveCycles: (CShapeTypes.Int, [self.inactive_cycles, (0, 99999999)])
         }
 
     def set_data(self, properties: tuple):
