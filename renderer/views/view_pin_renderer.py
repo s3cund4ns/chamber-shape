@@ -37,6 +37,8 @@ class ViewPinRenderer(View):
 
     def create_instance(self, universe_number: int, pos_x: float, pos_y: float) -> int:
         pin: Pin = self.__find_pin_by_universe(universe_number)
+        if pin is None:
+            return
         regions = pin.get_regions()
         z_cylinder_entities = []
         for region in regions:

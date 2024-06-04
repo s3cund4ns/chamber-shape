@@ -83,6 +83,8 @@ class Cell(CShapeObject):
         return self.fill
 
     def get_entire(self):
+        if self.entire is None:
+            return
         if self.entire == 'Empty':
             return self.entire
         if type(self.entire) is Material:

@@ -267,11 +267,11 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
                 token = self.tokens.get(value)
                 detector_info.append(token)
 
-            detector_type, name, element_index = detector_info
+            detector_type, name, energy_grid_name, element_index = detector_info
             element_name = ''
             if element_index is not None:
                 element_name = all_elements[element_index].get_name()
-            text = f'det {name} {detector_type} {element_name}'
+            text = f'det {name} de {energy_grid_name} {detector_type} {element_name}'
             input_data.append(text)
             input_data.append('\n')
 

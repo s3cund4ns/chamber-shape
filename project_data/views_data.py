@@ -13,7 +13,6 @@ from widgets.views.view_properties import ViewMaterialProperties, ViewSurfacePro
     ViewLatticeProperties, ViewOutputDataProperties
 from widgets.views.view_surfaces_list import ViewSurfacesList
 from widgets.views.view_universes_list import ViewUniversesList
-from widgets.views.view_universes_tree import ViewUniversesTree
 
 
 class ViewsData:

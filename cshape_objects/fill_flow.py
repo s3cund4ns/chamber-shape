@@ -80,10 +80,16 @@ class UniverseFillFlow(FillFlow):
             universes_info.append(universe)
 
         current_universe_info = ''
+
         if current_universe != 'Empty':
+            if current_universe is None:
+                current_universe_info = ''
+                return entire_tuple[0], [current_universe_info, universes_info]
             current_universe_info = f'{self.all_universes.index(current_universe)}'
 
         return entire_tuple[0], [current_universe_info, universes_info]
 
     def set_entire(self, index):
+        if index == 'Empty' or index is None:
+            return
         return self.all_universes[index]

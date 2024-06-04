@@ -23,6 +23,7 @@ class ViewModelMaterialsList(ViewModel):
         index, item_text, item = args
         for view in self.views:
             view.add_item(index, item_text, item)
+        self.project_data.set_not_saved_state()
 
     def select_item_in_models(self, *args):
         index, = args
@@ -43,6 +44,7 @@ class ViewModelMaterialsList(ViewModel):
         value, = args
         for view in self.views:
             view.change_item(value)
+        self.project_data.set_not_saved_state()
 
     def delete_item_in_models(self):
         for model in self.models:
@@ -51,6 +53,7 @@ class ViewModelMaterialsList(ViewModel):
     def delete_item_in_views(self, index):
         for view in self.views:
             view.delete_item(index)
+        self.project_data.set_not_saved_state()
 
     def clear_views(self):
         for view in self.views:

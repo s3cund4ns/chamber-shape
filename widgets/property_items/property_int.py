@@ -18,8 +18,11 @@ class PropertyInt(PropertyItem):
         self.spin_box_value.valueChanged.connect(self.get_values_changes)
 
     def set_data(self, data):
-        name, value = data
+        name, value, values_range = data
+        min_value, max_value = values_range
         self.label_name.setText(name)
+        self.spin_box_value.setMinimum(min_value)
+        self.spin_box_value.setMaximum(max_value)
         self.spin_box_value.setValue(value)
 
     def set_default_values(self, *args):

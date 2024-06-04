@@ -30,6 +30,7 @@ class ModelCalculationParameters(Model):
         self.data.append(energy_grid)
 
     def select_item(self, parameter_type: str):
+        print(self.data)
         self.selected_parameter_type = parameter_type
         selected_item: CalculationParameter = self.find_parameter(parameter_type)
         self.view_model.select_item_in_views(selected_item.get_data())
@@ -39,6 +40,10 @@ class ModelCalculationParameters(Model):
         selected_item.set_data(value)
         self.input_data_model.update_calculation_parameters_data(self.dump_data())
 
+    def clear_data(self):
+        self.data.clear()
+        self.view_model.clear_views()
+
     def dump_data(self):
         data = []
         for parameter in self.data:
@@ -46,9 +51,9 @@ class ModelCalculationParameters(Model):
         return data
 
     def load_data(self, calculation_parameters_data: list):
+        self.add_item(None)
         for parameter in calculation_parameters_data:
             parameter_type = parameter['Parameter']
-            self.add_item(parameter_type)
             self.select_item(parameter_type)
             parameter_tuple = tuple(parameter.items())
             for property in parameter_tuple[1:]:

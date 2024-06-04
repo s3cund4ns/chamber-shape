@@ -67,3 +67,7 @@ class Viewport:
 
         light_entity.addComponent(directional_light)
         light_entity.addComponent(light_transform)
+
+    def set_background_color(self, color: tuple[int, int, int, int]):
+        red, green, blue, alpha = color
+        self.scene.defaultFrameGraph().setClearColor(QRgba64.fromRgba(red, green, blue, alpha))

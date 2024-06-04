@@ -1,4 +1,5 @@
 from cshape_objects.detectors.detector_creator import create_detector
+from models.model_calculation_parameters import ModelCalculationParameters
 from models.model_input_data import ModelInputData
 from models.model_lattices_list import ModelLatticesList
 from models.model_materials_list import ModelMaterialsList
@@ -16,6 +17,7 @@ class ModelDetectorsList(Model):
         self.materials_model: ModelMaterialsList | None = None
         self.lattices_model: ModelLatticesList | None = None
         self.input_data_model: ModelInputData | None = None
+        self.calculation_parameters_model: ModelCalculationParameters | None = None
         self.output_data_model: ModelOutputData | None = None
 
     def add_item(self, index: int, detector_type):
@@ -33,6 +35,7 @@ class ModelDetectorsList(Model):
     def select_item(self, index):
         self.selected_item_index = index
         selected_item: Detector = self.data[self.selected_item_index]
+        selected_item.energy_grid = self.calculation_parameters_model.data[2]
         item_type = selected_item.get_type()
         match item_type:
             case DetectorsTypes.MaterialDetector:
@@ -74,6 +77,11 @@ class ModelDetectorsList(Model):
             selected_item.set_output_data(output_data)
         energy_mid_grid, sp_flux, sp_errors = selected_item.get_output_data()
         self.output_data_model.translate_plot_info(detector_name, energy_mid_grid, sp_flux, sp_errors)
+
+    def clear_data(self):
+        self.data.clear()
+        self.view_model.clear_views()
+
     def dump_data(self):
         data = []
         for detector in self.data:

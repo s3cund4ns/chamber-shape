@@ -1,0 +1,10 @@
+{
+    "qss_file": "dark.qss",
+    "viewport_color": [
+        31,
+        31,
+        31,
+        255
+    ],
+    "dark_plot_style": true
+}
