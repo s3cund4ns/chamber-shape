@@ -43,6 +43,7 @@ class ModelCalculationParameters(Model):
     def clear_data(self):
         self.data.clear()
         self.view_model.clear_views()
+        self.add_item(None)
 
     def dump_data(self):
         data = []
