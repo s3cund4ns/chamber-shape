@@ -10,6 +10,10 @@ class ModelInputData(Model):
         self.generator: InputDataGenerator | None = None
         self.data = [[], [], [], [], [], [], [], []]
 
+    def clear_data(self):
+        self.data = [[], [], [], [], [], [], [], []]
+        self.view_model.clear_views()
+
     def create_input_data_generator(self, generator):
         self.generator: InputDataGenerator = create_input_data_generator(generator)
 

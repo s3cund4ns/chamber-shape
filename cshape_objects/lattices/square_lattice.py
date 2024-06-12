@@ -41,6 +41,10 @@ class SquareLattice(Lattice):
         return self.pitch
 
     def resize(self, rows: int, columns: int) -> None:
+        if rows == 0:
+            rows = columns
+        elif columns == 0:
+            columns = rows
         new_matrix = [[0 for column in range(columns)] for row in range(rows)]
 
         for i in range(min(len(self.universes_matrix), rows)):

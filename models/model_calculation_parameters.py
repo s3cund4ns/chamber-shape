@@ -52,7 +52,7 @@ class ModelCalculationParameters(Model):
         return data
 
     def load_data(self, calculation_parameters_data: list):
-        self.add_item(None)
+        #self.add_item(None)
         for parameter in calculation_parameters_data:
             parameter_type = parameter['Parameter']
             self.select_item(parameter_type)
