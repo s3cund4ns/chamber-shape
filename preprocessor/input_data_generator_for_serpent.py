@@ -255,7 +255,7 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
 
         return input_data
 
-    def generate_detectors_data(self, detectors: list, all_elements: list):
+    def generate_detectors_data(self, detectors: list, energy_grid, all_elements: list):
         input_data = []
         for detector_data in detectors:
             detector_info = []
@@ -267,7 +267,8 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
                 token = self.tokens.get(value)
                 detector_info.append(token)
 
-            detector_type, name, energy_grid_name, element_index = detector_info
+            detector_type, name, element_index = detector_info
+            energy_grid_name = energy_grid.get_name()
             element_name = ''
             if element_index is not None:
                 element_name = all_elements[element_index].get_name()

@@ -28,9 +28,9 @@ class ModelDetectorsList(Model):
         item_type = item.get_type()
         match item_type:
             case DetectorsTypes.MaterialDetector:
-                self.input_data_model.update_detectors_data(self.dump_data(), self.materials_model.data)
+                self.input_data_model.update_detectors_data(self.dump_data(), self.calculation_parameters_model.data[2], self.materials_model.data)
             case DetectorsTypes.LatticeDetector:
-                self.input_data_model.update_detectors_data(self.dump_data(), self.lattices_model.data)
+                self.input_data_model.update_detectors_data(self.dump_data(), self.calculation_parameters_model.data[2], self.lattices_model.data)
 
     def select_item(self, index):
         self.selected_item_index = index
@@ -57,9 +57,9 @@ class ModelDetectorsList(Model):
         item_type = self.data[self.selected_item_index].get_type()
         match item_type:
             case DetectorsTypes.MaterialDetector:
-                self.input_data_model.update_detectors_data(self.dump_data(), self.materials_model.data)
+                self.input_data_model.update_detectors_data(self.dump_data(), self.calculation_parameters_model.data[2], self.materials_model.data)
             case DetectorsTypes.LatticeDetector:
-                self.input_data_model.update_detectors_data(self.dump_data(), self.lattices_model.data)
+                self.input_data_model.update_detectors_data(self.dump_data(), self.calculation_parameters_model.data[2], self.lattices_model.data)
 
     def set_output_data(self, output_data: tuple):
         selected_item: Detector = self.data[self.selected_item_index]
@@ -94,6 +94,7 @@ class ModelDetectorsList(Model):
             detector_type = detector['Type']
             self.add_item(detector_index, detector_type)
             self.select_item(detector_index)
+            self.data[self.selected_item_index].energi_grid = self.calculation_parameters_model.data[2]
             detector_tuple = tuple(detector.items())
             for detector_property in detector_tuple[1:]:
                 self.change_data(detector_property)

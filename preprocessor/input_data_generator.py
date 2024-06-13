@@ -34,7 +34,7 @@ class InputDataGenerator(ABC):
         pass
 
     @abstractmethod
-    def generate_detectors_data(self, detectors: list, all_elements: list):
+    def generate_detectors_data(self, detectors: list, energy_grid, all_elements: list):
         pass
 
     @staticmethod

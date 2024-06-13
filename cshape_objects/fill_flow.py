@@ -19,6 +19,10 @@ class FillFlow(ABC):
         pass
 
     @abstractmethod
+    def get_entire_index(self, entire):
+        pass
+
+    @abstractmethod
     def set_entire(self, index):
         pass
 
@@ -32,6 +36,9 @@ class VoidOrOutsideFillFlow(FillFlow):
 
     def get_entire(self, entire) -> tuple:
         return CShapeTypes.Reference, None
+
+    def get_entire_index(self, entire):
+        pass
 
     def set_entire(self, index):
         pass
@@ -55,9 +62,17 @@ class MaterialFillFlow(FillFlow):
 
         current_material_info = ''
         if current_material != 'Empty':
+            if current_material is None or type(current_material) is Universe:
+                current_material_info = ''
+                return entire_tuple[0], [current_material_info, materials_info]
             current_material_info = f'{current_material.get_name()} {current_material.get_density()}'
 
         return entire_tuple[0], [current_material_info, materials_info]
+
+    def get_entire_index(self, entire):
+        if entire == 'Empty':
+            return
+        return self.all_materials.index(entire)
 
     def set_entire(self, index):
         return self.all_materials[index]
@@ -82,12 +97,18 @@ class UniverseFillFlow(FillFlow):
         current_universe_info = ''
 
         if current_universe != 'Empty':
-            if current_universe is None:
+            if current_universe is None or type(current_universe) is Material:
                 current_universe_info = ''
                 return entire_tuple[0], [current_universe_info, universes_info]
+
             current_universe_info = f'{self.all_universes.index(current_universe)}'
 
         return entire_tuple[0], [current_universe_info, universes_info]
+
+    def get_entire_index(self, entire):
+        if entire == 'Empty':
+            return
+        return self.all_universes.index(entire)
 
     def set_entire(self, index):
         if index == 'Empty' or index is None:

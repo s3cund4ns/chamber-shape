@@ -55,6 +55,5 @@ class MaterialDetector(Detector):
         return {
             'Type': self.detector_type,
             self.properties.Name: self.name,
-            self.properties.EnergyGrid: self.energy_grid.get_name(),
             self.properties.Material: material_index
         }
