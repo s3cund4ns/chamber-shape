@@ -1,4 +1,5 @@
 import json
+import webbrowser
 
 from PySide6.QtGui import QFont, QFontDatabase, QIcon
 from PySide6.QtWidgets import QMainWindow, QWidget, QFileDialog, QPushButton, QMessageBox
@@ -77,6 +78,7 @@ class MainWindow(QMainWindow):
 
         self.file_menu = self.ui.menubar.addMenu('Помощь')
         manual = self.file_menu.addAction('Руководство')
+        manual.triggered.connect(self.open_manual)
         about = self.file_menu.addAction('О программе')
 
         self.start_window = StartWindow()
@@ -241,6 +243,11 @@ class MainWindow(QMainWindow):
 
         with open(f'themes/{self.application_settings.theme_config}', 'w') as theme_config:
             json.dump(self.theme_settings.__dict__, theme_config, indent=4)
+
+    @staticmethod
+    def open_manual(self):
+        url = 'https://github.com/s3cund4ns/chamber-shape/blob/main/README.md'
+        webbrowser.open(url)
 
     def closeEvent(self, event):
         if self.project_data.state != ProjectState.NOT_SAVED.value:
