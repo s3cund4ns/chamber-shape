@@ -57,6 +57,10 @@ class ViewModelDetectorsList(ViewModel):
             view.delete_item(index)
         self.project_data.set_not_saved_state()
 
+    def clear_views(self):
+        for view in self.views:
+            view.clear()
+
     def show_plot(self):
         for model in self.models:
             model.show_plot()
