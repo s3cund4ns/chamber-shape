@@ -1,3 +1,5 @@
+![Логотип](resources/ChamberShapeGreatestWithoutBack.png)
+
 # Chamber Shape
 ## Руководство пользователя
 Chamber Shape - это графический интерфейс для прецизионного кода.
