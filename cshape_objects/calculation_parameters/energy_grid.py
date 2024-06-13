@@ -58,8 +58,8 @@ class EnergyGrid(CalculationParameter):
                                                         EnergyGridType.equal_lethargy_width_bins: 'Equal Lethargy Width Bins'},
                                                           self.grid_type]),
                 self.properties.BinsNumber: (CShapeTypes.Int, [self.bins_number, (0, 99999999)]),
-                self.properties.MinEnergy: (CShapeTypes.Float, [self.min_energy, (0.0001, 99999.9999)]),
-                self.properties.MaxEnergy: (CShapeTypes.Float, [self.max_energy, (0.0001, 99999.9999)])
+                self.properties.MinEnergy: (CShapeTypes.Float, [self.min_energy, (0.00001, 99999.9999)]),
+                self.properties.MaxEnergy: (CShapeTypes.Float, [self.max_energy, (0.00001, 99999.9999)])
             }
 
     def set_data(self, properties: tuple):
@@ -73,7 +73,7 @@ class EnergyGrid(CalculationParameter):
                 index, energy, unit = value
                 self.energy_bins.append(energy)
             case self.properties.MinEnergy:
-                self.min_energy = value
+                self.min_energy = value / 100000000
             case self.properties.MaxEnergy:
                 self.max_energy = value
             case self.properties.BinsNumber:
