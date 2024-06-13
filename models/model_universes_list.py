@@ -17,7 +17,6 @@ class ModelUniversesList(Model):
         self.data.insert(index, item)
         item_text = f'{item.get_type()} {item.get_index()}'
         self.view_model.add_item_to_views(index, item_text, item)
-        # self.input_data_model.update_cells_data(self.dump_data())
 
     def select_item(self, index):
         self.selected_item_index = index
@@ -26,19 +25,16 @@ class ModelUniversesList(Model):
 
     def delete_item(self):
         self.data.pop(self.selected_item_index)
-        for item in self.data[self.selected_item_index:]:
-            item.set_index(self.selected_item_index)
         self.view_model.delete_item_in_views(self.selected_item_index)
-        for index in range(len(self.data[self.selected_item_index:])):
-            self.view_model.change_item_in_views([self.data[self.selected_item_index].get_type(),
-                                                  self.data[self.selected_item_index].get_index()])
-        # self.input_data_model.update_cells_data(self.dump_data())
+        for item in self.data:
+            index = self.data.index(item)
+            item.set_index(index)
+            self.view_model.change_item_in_views(item.get_type(), item.get_index())
 
     def change_data(self, value):
         self.data[self.selected_item_index].set_data(value)
         self.view_model.change_item_in_views([self.data[self.selected_item_index].get_type(),
                                               self.data[self.selected_item_index].get_index()])
-        # self.input_data_model.update_cells_data(self.dump_data())
 
     def clear_data(self):
         self.data.clear()

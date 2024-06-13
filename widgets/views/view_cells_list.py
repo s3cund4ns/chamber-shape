@@ -37,6 +37,9 @@ class ViewCellsList(View):
     def delete_item(self, item):
         self.cells_list_widget.takeItem(item)
 
+    def insert_property(self, fill_property):
+        pass
+
     def clear(self):
         self.cells_list_widget.clear()
 

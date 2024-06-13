@@ -64,6 +64,10 @@ class ModelInputData(Model):
             for cshape_object_data in self.data:
                 file.writelines(cshape_object_data)
 
+    def clear_data(self):
+        for element_data in self.data:
+            element_data.clear()
+
     @staticmethod
     def list_to_str(list_item: list, delimiter: str) -> str:
         str_item = delimiter.join(map(str, list_item))

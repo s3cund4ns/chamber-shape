@@ -1,3 +1,5 @@
+from PySide6.QtWidgets import QVBoxLayout
+
 from cshape_objects.cell import Cell
 from cshape_objects.pin import Pin
 from cshape_objects.universe import Universe
@@ -9,7 +11,8 @@ from project_data.view import View
 class ViewProperties(View):
     def __init__(self):
         super().__init__()
-        self.properties_layout = None
+        self.properties_layout: QVBoxLayout | None = None
+        self.property_for_insert_index: int = -1
 
     def attach_to_layout(self, properties_layout):
         self.properties_layout = properties_layout
@@ -38,6 +41,24 @@ class ViewProperties(View):
             property_item.set_default_values(default_values)
             property_item.set_data(data)
             self.properties_layout.addWidget(property_item)
+
+    def insert_property(self, item):
+        name, value = item
+        property_type, values = value
+        data = [name]
+        if values is None:
+            return
+        if type(values) is list:
+            for element in values:
+                data.append(element)
+        else:
+            data.append(values)
+
+        property_item: PropertyItem = create_property(str(property_type))
+        property_item.set_properties_view(self)
+        property_item.set_default_values([])
+        property_item.set_data(data)
+        self.properties_layout.insertWidget(self.property_for_insert_index, property_item)
 
     def apply_values_changes(self, sender):
         name, value = sender
@@ -84,6 +105,7 @@ class ViewDetectorProperties(ViewProperties):
 class ViewCellProperties(ViewProperties):
     def __init__(self):
         super().__init__()
+        self.property_for_insert_index: int = 2
 
     def select_item(self, *args):
         item_index, item = args

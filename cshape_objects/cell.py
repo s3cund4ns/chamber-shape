@@ -124,7 +124,6 @@ class Cell(CShapeObject):
             surfaces.append([surface_index, surface[1]])
         return surfaces
 
-
     def get_universe_index(self):
         if self.universe is None:
             return ''

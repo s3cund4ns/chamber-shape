@@ -8,3 +8,7 @@ class ViewModelInputData(ViewModel):
     def add_item_to_views(self, input_data: list):
         for view in self.views:
             view.add_item(input_data)
+
+    def clear_views(self):
+        for view in self.views:
+            view.clear()

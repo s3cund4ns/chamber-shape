@@ -40,8 +40,7 @@ class ViewModelUniversesList(ViewModel):
         for model in self.models:
             model.change_data(value)
 
-    def change_item_in_views(self, *args):
-        value, = args
+    def change_item_in_views(self, *value):
         for view in self.views:
             view.change_item(value)
 

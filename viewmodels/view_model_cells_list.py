@@ -55,6 +55,10 @@ class ViewModelCellsList(ViewModel):
             view.delete_item(index)
         self.project_data.set_not_saved_state()
 
+    def insert_fill_property(self, fill_property):
+        for view in self.views:
+            view.insert_property(fill_property)
+
     def clear_views(self):
         for view in self.views:
             view.clear()

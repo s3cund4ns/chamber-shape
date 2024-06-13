@@ -197,6 +197,7 @@ class ProjectData:
         self.models_data.lattices_model.clear_data()
         self.models_data.detectors_model.clear_data()
         self.models_data.calculation_parameters_model.clear_data()
+        self.models_data.input_data_model.clear_data()
 
     def write_input_data(self):
         self.models_data.input_data_model.add_item(

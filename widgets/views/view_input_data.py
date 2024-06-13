@@ -22,6 +22,9 @@ class ViewInputData(View):
     def get_input_data(self):
         return self.input_data_text
 
+    def clear(self):
+        self.input_data_text = ''
+
     @staticmethod
     def list_to_str(list_item: list, delimiter: str) -> str:
         str_item = delimiter.join(map(str, list_item))
