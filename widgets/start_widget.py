@@ -19,7 +19,7 @@ class StartWidget(QWidget):
         self.header_layout = QHBoxLayout(self)
         self.header_layout.setContentsMargins(5, 5, 5, 15)
         self.image_label = QLabel(self)
-        self.image = QPixmap('D:/Projects/chamber-shape/resources/ChamberShapeMiniLogoApp.png')
+        self.image = QPixmap('resources/ChamberShapeMiniLogoApp.png')
         self.image_label.setPixmap(self.image)
         self.header_layout.addWidget(self.image_label)
         self.label_header = QLabel(self)

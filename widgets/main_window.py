@@ -189,6 +189,8 @@ class MainWindow(QMainWindow):
         )
 
         self.project_data.load(response)
+        while self.ui.tab_main.count() > 1:
+            self.ui.tab_main.removeTab(1)
         self.setWindowTitle(f'Chamber Shape - {self.project_data.settings.project_name}')
         self.start_window.hide()
 
