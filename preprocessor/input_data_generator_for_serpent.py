@@ -156,7 +156,11 @@ class InputDataGeneratorForSerpent(InputDataGenerator):
             if entire == 'Empty':
                 entire = ''
 
-            universe_text = f'cell {name} {universe} {fill} {entire}'
+            universe_text = ''
+            if fill == 'void' or fill == 'outside':
+                universe_text = f'cell {name} {universe} {fill}'
+            else:
+                universe_text = f'cell {name} {universe} {fill} {entire}'
 
             surfaces_text = ''
             for surface_info in surfaces_info:
