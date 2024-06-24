@@ -35,7 +35,7 @@ class Serpent(Solver):
         path_to_input_data_file = self.replace_disk_letter_with_mnt(path_to_input_data_file)
         path_to_execute_file = f'{self.path}/sss2'
         path_to_execute_file = self.replace_disk_letter_with_mnt(path_to_execute_file)
-        subprocess.run(["bash", "-c", f"{path_to_execute_file} {path_to_input_data_file}"])
+        subprocess.Popen(["bash", "-c", f"{path_to_execute_file} {path_to_input_data_file}"])
 
     @staticmethod
     def replace_disk_letter_with_mnt(file_path):

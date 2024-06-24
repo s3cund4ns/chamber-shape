@@ -35,7 +35,7 @@ class ViewPlot(View):
         axes.grid(visible=True, which='major', axis='both', color='0.3', linestyle='-', linewidth=0.5)
         axes.grid(visible=True, which='minor', axis='both', color='0.7', linestyle='-', linewidth=0.5)
         axes.set(xlabel='Энергия, МэВ', ylabel='ФV, отн. ед.', xscale='log', yscale='log',
-                 xlim=(1e-8, 20), ylim=(2e-3, 2e1))
+                 xlim=(1e-8, 10), ylim=(2e-3, 2e6))
         axes.set_xticks((1e-7, 1e-5, 1e-3, 1e-1, 10), minor=True)
         axes.legend(loc='best')
         self.tab_widget.addTab(canvas, name)

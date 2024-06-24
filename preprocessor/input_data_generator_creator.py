@@ -1,8 +1,10 @@
+from preprocessor.input_data_generator_for_openmc import InputDataGeneratorForOpenMC
 from preprocessor.input_data_generator_for_serpent import InputDataGeneratorForSerpent
 from solvers.solver import Solvers
 
 solvers: dict = {
-    Solvers.Serpent: InputDataGeneratorForSerpent
+    Solvers.Serpent: InputDataGeneratorForSerpent,
+    Solvers.OpenMC: InputDataGeneratorForOpenMC
 }
 
 

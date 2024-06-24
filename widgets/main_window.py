@@ -54,6 +54,8 @@ class MainWindow(QMainWindow):
         save_as_action.triggered.connect(self.save_project_to_new_directory)
         settings_action = self.file_menu.addAction('Параметры')
         settings_action.triggered.connect(self.open_settings_window)
+        exit_action = self.file_menu.addAction('Выход')
+        exit_action.triggered.connect(self.close)
 
         self.edit_menu = self.ui.menubar.addMenu('Редактировать')
         self.edit_menu.addAction('Вырезать')
@@ -80,6 +82,7 @@ class MainWindow(QMainWindow):
         manual = self.file_menu.addAction('Руководство')
         manual.triggered.connect(self.open_manual)
         about = self.file_menu.addAction('О программе')
+        about.triggered.connect(self.open_about_window)
 
         self.start_window = StartWindow()
         self.start_window.set_main_window(self)
@@ -139,6 +142,7 @@ class MainWindow(QMainWindow):
             self.start_window.setStyleSheet(file.read())
         self.start_widget.button_create_project.clicked.connect(self.show_new_project_widget)
         self.start_widget.button_open_project.clicked.connect(self.open_project)
+        self.start_widget.button_open_manual.clicked.connect(self.open_manual)
 
     def create_new_project(self):
         project_settings = self.new_project_widget.get_data()
@@ -248,6 +252,14 @@ class MainWindow(QMainWindow):
     def open_manual(self):
         url = 'https://github.com/s3cund4ns/chamber-shape/blob/main/README.md'
         webbrowser.open(url)
+
+    def open_about_window(self):
+        about_dialog = QMessageBox(self)
+        about_dialog.setWindowTitle("О программе")
+        about_dialog.setText("Chamber Shape - GUI для прецизионного нейтронно-физического кода.")
+        about_dialog.setInformativeText("Версия: 0.3.3-Alpha")
+        about_dialog.setStandardButtons(QMessageBox.Ok)
+        about_dialog.exec()
 
     def closeEvent(self, event):
         if self.project_data.state != ProjectState.NOT_SAVED.value:
